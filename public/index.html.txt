@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Workflow Audit — PMs & Business Owners</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0b0c10;
+      color: #f0f0f0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+    h1 { font-size: 2rem; margin-bottom: 12px; }
+    .card {
+      background: #111217;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    label { display: block; margin: 8px 0 4px; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #0e111a;
+      color: #fff;
+    }
+    button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #6ee7ff, #9b8cff);
+      color: #0b0c10;
+    }
+    .btn-secondary {
+      background: #333;
+      color: #fff;
+    }
+    .tool-card {
+      background: #1a1c25;
+      padding: 16px;
+      border-radius: 10px;
+      margin: 12px 0;
+    }
+    .tool-card h3 { margin-top: 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Workflow Audit</h1>
+    <p>Find workflow gaps and get tailored recommendations for <strong>Gamma</strong>, <strong>Claude</strong>, and <strong>Perplexity</strong> (plus bonus tools).</p>
+
+    <!-- Lead Capture Form -->
+    <form name="lead-capture" method="POST" data-netlify="true">
+      <input type="hidden" name="form-name" value="lead-capture">
+      <label for="name">Your Name</label>
+      <input id="name" type="text" name="name" required>
+
+      <label for="email">Email Address</label>
+      <input id="email" type="email" name="email" required>
+
+      <button type="button" class="btn-primary" onclick="startCheckout()">Start My Audit — $47</button>
+    </form>
+
+    <!-- Audit Section -->
+    <div id="audit" class="card" style="display:none;">
+      <h2>Audit Questionnaire</h2>
+
+      <label>Business Type</label>
+      <select id="bizType">
+        <option>Services</option>
+        <option>SaaS</option>
+        <option>E-commerce</option>
+        <option>Agency</option>
+      </select>
+
+      <label>Biggest Challenges</label>
+      <textarea id="challenges" placeholder="e.g. proposals, research, reporting"></textarea>
+
+      <button class="btn-primary" onclick="runAudit()">Run Audit</button>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results" style="display:none;">
+      <h2>Your AI Audit Report</h2>
+      <div id="gapSummary"></div>
+      <h3>Top Recommendations</h3>
+      <div id="recoList"></div>
+      <button class="btn-secondary" onclick="downloadPDF()">Download PDF Report</button>
+    </div>
+  </div>
+
+  <script>
+    let state = { lead: {}, audit: {}, results: [] };
+
+    function startCheckout() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      if(!name || !email) { alert("Please enter your name and email."); return; }
+
+      state.lead = { name, email };
+
+      // Mock checkout for now (real Stripe comes later)
+      document.querySelector("form").style.display = "none";
+      document.getElementById("audit").style.display = "block";
+    }
+
+    function runAudit() {
+      const bizType = document.getElementById('bizType').value;
+      const challenges = document.getElementById('challenges').value.toLowerCase();
+
+      const gaps = [];
+      const recos = [];
+
+      if(challenges.includes("proposals")) {
+        gaps.push("You need help with proposals & decks.");
+        recos.push("Gamma - create professional proposals fast.");
+      }
+      if(challenges.includes("research")) {
+        gaps.push("You need better fact-checking & data.");
+        recos.push("Perplexity - get real statistics with citations.");
+      }
+      if(challenges.includes("docs")) {
+        gaps.push("You need structured long-form documents.");
+        recos.push("Claude - draft business docs & strategies.");
+      }
+      if(challenges.includes("automation") || challenges.includes("reporting")) {
+        recos.push("Zapier - bonus automation tool to save hours.");
+      }
+
+      state.audit = { bizType, challenges };
+      state.results = recos;
+
+      document.getElementById("audit").style.display = "none";
+      document.getElementById("results").style.display = "block";
+
+      document.getElementById("gapSummary").innerHTML = gaps.map(g => `<p>${g}</p>`).join("");
+      document.getElementById("recoList").innerHTML = recos.map(r => `<div class="tool-card"><h3>${r}</h3></div>`).join("");
+    }
+
+    function downloadPDF() {
+      alert("This will download your PDF report (Netlify function will handle it).");
+    }
+  </script>
+</body>
+</html>
