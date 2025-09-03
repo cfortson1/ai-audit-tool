@@ -20,9 +20,8 @@ export async function handler(event) {
           quantity: 1,
         },
       ],
-      customer_email: email,
-      success_url: `${process.env.URL}/index.html#audit`,
-      cancel_url: `${process.env.URL}/index.html`,
+      success_url: `${process.env.SITE_URL}/index.html#audit`,
+cancel_url: `${process.env.SITE_URL}/index.html`,
     });
 
     return {

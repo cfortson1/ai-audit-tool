@@ -104,6 +104,7 @@
   <script>
     let state = { lead: {}, audit: {}, results: [] };
 
+    // Stripe Checkout + Netlify Forms
     function startCheckout() {
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
@@ -111,11 +112,32 @@
 
       state.lead = { name, email };
 
-      // Mock checkout for now (real Stripe comes later)
-      document.querySelector("form").style.display = "none";
-      document.getElementById("audit").style.display = "block";
+      // Save lead to Netlify Forms
+      const formData = new FormData();
+      formData.append("form-name", "lead-capture");
+      formData.append("name", name);
+      formData.append("email", email);
+
+      fetch("/", { method: "POST", body: formData }).catch(() => {});
+
+      // Call Netlify Stripe function
+      fetch("/.netlify/functions/createCheckout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.url) {
+          window.location.href = data.url; // redirect to Stripe Checkout
+        } else {
+          alert("Checkout error");
+        }
+      })
+      .catch(() => alert("Checkout request failed"));
     }
 
+    // Run audit logic
     function runAudit() {
       const bizType = document.getElementById('bizType').value;
       const challenges = document.getElementById('challenges').value.toLowerCase();
@@ -149,8 +171,26 @@
       document.getElementById("recoList").innerHTML = recos.map(r => `<div class="tool-card"><h3>${r}</h3></div>`).join("");
     }
 
+    // Call Netlify PDF function
     function downloadPDF() {
-      alert("This will download your PDF report (Netlify function will handle it).");
+      fetch("/.netlify/functions/generateReport", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lead: state.lead,
+          audit: state.audit,
+          results: state.results
+        })
+      })
+      .then(res => res.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "AI-Audit-Report.pdf";
+        a.click();
+      })
+      .catch(() => alert("PDF generation failed"));
     }
   </script>
 </body>
