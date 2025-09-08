@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AiPairWise – AI Audit & Roadmap</title>
+  <title>AiPairWise – Smart AI Audit & Roadmap</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
   <style>
@@ -23,10 +23,27 @@
 
 <div class="container mx-auto px-4 max-w-4xl my-8">
 
-  <!-- STEP 0: Email + Paywall $27 -->
-  <section id="paywall" class="bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-bold text-green-800 mb-4">Start Your AI Workflow Assessment</h2>
-    <p class="mb-4">Unlock your personalized audit and roadmap for just <strong>$27</strong>.</p>
+  <!-- Intro Value Prop -->
+  <section id="landingIntro" class="bg-white p-6 rounded-lg shadow-lg mb-8">
+    <h2 class="text-2xl font-bold text-green-800 mb-4">🚀 Why This Assessment Matters</h2>
+    <p class="text-gray-700 mb-3">
+      Most business owners waste hours searching online for “the best AI tools,” only to end up
+      confused, overwhelmed, or using them like a fancy Google search.
+    </p>
+    <p class="text-gray-700 mb-3">
+      This report doesn’t just list tools — it <strong>wisely pairs the right tools</strong> for your industry,
+      <strong>shows you how to calibrate settings</strong> (like temperature, tone, and output length),
+      and provides <strong>ready-to-use customized prompts</strong> that consistently deliver results.
+    </p>
+    <p class="text-gray-700 mb-3">
+      In short: it’s a <em>done-for-you AI strategy</em> that saves trial-and-error, so you can see
+      results faster and with confidence.
+    </p>
+  </section>
+
+  <!-- Step 1: Email Capture -->
+  <section id="emailCapture" class="bg-white p-6 rounded-lg shadow-lg">
+    <h3 class="text-xl font-bold text-blue-800 mb-4">🔑 Start Your AI Workflow Assessment</h3>
     <form id="emailForm" class="space-y-4">
       <div>
         <label for="firstName" class="block font-semibold text-gray-700">First Name *</label>
@@ -37,12 +54,12 @@
         <input id="email" type="email" required class="w-full border p-2 rounded"/>
       </div>
       <button type="submit" class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-bold hover:bg-green-700">
-        💳 Pay $27 to Unlock Audit
+        🚀 Start My Assessment
       </button>
     </form>
   </section>
 
-  <!-- STEP 1: Audit Tool -->
+  <!-- Step 2: Assessment Form -->
   <section id="auditTool" class="hidden bg-white p-6 mt-8 rounded-lg shadow-lg">
     <h2 class="text-2xl font-bold text-blue-800 mb-4">🔍 AI Workflow Assessment</h2>
 
@@ -58,7 +75,7 @@
     </div>
 
     <div class="mb-4">
-      <label class="font-semibold text-gray-700 block">Biggest Priority</label>
+      <label class="font-semibold text-gray-700 block">Top Priority (next 6 months)</label>
       <select id="priority" class="w-full border p-2 rounded" required>
         <option value="">Select...</option>
         <option>Increase sales</option>
@@ -71,13 +88,20 @@
       </select>
     </div>
 
-    <button onclick="generateReport(event)" class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700">
-      ⚡ Generate My Recommendations
-    </button>
+    <div class="mb-4">
+      <label class="font-semibold text-gray-700 block">What frustrates you most about AI tools?</label>
+      <textarea id="frustrations" class="w-full border p-2 rounded h-20"></textarea>
+    </div>
+
+    <div class="mt-6 text-center">
+      <button onclick="payForAudit()" class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700">
+        💳 Generate My AI Roadmap ($27)
+      </button>
+    </div>
   </section>
 
-  <!-- STEP 2: Results -->
-  <section id="results" class="hidden mt-8" >
+  <!-- Step 3: Results -->
+  <section id="results" class="hidden mt-8">
     <div id="pdfWrapper" class="bg-white p-6 rounded-lg shadow-lg">
       <h2 class="text-2xl font-bold text-green-800 mb-4">✅ Your Customized AI Roadmap</h2>
       <p class="mb-4">Tailored for <span id="userName"></span> (<span id="userIndustry"></span>)</p>
@@ -106,14 +130,14 @@
     </div>
   </section>
 
-  <!-- STEP 3: Bonus Tools Upsell -->
+  <!-- Bonus Tools Upsell -->
   <section id="bonusUpsell" class="hidden bg-white p-6 mt-8 rounded-lg shadow-lg">
     <h2 class="text-2xl font-bold text-purple-800 mb-4">✨ Unlock 5 Little-Known AI Tools</h2>
     <p class="mb-4">Get insider tools with best practices + prompt libraries for just <strong>$17</strong>.</p>
     <button onclick="payBonus()" class="bg-purple-600 text-white px-6 py-3 rounded-lg font-bold">💳 Pay $17 to Unlock</button>
   </section>
 
-  <!-- STEP 3b: Bonus Tools Content -->
+  <!-- Bonus Tools Content -->
   <section id="bonusTools" class="hidden bg-white p-6 mt-8 rounded-lg shadow-lg">
     <h2 class="text-2xl font-bold text-purple-800 mb-4">🚀 5 Bonus AI Tools</h2>
     <div id="bonusContent"></div>
@@ -122,56 +146,62 @@
     </div>
   </section>
 
-  <!-- STEP 4: Guardrails Upsell -->
+  <!-- Guardrails Upsell -->
   <section id="guardrailUpsell" class="hidden bg-white p-6 mt-8 rounded-lg shadow-lg">
     <h2 class="text-2xl font-bold text-red-800 mb-4">🔒 AI Guardrails & Security Template</h2>
     <p class="mb-4">Protect your business with an ISO-inspired AI governance framework. One-time <strong>$47</strong>.</p>
     <button onclick="payGuardrails()" class="bg-red-600 text-white px-6 py-3 rounded-lg font-bold">💳 Pay $47 to Unlock</button>
   </section>
 
-  <!-- STEP 4b: Guardrails Content (Download Section) -->
-<div id="guardrailsTemplate" class="hidden bg-white p-6 mt-8 rounded-lg shadow-lg">
-  <div class="mb-4 p-4 bg-amber-50 border border-amber-300 text-amber-900">
-    <strong>Disclaimer:</strong> This “AI Guardrails – ISO-inspired” template is for informational purposes only.
-    It is not legal advice, not ISO-certified, and creates no compliance obligations. Consult professionals.
-  </div>
-  <h2 class="text-2xl font-bold text-red-800 mb-4">🛡️ AI Guardrails – ISO-Inspired Governance Pack</h2>
-  <p class="mb-4">Download your full template in Word or PDF format:</p>
-  <div class="flex gap-4">
-    <a href="files/AI_Guardrails_Template.docx" download
-       class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700">
-       📄 Download Word Template
-    </a>
-    <a href="files/AI_Guardrails_Template.pdf" download
-       class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700">
-       📄 Download PDF Template
-    </a>
+  <!-- Guardrails Template -->
+  <div id="guardrailsTemplate" class="hidden bg-white p-6 mt-8 rounded-lg shadow-lg">
+    <div class="mb-4 p-4 bg-amber-50 border border-amber-300 text-amber-900">
+      <strong>Disclaimer:</strong> This “AI Guardrails – ISO-inspired” template is for informational purposes only.
+      It is not legal advice, not ISO-certified, and creates no compliance obligations. Consult professionals.
+    </div>
+    <h2 class="text-2xl font-bold text-red-800 mb-4">🛡️ AI Guardrails – ISO-Inspired Governance Pack</h2>
+    <p class="mb-4">Download your full template in Word or PDF format:</p>
+    <div class="flex gap-4">
+      <a href="files/AI_Guardrails_Template.docx" download
+         class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700">
+         📄 Download Word Template
+      </a>
+      <a href="files/AI_Guardrails_Template.pdf" download
+         class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700">
+         📄 Download PDF Template
+      </a>
+    </div>
   </div>
 </div>
 
 <script>
 let user = {};
 
-// Payment placeholders
+// Capture email → show assessment
 document.getElementById('emailForm').addEventListener('submit',e=>{
   e.preventDefault();
   user.firstName=document.getElementById('firstName').value;
   user.email=document.getElementById('email').value;
-  document.getElementById('paywall').classList.add('hidden');
+  document.getElementById('emailCapture').classList.add('hidden');
   document.getElementById('auditTool').classList.remove('hidden');
   document.getElementById('userName').textContent=user.firstName;
 });
 
-function generateReport(e){
-  e.preventDefault();
-  const ind=document.getElementById('industry').value;
-  const pr=document.getElementById('priority').value;
-  if(!ind||!pr){alert('Please complete all fields');return;}
-  user.industry=ind; user.priority=pr;
-  document.getElementById('auditTool').classList.add('hidden');
-  document.getElementById('results').classList.remove('hidden');
-  document.getElementById('userIndustry').textContent=ind;
-  document.getElementById('recommendations').innerHTML=buildRecommendations(ind,pr);
+// Pay $27 → unlock results
+function payForAudit() {
+  const industry = document.getElementById("industry").value;
+  const priority = document.getElementById("priority").value;
+  if (!industry || !priority) { alert("Please complete the assessment first."); return; }
+
+  // TODO: Replace with real Stripe Checkout
+  setTimeout(()=>{
+    user.industry=industry;
+    user.priority=priority;
+    document.getElementById("auditTool").classList.add("hidden");
+    document.getElementById("results").classList.remove("hidden");
+    document.getElementById("userIndustry").textContent=industry;
+    document.getElementById("recommendations").innerHTML=buildRecommendations(industry,priority);
+  },1500);
 }
 
 function buildRecommendations(ind,pr){
@@ -210,10 +240,7 @@ function downloadPDF(){
   }).save();
 }
 
-function showBonusUpsell(){
-  document.getElementById('bonusUpsell').classList.remove('hidden');
-}
-
+function showBonusUpsell(){ document.getElementById('bonusUpsell').classList.remove('hidden'); }
 function payBonus(){
   document.getElementById('bonusUpsell').classList.add('hidden');
   document.getElementById('bonusTools').classList.remove('hidden');
@@ -225,10 +252,7 @@ function payBonus(){
     <li><strong>Notion AI Advanced</strong>: Knowledge workflows.</li>
   </ul>`;
 }
-
-function showGuardrailUpsell(){
-  document.getElementById('guardrailUpsell').classList.remove('hidden');
-}
+function showGuardrailUpsell(){ document.getElementById('guardrailUpsell').classList.remove('hidden'); }
 function payGuardrails(){
   document.getElementById('guardrailUpsell').classList.add('hidden');
   document.getElementById('guardrailsTemplate').classList.remove('hidden');
