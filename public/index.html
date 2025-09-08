@@ -1,1555 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Pairwise - Version 23</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2563eb',
-                        secondary: '#1e40af'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .mastery-kit { display: none; }
-        .mastery-kit.unlocked { display: block; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AiPairWise - Smart AI Tool Combinations for Small Business</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-header { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
+    @media print {
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <!-- Header -->
-    <header class="bg-white shadow-lg">
-        <div class="max-w-6xl mx-auto px-4 py-6">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-lg">AI</span>
-                    </div>
-                    <h1 class="text-2xl font-bold text-gray-900">AI Pairwise</h1>
-                </div>
-                <div class="text-sm text-blue-600 font-semibold">Version 23</div>
-            </div>
-        </div>
-    </header>
+<body class="bg-gray-50">
 
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 py-12">
-        <!-- Hero Section -->
-        <div class="text-center mb-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-6">
-                🚀 Discover Your AI Readiness
-            </h2>
-            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                Take our free assessment to discover which AI tools will transform your workflow. Get personalized recommendations and unlock exclusive resources.
-            </p>
-            
-            <!-- Email Capture Form -->
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-8 rounded-xl shadow-2xl mb-12 max-w-2xl mx-auto">
-                <h3 class="text-2xl font-bold mb-4">🎯 Free AI Readiness Assessment</h3>
-                <p class="text-lg opacity-90 mb-6">Discover your AI potential in just 2 minutes</p>
-                
-                <form id="email-form" class="space-y-4">
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div>
-                            <input type="text" id="user-name" placeholder="Your Name" required class="w-full px-4 py-3 rounded-lg text-gray-900 font-medium focus:ring-2 focus:ring-blue-300 focus:outline-none">
-                        </div>
-                        <div>
-                            <input type="email" id="user-email" placeholder="Your Email" required class="w-full px-4 py-3 rounded-lg text-gray-900 font-medium focus:ring-2 focus:ring-blue-300 focus:outline-none">
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors duration-200 w-full">
-                        Start Free Assessment →
-                    </button>
-                </form>
-                
-                <p class="text-sm opacity-75 mt-4">Get instant results + bonus AI resources via email</p>
-            </div>
-        </div>
-
-        <!-- Assessment Questions (Hidden initially) -->
-        <div id="assessment" class="hidden bg-white rounded-xl shadow-lg p-8 mb-16 max-w-3xl mx-auto">
-            <div class="mb-8">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-2xl font-bold text-gray-900">AI Readiness Assessment</h3>
-                    <span id="progress" class="text-sm text-gray-600">Question 1 of 5</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 20%"></div>
-                </div>
-            </div>
-
-            <div id="question-container">
-                <!-- Questions will be inserted here -->
-            </div>
-
-            <div class="flex justify-between mt-8">
-                <button id="prev-btn" onclick="previousQuestion()" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-400 transition-colors duration-200 hidden">
-                    ← Previous
-                </button>
-                <button id="next-btn" onclick="nextQuestion()" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 ml-auto">
-                    Next →
-                </button>
-            </div>
-        </div>
-
-        <!-- Results Section (Hidden initially) -->
-        <div id="results" class="hidden">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-6">🎉 Your AI Readiness Results</h2>
-                <div id="score-display" class="text-6xl font-bold text-blue-600 mb-4"></div>
-                <div id="readiness-level" class="text-2xl font-semibold text-gray-700 mb-8"></div>
-            </div>
-
-            <!-- Pricing Tiers -->
-            <div class="grid md:grid-cols-3 gap-8 mb-16">
-                <!-- Tier 1: Free -->
-                <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
-                    <div class="text-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Tier 1: Starter</h3>
-                        <div class="text-4xl font-bold text-gray-900 mb-2">Free</div>
-                        <p class="text-gray-600">Perfect for getting started</p>
-                    </div>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center space-x-3">
-                            <span class="text-green-500 text-xl">✓</span>
-                            <span class="text-gray-700">Basic AI tool access</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-green-500 text-xl">✓</span>
-                            <span class="text-gray-700">5 starter prompts</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-green-500 text-xl">✓</span>
-                            <span class="text-gray-700">Community support</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-green-500 text-xl">✓</span>
-                            <span class="text-gray-700">Basic tutorials</span>
-                        </li>
-                    </ul>
-
-                    <button onclick="selectTier('free')" class="w-full bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-700 transition-colors duration-200">
-                        Get Started Free
-                    </button>
-                </div>
-
-                <!-- Tier 2: Pro (Highlighted) -->
-                <div class="bg-white rounded-xl shadow-2xl p-8 border-2 border-blue-500 relative transform scale-105">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <span class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-bold">MOST POPULAR</span>
-                    </div>
-                    
-                    <div class="text-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Tier 2: Leadership Pro</h3>
-                        <div class="text-4xl font-bold text-blue-600 mb-2">$47</div>
-                        <p class="text-gray-600">Complete AI mastery + Leadership toolkit</p>
-                    </div>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center space-x-3">
-                            <span class="text-green-500 text-xl">✓</span>
-                            <span class="text-gray-700">Everything in Tier 1</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-green-500 text-xl">✓</span>
-                            <span class="text-gray-700"><strong>10-Tool AI Mastery Kit</strong></span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-green-500 text-xl">✓</span>
-                            <span class="text-gray-700">100+ tested prompts</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-green-500 text-xl">✓</span>
-                            <span class="text-gray-700">Complete setup guides</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-yellow-500 text-xl">👑</span>
-                            <span class="text-gray-700"><strong>Leadership Prompt Library ($197 value)</strong></span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-yellow-500 text-xl">👑</span>
-                            <span class="text-gray-700">Performance review templates</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-yellow-500 text-xl">👑</span>
-                            <span class="text-gray-700">Team management frameworks</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-yellow-500 text-xl">👑</span>
-                            <span class="text-gray-700">Strategic decision tools</span>
-                        </li>
-                    </ul>
-
-                    <button onclick="selectTier('pro')" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
-                        Unlock Leadership Pro
-                    </button>
-                    
-                    <div class="mt-4 text-center">
-                        <p class="text-xs text-gray-500">🔒 30-day money-back guarantee</p>
-                    </div>
-                </div>
-
-                <!-- Tier 3: VIP Implementation -->
-                <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-200">
-                    <div class="text-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Tier 3: VIP Implementation</h3>
-                        <div class="text-4xl font-bold text-purple-600 mb-2">$197</div>
-                        <p class="text-gray-600">Personal 1-on-1 implementation session</p>
-                    </div>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center space-x-3">
-                            <span class="text-green-500 text-xl">✓</span>
-                            <span class="text-gray-700">Everything in Tier 1 & 2</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-purple-500 text-xl">🎯</span>
-                            <span class="text-gray-700"><strong>60-min guided walkthrough</strong></span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-purple-500 text-xl">🛠️</span>
-                            <span class="text-gray-700">Personal setup of 3 AI tools</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-purple-500 text-xl">📋</span>
-                            <span class="text-gray-700">Custom prompts for your role</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                            <span class="text-purple-500 text-xl">🚀</span>
-                            <span class="text-gray-700">Implementation roadmap</span>
-                        </li>
-                    </ul>
-
-                    <button onclick="selectTier('vip')" class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors duration-200">
-                        Book VIP Session
-                    </button>
-                </div>
-            </div>
-
-            <!-- Leadership Toolkit Highlight -->
-            <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-8 rounded-xl shadow-2xl mb-16">
-                <div class="text-center mb-6">
-                    <span class="text-6xl mb-4 block">👑</span>
-                    <h3 class="text-3xl font-bold mb-4">Exclusive Leadership Toolkit</h3>
-                    <p class="text-xl opacity-90 mb-6">Available only with Tier 2: Leadership Pro</p>
-                </div>
-                
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white/20 rounded-lg p-6">
-                        <h4 class="text-2xl font-bold mb-4">🎯 Performance Management Suite</h4>
-                        <ul class="space-y-2 text-sm opacity-90">
-                            <li>• Performance review templates that save 3+ hours per review</li>
-                            <li>• SMART goal frameworks for any role or department</li>
-                            <li>• Development plan creators with 90-day roadmaps</li>
-                            <li>• Feedback conversation prep guides</li>
-                            <li>• Recognition and praise templates that motivate</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-white/20 rounded-lg p-6">
-                        <h4 class="text-2xl font-bold mb-4">🚀 Strategic Leadership Tools</h4>
-                        <ul class="space-y-2 text-sm opacity-90">
-                            <li>• Decision-making frameworks for complex choices</li>
-                            <li>• Team capacity planning and resource optimization</li>
-                            <li>• Meeting efficiency audits and improvement plans</li>
-                            <li>• Process improvement methodologies</li>
-                            <li>• Executive summary creators for C-suite communication</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-8">
-                    <div class="bg-white/30 rounded-lg p-4 inline-block">
-                        <p class="text-lg font-bold">Perfect for:</p>
-                        <p class="text-sm opacity-90">Team Leaders • Department Managers • Project Managers • Directors • VPs • C-Suite Executives</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Testimonials -->
-            <div class="bg-gray-50 rounded-xl p-8 mb-16">
-                <h3 class="text-3xl font-bold text-gray-900 mb-8 text-center">💬 What Leaders Are Saying</h3>
-                
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                                <span class="text-blue-600 font-bold">SM</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900">Sarah Martinez</h4>
-                                <p class="text-sm text-gray-600">VP of Operations</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-700 text-sm italic">"The Leadership Toolkit saved me 10+ hours per week on performance reviews and team communication. The prompts are incredibly well-crafted."</p>
-                    </div>
-                    
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                                <span class="text-green-600 font-bold">DK</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900">David Kim</h4>
-                                <p class="text-sm text-gray-600">Engineering Manager</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-700 text-sm italic">"Finally, AI tools that actually work for management tasks. The decision-making frameworks have transformed how I approach complex problems."</p>
-                    </div>
-                    
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
-                                <span class="text-purple-600 font-bold">LR</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900">Lisa Rodriguez</h4>
-                                <p class="text-sm text-gray-600">Director of Marketing</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-700 text-sm italic">"The ROI was immediate. Better team communication, faster decision-making, and my performance reviews are now actually helpful for my team's growth."</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Hidden Tier 1 Starter Kit (Unlocked after selecting free tier) -->
-    <div id="starter-kit" class="mastery-kit">
-        <!-- Header -->
-        <header class="bg-white shadow-lg">
-            <div class="max-w-6xl mx-auto px-4 py-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                            <span class="text-white font-bold text-lg">AI</span>
-                        </div>
-                        <h1 class="text-2xl font-bold text-gray-900">AI Starter Kit</h1>
-                    </div>
-                    <div class="text-sm text-blue-600 font-semibold">Free Tier</div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="max-w-6xl mx-auto px-4 py-12">
-            <!-- Welcome Section -->
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-6">
-                    🎉 Welcome to Your AI Journey!
-                </h2>
-                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                    You now have access to essential AI tools and starter prompts to begin transforming your workflow. This is just the beginning!
-                </p>
-                <div class="bg-blue-100 border border-blue-300 rounded-lg p-6 max-w-2xl mx-auto">
-                    <h3 class="text-lg font-bold text-blue-800 mb-2">🚀 Getting Started</h3>
-                    <p class="text-blue-700 text-sm">Start with ChatGPT using our 5 starter prompts below. Once you're comfortable, consider upgrading to unlock 100+ advanced prompts and the Leadership Toolkit.</p>
-                </div>
-            </div>
-
-            <!-- Basic AI Tools -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-12">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">🛠️ Your Free AI Tools</h3>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="text-center">
-                        <div class="bg-green-100 p-6 rounded-lg mb-4">
-                            <span class="text-4xl mb-3 block">🤖</span>
-                            <h4 class="font-bold text-green-800 text-xl">ChatGPT</h4>
-                            <p class="text-green-600 text-sm mt-2">Your AI writing and thinking partner</p>
-                        </div>
-                        <a href="https://chat.openai.com" target="_blank" class="text-green-600 hover:text-green-800 font-medium">Open ChatGPT →</a>
-                    </div>
-                    <div class="text-center">
-                        <div class="bg-purple-100 p-6 rounded-lg mb-4">
-                            <span class="text-4xl mb-3 block">🔍</span>
-                            <h4 class="font-bold text-purple-800 text-xl">Perplexity AI</h4>
-                            <p class="text-purple-600 text-sm mt-2">AI-powered research and answers</p>
-                        </div>
-                        <a href="https://perplexity.ai" target="_blank" class="text-purple-600 hover:text-purple-800 font-medium">Open Perplexity →</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5 Starter Prompts -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-12">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">🎯 5 Essential Starter Prompts</h3>
-                <p class="text-gray-600 mb-8">Copy these prompts and paste them into ChatGPT to get started. Replace the bracketed text with your specific information.</p>
-                
-                <div class="grid md:grid-cols-1 gap-6">
-                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
-                        <h4 class="font-bold text-blue-800 mb-3 text-lg">1. Email Improver</h4>
-                        <p class="text-blue-700 mb-4 text-sm">Make your emails more professional and clear</p>
-                        <textarea id="starter-1" class="w-full p-4 text-sm border border-blue-300 rounded bg-white" rows="3" readonly>Rewrite this email to be more professional and clear. Keep the main message but improve the tone and structure: [PASTE YOUR EMAIL HERE]</textarea>
-                        <button onclick="copyToClipboard('starter-1')" class="mt-3 bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">📋 Copy Prompt</button>
-                    </div>
-
-                    <div class="bg-green-50 p-6 rounded-lg border border-green-200">
-                        <h4 class="font-bold text-green-800 mb-3 text-lg">2. Meeting Notes Organizer</h4>
-                        <p class="text-green-700 mb-4 text-sm">Turn messy meeting notes into clear action items</p>
-                        <textarea id="starter-2" class="w-full p-4 text-sm border border-green-300 rounded bg-white" rows="3" readonly>Organize these meeting notes into: 1) Key decisions 2) Action items with who's responsible 3) Next steps. Notes: [PASTE YOUR NOTES HERE]</textarea>
-                        <button onclick="copyToClipboard('starter-2')" class="mt-3 bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700">📋 Copy Prompt</button>
-                    </div>
-
-                    <div class="bg-purple-50 p-6 rounded-lg border border-purple-200">
-                        <h4 class="font-bold text-purple-800 mb-3 text-lg">3. Quick Brainstormer</h4>
-                        <p class="text-purple-700 mb-4 text-sm">Generate ideas and solutions for any challenge</p>
-                        <textarea id="starter-3" class="w-full p-4 text-sm border border-purple-300 rounded bg-white" rows="3" readonly">I need ideas for [DESCRIBE YOUR CHALLENGE]. Give me 5 creative solutions with a brief explanation of how each could work.</textarea>
-                        <button onclick="copyToClipboard('starter-3')" class="mt-3 bg-purple-600 text-white px-4 py-2 rounded text-sm hover:bg-purple-700">📋 Copy Prompt</button>
-                    </div>
-
-                    <div class="bg-orange-50 p-6 rounded-lg border border-orange-200">
-                        <h4 class="font-bold text-orange-800 mb-3 text-lg">4. Learning Helper</h4>
-                        <p class="text-orange-700 mb-4 text-sm">Understand any topic quickly and clearly</p>
-                        <textarea id="starter-4" class="w-full p-4 text-sm border border-orange-300 rounded bg-white" rows="3" readonly">Explain [TOPIC] in simple terms. Include: 1) Basic definition 2) Why it matters 3) One real-world example 4) One thing I can do today to learn more about it.</textarea>
-                        <button onclick="copyToClipboard('starter-4')" class="mt-3 bg-orange-600 text-white px-4 py-2 rounded text-sm hover:bg-orange-700">📋 Copy Prompt</button>
-                    </div>
-
-                    <div class="bg-red-50 p-6 rounded-lg border border-red-200">
-                        <h4 class="font-bold text-red-800 mb-3 text-lg">5. Task Planner</h4>
-                        <p class="text-red-700 mb-4 text-sm">Break down big projects into manageable steps</p>
-                        <textarea id="starter-5" class="w-full p-4 text-sm border border-red-300 rounded bg-white" rows="3" readonly">Help me plan this project: [DESCRIBE YOUR PROJECT]. Break it into 5-7 actionable steps with estimated time for each step. Include any potential challenges to watch out for.</textarea>
-                        <button onclick="copyToClipboard('starter-5')" class="mt-3 bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700">📋 Copy Prompt</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Basic Tutorials -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-12">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6">📚 Quick Start Tutorials</h3>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-gray-50 p-6 rounded-lg">
-                        <h4 class="font-bold text-gray-800 mb-3">🎯 How to Write Better Prompts</h4>
-                        <ul class="text-sm text-gray-700 space-y-2">
-                            <li>• Be specific about what you want</li>
-                            <li>• Provide context and examples</li>
-                            <li>• Ask for the format you need</li>
-                            <li>• Use "Act as..." to set the AI's role</li>
-                        </ul>
-                    </div>
-                    <div class="bg-gray-50 p-6 rounded-lg">
-                        <h4 class="font-bold text-gray-800 mb-3">⚡ Quick Tips for Success</h4>
-                        <ul class="text-sm text-gray-700 space-y-2">
-                            <li>• Start with simple requests</li>
-                            <li>• Ask follow-up questions</li>
-                            <li>• Copy and modify prompts that work</li>
-                            <li>• Practice with different topics</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Upgrade CTA -->
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-8 rounded-xl shadow-2xl text-center">
-                <h3 class="text-3xl font-bold mb-4">🚀 Ready to Level Up?</h3>
-                <p class="text-xl opacity-90 mb-6">Unlock 100+ advanced prompts, complete setup guides, and the exclusive Leadership Toolkit</p>
-                <div class="grid md:grid-cols-3 gap-4 mb-8 text-sm">
-                    <div class="bg-white/20 rounded-lg p-4">
-                        <span class="text-2xl block mb-2">🎯</span>
-                        <strong>100+ Power Prompts</strong>
-                        <p class="opacity-75 mt-1">Advanced prompts for every situation</p>
-                    </div>
-                    <div class="bg-white/20 rounded-lg p-4">
-                        <span class="text-2xl block mb-2">📖</span>
-                        <strong>Complete Guides</strong>
-                        <p class="opacity-75 mt-1">Step-by-step setup for 10 AI tools</p>
-                    </div>
-                    <div class="bg-white/20 rounded-lg p-4">
-                        <span class="text-2xl block mb-2">👑</span>
-                        <strong>Leadership Toolkit</strong>
-                        <p class="opacity-75 mt-1">$197 value - Performance reviews & more</p>
-                    </div>
-                </div>
-                <button onclick="upgradeToTier2()" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors duration-200">
-                    Upgrade to Leadership Pro - $47
-                </button>
-                <p class="text-sm opacity-75 mt-4">🔒 30-day money-back guarantee</p>
-            </div>
-        </main>
+  <!-- Header -->
+  <header class="gradient-header text-white py-8 no-print">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl font-bold mb-2">🤝 AiPairWise</h1>
+      <p class="text-xl opacity-90">Smart AI Tool Combinations for Small Business Success</p>
     </div>
+  </header>
 
-    <!-- Hidden AI Mastery Kit (Unlocked after Tier 2 purchase) -->
-    <div id="mastery-kit" class="mastery-kit">
-        <!-- Header -->
-        <header class="bg-white shadow-lg">
-            <div class="max-w-6xl mx-auto px-4 py-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                            <span class="text-white font-bold text-lg">AI</span>
-                        </div>
-                        <h1 class="text-2xl font-bold text-gray-900">10-Tool AI Mastery Kit</h1>
-                    </div>
-                    <div class="text-sm text-blue-600 font-semibold">Complete Digital Package</div>
-                </div>
-            </div>
-        </header>
+  <!-- Email Capture -->
+  <section class="container mx-auto px-4 my-8 max-w-md" id="emailCapture">
+    <form id="auditEmailForm" class="bg-white p-6 shadow rounded-lg space-y-4">
+      <div>
+        <label for="firstName" class="font-semibold text-gray-700">First Name *</label>
+        <input id="firstName" name="firstName" type="text" required 
+               data-color="blue"
+               class="w-full p-3 border-2 border-blue-200 rounded-lg focus:outline-none" />
+        <p id="error-firstName" class="text-red-500 text-sm mt-1" aria-live="polite"></p>
+      </div>
+      <div>
+        <label for="email" class="font-semibold text-gray-700">Email *</label>
+        <input id="email" name="email" type="email" required 
+               data-color="blue"
+               class="w-full p-3 border-2 border-blue-200 rounded-lg focus:outline-none" />
+        <p id="error-email" class="text-red-500 text-sm mt-1" aria-live="polite"></p>
+      </div>
+      <button type="submit" 
+              class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-bold hover:bg-green-700">
+        🚀 Start My AI Assessment
+      </button>
+    </form>
+  </section>
 
-        <!-- Main Content -->
-        <main class="max-w-6xl mx-auto px-4 py-12">
-            <!-- Welcome Section -->
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-6">
-                    🎉 Welcome to Your AI Mastery Kit!
-                </h2>
-                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                    You now have access to 10 powerful AI tools, 100+ tested prompts, complete setup guides, and exclusive bonuses. Everything you need to transform your workflow is right here.
-                </p>
-                <div class="bg-green-100 border border-green-300 rounded-lg p-6 max-w-2xl mx-auto">
-                    <h3 class="text-lg font-bold text-green-800 mb-2">📥 How to Use This Kit</h3>
-                    <p class="text-green-700 text-sm">Each section below contains everything you need for that tool. Click "Download Guide" to get the PDF, or use the interactive sections to copy prompts and follow setup instructions.</p>
-                </div>
-            </div>
+  <!-- Audit Tool -->
+  <section class="container mx-auto px-4 my-8 max-w-4xl hidden" id="auditTool">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold text-blue-800 mb-4">🔍 AI Workflow Assessment</h2>
+      <p class="mb-6 text-gray-600">Answer the following to generate your personalized roadmap:</p>
 
-            <!-- Quick Navigation -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-12">
-                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">📋 Your Complete Toolkit</h3>
-                <div class="grid md:grid-cols-4 gap-4">
-                    <div class="text-center">
-                        <div class="bg-blue-100 p-4 rounded-lg mb-3">
-                            <span class="text-3xl">🧠</span>
-                            <h4 class="font-bold text-blue-800 mt-2">Thinking Tools</h4>
-                            <p class="text-xs text-blue-600">4 AI Tools</p>
-                        </div>
-                        <button onclick="scrollToSection('thinking-tools')" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Jump to Section →</button>
-                    </div>
-                    <div class="text-center">
-                        <div class="bg-purple-100 p-4 rounded-lg mb-3">
-                            <span class="text-3xl">📚</span>
-                            <h4 class="font-bold text-purple-800 mt-2">Memory Tools</h4>
-                            <p class="text-xs text-purple-600">3 AI Tools</p>
-                        </div>
-                        <button onclick="scrollToSection('memory-tools')" class="text-purple-600 hover:text-purple-800 text-sm font-medium">Jump to Section →</button>
-                    </div>
-                    <div class="text-center">
-                        <div class="bg-orange-100 p-4 rounded-lg mb-3">
-                            <span class="text-3xl">🎨</span>
-                            <h4 class="font-bold text-orange-800 mt-2">Visual Tools</h4>
-                            <p class="text-xs text-orange-600">3 AI Tools</p>
-                        </div>
-                        <button onclick="scrollToSection('visual-tools')" class="text-orange-600 hover:text-orange-800 text-sm font-medium">Jump to Section →</button>
-                    </div>
-                    <div class="text-center">
-                        <div class="bg-yellow-100 p-4 rounded-lg mb-3">
-                            <span class="text-3xl">👑</span>
-                            <h4 class="font-bold text-yellow-800 mt-2">Leadership Kit</h4>
-                            <p class="text-xs text-yellow-600">Bonus Content</p>
-                        </div>
-                        <button onclick="scrollToSection('leadership-kit')" class="text-yellow-600 hover:text-yellow-800 text-sm font-medium">Jump to Section →</button>
-                    </div>
-                </div>
-            </div>
+      <!-- Step 1 -->
+      <div class="mb-6">
+        <label for="businessType" class="font-semibold text-gray-700">What type of business do you run?</label>
+        <select id="businessType" required data-color="blue"
+                class="w-full p-3 border-2 border-blue-200 rounded-lg">
+          <option value="">Select...</option>
+          <option>E-commerce</option>
+          <option>Services</option>
+          <option>Real Estate</option>
+        </select>
+        <p id="error-businessType" class="text-red-500 text-sm mt-1"></p>
+      </div>
 
-            <!-- SECTION 1: THINKING & WRITING TOOLS -->
-            <section id="thinking-tools" class="mb-16">
-                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 mb-8">
-                    <div class="text-center mb-8">
-                        <span class="text-6xl mb-4 block">🧠</span>
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Thinking & Writing Tools</h2>
-                        <p class="text-lg text-gray-600">Transform scattered thoughts into clear decisions and communication</p>
-                    </div>
-                </div>
+      <!-- Step 2 -->
+      <div class="mb-6">
+        <label for="timeDrain" class="font-semibold text-gray-700">Biggest time drain?</label>
+        <select id="timeDrain" required data-color="emerald"
+                class="w-full p-3 border-2 border-emerald-200 rounded-lg">
+          <option value="">Select...</option>
+          <option>Content creation</option>
+          <option>Customer support</option>
+          <option>Admin tasks</option>
+        </select>
+        <p id="error-timeDrain" class="text-red-500 text-sm mt-1"></p>
+      </div>
 
-                <!-- ChatGPT -->
-                <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center">
-                                <span class="text-2xl">🤖</span>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-gray-900">ChatGPT</h3>
-                                <p class="text-gray-600">Your AI Thinking Partner</p>
-                            </div>
-                        </div>
-                        <button onclick="downloadGuide('chatgpt')" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200">
-                            📥 Download Complete Guide
-                        </button>
-                    </div>
+      <!-- Step 3 -->
+      <div class="mb-6">
+        <label for="budget" class="font-semibold text-gray-700">Monthly budget for AI tools?</label>
+        <select id="budget" required data-color="purple"
+                class="w-full p-3 border-2 border-purple-200 rounded-lg">
+          <option value="">Select...</option>
+          <option>$0-50</option>
+          <option>$51-150</option>
+          <option>$151-300</option>
+        </select>
+        <p id="error-budget" class="text-red-500 text-sm mt-1"></p>
+      </div>
 
-                    <!-- 100+ Power Prompts -->
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-gray-900 mb-4">🎯 100+ Power Prompts for ChatGPT</h4>
-                        <p class="text-gray-600 mb-6">Here are 20 essential prompts to get you started. The complete collection of 100+ prompts is available in your downloadable guide.</p>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                <h5 class="font-bold text-blue-800 mb-2">1. Email Optimizer</h5>
-                                <p class="text-sm text-blue-700 mb-3">Perfect for professional communication</p>
-                                <textarea id="prompt-1" class="w-full p-3 text-xs border border-blue-300 rounded bg-white" rows="3" readonly>Rewrite this email to be [more professional/friendlier/more direct]. Keep the key message but improve clarity and tone: [PASTE EMAIL]</textarea>
-                                <button onclick="copyToClipboard('prompt-1')" class="mt-2 text-blue-600 hover:text-blue-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                                <h5 class="font-bold text-purple-800 mb-2">2. Meeting Summarizer</h5>
-                                <p class="text-sm text-purple-700 mb-3">Turn messy notes into clear action items</p>
-                                <textarea id="prompt-2" class="w-full p-3 text-xs border border-purple-300 rounded bg-white" rows="3" readonly>Summarize these meeting notes into: 1) Key decisions made 2) Action items with owners 3) Next steps with deadlines: [PASTE NOTES]</textarea>
-                                <button onclick="copyToClipboard('prompt-2')" class="mt-2 text-purple-600 hover:text-purple-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
-                                <h5 class="font-bold text-orange-800 mb-2">3. Strategy Brainstormer</h5>
-                                <p class="text-sm text-orange-700 mb-3">Structured approach to complex decisions</p>
-                                <textarea id="prompt-3" class="w-full p-3 text-xs border border-orange-300 rounded bg-white" rows="3" readonly>I need to [GOAL]. My constraints are [LIST]. My resources are [LIST]. Give me 3 specific approaches with pros/cons and implementation difficulty (1-10).</textarea>
-                                <button onclick="copyToClipboard('prompt-3')" class="mt-2 text-orange-600 hover:text-orange-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                                <h5 class="font-bold text-green-800 mb-2">4. Problem Solver</h5>
-                                <p class="text-sm text-green-700 mb-3">Break down complex challenges</p>
-                                <textarea id="prompt-4" class="w-full p-3 text-xs border border-green-300 rounded bg-white" rows="3" readonly>Help me solve this problem: [DESCRIBE PROBLEM]. Walk me through: 1) Root cause analysis 2) 3 potential solutions 3) Recommended next step with reasoning.</textarea>
-                                <button onclick="copyToClipboard('prompt-4')" class="mt-2 text-green-600 hover:text-green-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
-                                <h5 class="font-bold text-red-800 mb-2">5. Presentation Outliner</h5>
-                                <p class="text-sm text-red-700 mb-3">Structure compelling presentations</p>
-                                <textarea id="prompt-5" class="w-full p-3 text-xs border border-red-300 rounded bg-white" rows="3" readonly>Create a presentation outline for [TOPIC] to [AUDIENCE]. Goal: [OBJECTIVE]. Include: opening hook, 3 main points with supporting data, and strong closing call-to-action.</textarea>
-                                <button onclick="copyToClipboard('prompt-5')" class="mt-2 text-red-600 hover:text-red-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
-                                <h5 class="font-bold text-indigo-800 mb-2">6. Content Repurposer</h5>
-                                <p class="text-sm text-indigo-700 mb-3">Transform one piece into multiple formats</p>
-                                <textarea id="prompt-6" class="w-full p-3 text-xs border border-indigo-300 rounded bg-white" rows="3" readonly>Take this content and create: 1) LinkedIn post 2) Email subject line 3) Tweet thread (3 tweets) 4) Presentation slide title. Content: [PASTE CONTENT]</textarea>
-                                <button onclick="copyToClipboard('prompt-6')" class="mt-2 text-indigo-600 hover:text-indigo-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                                <h5 class="font-bold text-yellow-800 mb-2">7. Data Interpreter</h5>
-                                <p class="text-sm text-yellow-700 mb-3">Turn numbers into insights</p>
-                                <textarea id="prompt-7" class="w-full p-3 text-xs border border-yellow-300 rounded bg-white" rows="3" readonly">Analyze this data and provide: 1) Top 3 insights 2) What this means for [BUSINESS CONTEXT] 3) Recommended actions. Data: [PASTE DATA/METRICS]</textarea>
-                                <button onclick="copyToClipboard('prompt-7')" class="mt-2 text-yellow-600 hover:text-yellow-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-pink-50 p-4 rounded-lg border border-pink-200">
-                                <h5 class="font-bold text-pink-800 mb-2">8. Process Documenter</h5>
-                                <p class="text-sm text-pink-700 mb-3">Create clear SOPs and workflows</p>
-                                <textarea id="prompt-8" class="w-full p-3 text-xs border border-pink-300 rounded bg-white" rows="3" readonly>Document this process as a step-by-step SOP: [DESCRIBE PROCESS]. Include: prerequisites, detailed steps, common mistakes to avoid, and success criteria.</textarea>
-                                <button onclick="copyToClipboard('prompt-8')" class="mt-2 text-pink-600 hover:text-pink-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
-                                <h5 class="font-bold text-teal-800 mb-2">9. Feedback Formatter</h5>
-                                <p class="text-sm text-teal-700 mb-3">Give constructive, actionable feedback</p>
-                                <textarea id="prompt-9" class="w-full p-3 text-xs border border-teal-300 rounded bg-white" rows="3" readonly>Help me give feedback on [WORK/PERFORMANCE]. Structure it as: 1) What's working well 2) Specific areas for improvement 3) Actionable next steps. Context: [SITUATION]</textarea>
-                                <button onclick="copyToClipboard('prompt-9')" class="mt-2 text-teal-600 hover:text-teal-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                                <h5 class="font-bold text-gray-800 mb-2">10. Learning Accelerator</h5>
-                                <p class="text-sm text-gray-700 mb-3">Master new concepts quickly</p>
-                                <textarea id="prompt-10" class="w-full p-3 text-xs border border-gray-300 rounded bg-white" rows="3" readonly>Teach me [TOPIC] using: 1) Simple explanation 2) Real-world example 3) Common misconceptions 4) One practical exercise I can do today to apply this knowledge.</textarea>
-                                <button onclick="copyToClipboard('prompt-10')" class="mt-2 text-gray-600 hover:text-gray-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-cyan-50 p-4 rounded-lg border border-cyan-200">
-                                <h5 class="font-bold text-cyan-800 mb-2">11. Project Planner</h5>
-                                <p class="text-sm text-cyan-700 mb-3">Break complex projects into steps</p>
-                                <textarea id="prompt-11" class="w-full p-3 text-xs border border-cyan-300 rounded bg-white" rows="3" readonly>Create a project plan for [PROJECT]. Break it into phases with: 1) Key milestones 2) Dependencies 3) Resource requirements 4) Risk mitigation 5) Success metrics.</textarea>
-                                <button onclick="copyToClipboard('prompt-11')" class="mt-2 text-cyan-600 hover:text-cyan-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
-                                <h5 class="font-bold text-emerald-800 mb-2">12. Competitive Analyzer</h5>
-                                <p class="text-sm text-emerald-700 mb-3">Research and analyze competitors</p>
-                                <textarea id="prompt-12" class="w-full p-3 text-xs border border-emerald-300 rounded bg-white" rows="3" readonly>Analyze [COMPETITOR] vs our approach to [AREA]. Compare: 1) Strengths/weaknesses 2) Market positioning 3) Pricing strategy 4) Opportunities for differentiation.</textarea>
-                                <button onclick="copyToClipboard('prompt-12')" class="mt-2 text-emerald-600 hover:text-emerald-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-violet-50 p-4 rounded-lg border border-violet-200">
-                                <h5 class="font-bold text-violet-800 mb-2">13. Risk Assessor</h5>
-                                <p class="text-sm text-violet-700 mb-3">Identify and mitigate project risks</p>
-                                <textarea id="prompt-13" class="w-full p-3 text-xs border border-violet-300 rounded bg-white" rows="3" readonly>Assess risks for [PROJECT/DECISION]. Identify: 1) Top 5 potential risks 2) Probability and impact (1-10) 3) Mitigation strategies 4) Early warning signs to monitor.</textarea>
-                                <button onclick="copyToClipboard('prompt-13')" class="mt-2 text-violet-600 hover:text-violet-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-rose-50 p-4 rounded-lg border border-rose-200">
-                                <h5 class="font-bold text-rose-800 mb-2">14. Customer Journey Mapper</h5>
-                                <p class="text-sm text-rose-700 mb-3">Map customer experience touchpoints</p>
-                                <textarea id="prompt-14" class="w-full p-3 text-xs border border-rose-300 rounded bg-white" rows="3" readonly">Map the customer journey for [PRODUCT/SERVICE]. Include: 1) Awareness stage touchpoints 2) Consideration factors 3) Purchase decision drivers 4) Post-purchase experience 5) Retention opportunities.</textarea>
-                                <button onclick="copyToClipboard('prompt-14')" class="mt-2 text-rose-600 hover:text-rose-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
-                                <h5 class="font-bold text-amber-800 mb-2">15. Process Optimizer</h5>
-                                <p class="text-sm text-amber-700 mb-3">Improve workflows and efficiency</p>
-                                <textarea id="prompt-15" class="w-full p-3 text-xs border border-amber-300 rounded bg-white" rows="3" readonly">Optimize this process: [DESCRIBE PROCESS]. Analyze: 1) Current bottlenecks 2) Redundant steps 3) Automation opportunities 4) Resource optimization 5) Improved workflow design.</textarea>
-                                <button onclick="copyToClipboard('prompt-15')" class="mt-2 text-amber-600 hover:text-amber-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-lime-50 p-4 rounded-lg border border-lime-200">
-                                <h5 class="font-bold text-lime-800 mb-2">16. Stakeholder Communicator</h5>
-                                <p class="text-sm text-lime-700 mb-3">Tailor messages for different audiences</p>
-                                <textarea id="prompt-16" class="w-full p-3 text-xs border border-lime-300 rounded bg-white" rows="3" readonly">Adapt this message for [STAKEHOLDER TYPE]: [MESSAGE]. Adjust: 1) Technical detail level 2) Key concerns they care about 3) Preferred communication style 4) Call-to-action that resonates.</textarea>
-                                <button onclick="copyToClipboard('prompt-16')" class="mt-2 text-lime-600 hover:text-lime-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-sky-50 p-4 rounded-lg border border-sky-200">
-                                <h5 class="font-bold text-sky-800 mb-2">17. Budget Planner</h5>
-                                <p class="text-sm text-sky-700 mb-3">Create detailed budget breakdowns</p>
-                                <textarea id="prompt-17" class="w-full p-3 text-xs border border-sky-300 rounded bg-white" rows="3" readonly">Create a budget for [PROJECT/INITIATIVE]. Include: 1) Personnel costs 2) Technology/tools 3) Marketing/promotion 4) Contingency (15%) 5) ROI projections and break-even analysis.</textarea>
-                                <button onclick="copyToClipboard('prompt-17')" class="mt-2 text-sky-600 hover:text-sky-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-fuchsia-50 p-4 rounded-lg border border-fuchsia-200">
-                                <h5 class="font-bold text-fuchsia-800 mb-2">18. Training Designer</h5>
-                                <p class="text-sm text-fuchsia-700 mb-3">Create effective training programs</p>
-                                <textarea id="prompt-18" class="w-full p-3 text-xs border border-fuchsia-300 rounded bg-white" rows="3" readonly">Design training for [SKILL/TOPIC]. Structure: 1) Learning objectives 2) Module breakdown 3) Interactive exercises 4) Assessment methods 5) Reinforcement activities for retention.</textarea>
-                                <button onclick="copyToClipboard('prompt-18')" class="mt-2 text-fuchsia-600 hover:text-fuchsia-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
-                                <h5 class="font-bold text-stone-800 mb-2">19. Crisis Communicator</h5>
-                                <p class="text-sm text-stone-700 mb-3">Handle difficult communications</p>
-                                <textarea id="prompt-19" class="w-full p-3 text-xs border border-stone-300 rounded bg-white" rows="3" readonly">Draft crisis communication for [SITUATION]. Include: 1) Acknowledgment of issue 2) Immediate actions taken 3) Timeline for resolution 4) Prevention measures 5) Contact for questions. Tone: [professional/empathetic/urgent].</textarea>
-                                <button onclick="copyToClipboard('prompt-19')" class="mt-2 text-stone-600 hover:text-stone-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
-                                <h5 class="font-bold text-neutral-800 mb-2">20. Innovation Catalyst</h5>
-                                <p class="text-sm text-neutral-700 mb-3">Generate breakthrough ideas</p>
-                                <textarea id="prompt-20" class="w-full p-3 text-xs border border-neutral-300 rounded bg-white" rows="3" readonly">Generate innovative solutions for [CHALLENGE]. Use: 1) What if we eliminated [constraint]? 2) How would [industry leader] approach this? 3) What's the opposite of current approach? 4) Combine ideas from [unrelated field]. Give 5 creative options.</textarea>
-                                <button onclick="copyToClipboard('prompt-20')" class="mt-2 text-neutral-600 hover:text-neutral-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-                        </div>
-
-                        <!-- More Prompts Available -->
-                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 mt-8">
-                            <div class="text-center">
-                                <h5 class="text-xl font-bold text-blue-800 mb-3">📚 80+ Additional Prompts Available</h5>
-                                <p class="text-blue-700 mb-4">The complete collection includes specialized prompts for:</p>
-                                <div class="grid md:grid-cols-3 gap-4 text-sm text-blue-600">
-                                    <div>
-                                        <strong>Content Creation (15 prompts)</strong>
-                                        <ul class="text-xs mt-1 space-y-1">
-                                            <li>• Blog post outlines</li>
-                                            <li>• Social media content</li>
-                                            <li>• Video scripts</li>
-                                            <li>• Newsletter templates</li>
-                                            <li>• SEO optimization</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <strong>Data Analysis (12 prompts)</strong>
-                                        <ul class="text-xs mt-1 space-y-1">
-                                            <li>• Survey analysis</li>
-                                            <li>• Trend identification</li>
-                                            <li>• Report generation</li>
-                                            <li>• KPI dashboards</li>
-                                            <li>• Predictive insights</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <strong>Sales & Marketing (18 prompts)</strong>
-                                        <ul class="text-xs mt-1 space-y-1">
-                                            <li>• Lead qualification</li>
-                                            <li>• Proposal writing</li>
-                                            <li>• Campaign planning</li>
-                                            <li>• Customer personas</li>
-                                            <li>• Objection handling</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="grid md:grid-cols-3 gap-4 text-sm text-blue-600 mt-4">
-                                    <div>
-                                        <strong>HR & People Ops (15 prompts)</strong>
-                                        <ul class="text-xs mt-1 space-y-1">
-                                            <li>• Job descriptions</li>
-                                            <li>• Interview questions</li>
-                                            <li>• Onboarding plans</li>
-                                            <li>• Policy writing</li>
-                                            <li>• Culture surveys</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <strong>Operations (10 prompts)</strong>
-                                        <ul class="text-xs mt-1 space-y-1">
-                                            <li>• Vendor evaluation</li>
-                                            <li>• Quality control</li>
-                                            <li>• Inventory planning</li>
-                                            <li>• Cost optimization</li>
-                                            <li>• Compliance checks</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <strong>Strategy & Planning (10 prompts)</strong>
-                                        <ul class="text-xs mt-1 space-y-1">
-                                            <li>• SWOT analysis</li>
-                                            <li>• Market research</li>
-                                            <li>• Business model design</li>
-                                            <li>• Scenario planning</li>
-                                            <li>• OKR development</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <button onclick="downloadGuide('complete-prompts')" class="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
-                                    📥 Download Complete 100+ Prompt Collection
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION 4: LEADERSHIP AI TOOLKIT (BONUS) -->
-            <section id="leadership-kit" class="mb-16">
-                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl p-8 mb-8 border-2 border-yellow-300">
-                    <div class="text-center mb-8">
-                        <span class="text-6xl mb-4 block">👑</span>
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">BONUS: Leadership AI Toolkit</h2>
-                        <p class="text-lg text-gray-600">Exclusive ChatGPT prompts for managers and leaders</p>
-                        <div class="inline-block bg-yellow-200 text-yellow-800 px-4 py-2 rounded-full text-sm font-bold mt-4">
-                            🎁 EXCLUSIVE BONUS - $197 Value
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-                    <div class="mb-8">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">🎯 Leadership Prompt Library</h3>
-                        <p class="text-gray-600 mb-6">Ready-to-use ChatGPT prompts that help managers handle common leadership tasks more effectively. Reduce admin burden and free up time for strategy and people leadership.</p>
-                    </div>
-
-                    <!-- Performance Reviews -->
-                    <div class="mb-8">
-                        <h4 class="text-xl font-bold text-gray-900 mb-4">📊 Performance Review Templates</h4>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                <h5 class="font-bold text-blue-800 mb-2">1. Performance Review Writer</h5>
-                                <textarea id="leadership-1" class="w-full p-3 text-xs border border-blue-300 rounded bg-white" rows="4" readonly>Help me write a performance review for [EMPLOYEE NAME]. Their role: [ROLE]. Key achievements: [LIST]. Areas for improvement: [LIST]. Make it constructive, specific, and actionable with clear development goals.</textarea>
-                                <button onclick="copyToClipboard('leadership-1')" class="mt-2 text-blue-600 hover:text-blue-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                <h5 class="font-bold text-blue-800 mb-2">2. Goal Setting Framework</h5>
-                                <textarea id="leadership-2" class="w-full p-3 text-xs border border-blue-300 rounded bg-white" rows="4" readonly>Create SMART goals for [EMPLOYEE] based on: their current role [ROLE], career aspirations [GOALS], and team needs [NEEDS]. Include 3 professional goals and 2 development goals with timelines.</textarea>
-                                <button onclick="copyToClipboard('leadership-2')" class="mt-2 text-blue-600 hover:text-blue-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                <h5 class="font-bold text-blue-800 mb-2">3. Development Plan Creator</h5>
-                                <textarea id="leadership-3" class="w-full p-3 text-xs border border-blue-300 rounded bg-white" rows="4" readonly>Design a 90-day development plan for [EMPLOYEE] to improve in [SKILL/AREA]. Include: specific actions, resources, milestones, and success metrics. Make it achievable and motivating.</textarea>
-                                <button onclick="copyToClipboard('leadership-3')" class="mt-2 text-blue-600 hover:text-blue-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                <h5 class="font-bold text-blue-800 mb-2">4. Feedback Conversation Prep</h5>
-                                <textarea id="leadership-4" class="w-full p-3 text-xs border border-blue-300 rounded bg-white" rows="4" readonly>Help me prepare for a feedback conversation about [ISSUE] with [EMPLOYEE]. Structure it as: opening, specific examples, impact discussion, collaborative solution, and next steps. Keep it constructive.</textarea>
-                                <button onclick="copyToClipboard('leadership-4')" class="mt-2 text-blue-600 hover:text-blue-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-
-                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                                <h5 class="font-bold text-blue-800 mb-2">5. Recognition & Praise</h5>
-                                <textarea id="leadership-5" class="w-full p-3 text-xs border border-blue-300 rounded bg-white" rows="4" readonly">Write a recognition message for [EMPLOYEE] who achieved [ACCOMPLISHMENT]. Make it specific, meaningful, and highlight the impact on the team/company. Include what behaviors to continue.</textarea>
-                                <button onclick="copyToClipboard('leadership-5')" class="mt-2 text-blue-600 hover:text-blue-800 text-xs font-medium">📋 Copy Prompt</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+      <button onclick="generateRecommendations(event)" 
+              class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700">
+        ⚡ Generate Recommendations
+      </button>
     </div>
+  </section>
 
-    <script>
-        // Assessment Questions
-        const questions = [
-            {
-                question: "How often do you currently use AI tools in your work?",
-                options: [
-                    { text: "Never - I'm just getting started", score: 1 },
-                    { text: "Occasionally - I've tried a few tools", score: 2 },
-                    { text: "Regularly - I use 2-3 AI tools weekly", score: 3 },
-                    { text: "Daily - AI is part of my workflow", score: 4 }
-                ]
-            },
-            {
-                question: "What's your biggest challenge with current AI tools?",
-                options: [
-                    { text: "Don't know where to start", score: 1 },
-                    { text: "Tools give generic, unhelpful responses", score: 2 },
-                    { text: "Too many options, need better organization", score: 3 },
-                    { text: "Want advanced techniques for complex tasks", score: 4 }
-                ]
-            },
-            {
-                question: "How much time do you spend on repetitive tasks each week?",
-                options: [
-                    { text: "Less than 5 hours", score: 1 },
-                    { text: "5-10 hours", score: 2 },
-                    { text: "10-20 hours", score: 3 },
-                    { text: "More than 20 hours", score: 4 }
-                ]
-            },
-            {
-                question: "What's your role/responsibility level?",
-                options: [
-                    { text: "Individual contributor", score: 1 },
-                    { text: "Team lead or senior individual contributor", score: 2 },
-                    { text: "Manager or department head", score: 3 },
-                    { text: "Director, VP, or C-suite executive", score: 4 }
-                ]
-            },
-            {
-                question: "What's your primary goal with AI tools?",
-                options: [
-                    { text: "Learn the basics and get started", score: 1 },
-                    { text: "Improve my personal productivity", score: 2 },
-                    { text: "Enhance team performance and communication", score: 3 },
-                    { text: "Drive strategic initiatives and decision-making", score: 4 }
-                ]
-            }
-        ];
+  <!-- Results -->
+  <section class="container mx-auto px-4 my-8 max-w-3xl hidden" id="resultsContainer">
+    <div class="bg-white p-6 shadow-lg rounded-lg">
+      <h2 class="text-2xl font-bold text-green-800 mb-4">✅ Your Personalized AI Roadmap</h2>
+      <p class="text-gray-700">Thank you, <span id="userName"></span>! 
+         Based on your inputs, here are the best AI workflows for your business.</p>
 
-        let currentQuestion = 0;
-        let answers = [];
+      <ul class="list-disc ml-6 mt-4 text-gray-700 space-y-2" id="recommendationList"></ul>
 
-        // Email form handling
-        document.getElementById('email-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('user-name').value;
-            const email = document.getElementById('user-email').value;
-            
-            if (name && email) {
-                // Store user info for later use
-                window.userData = { name, email };
-                startAssessment();
-            }
-        });
+      <div class="mt-6 flex gap-4">
+        <button onclick="downloadPDF()" 
+                class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700">
+          📄 Download PDF Report
+        </button>
+        <button onclick="resetApp()" 
+                class="bg-gray-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-700">
+          🔄 Restart
+        </button>
+      </div>
+    </div>
+  </section>
 
-        function startAssessment() {
-            document.getElementById('assessment').classList.remove('hidden');
-            document.querySelector('main > div:first-child').style.display = 'none';
-            showQuestion();
-        }
+  <script>
+    // Reset border color
+    function resetBorder(input) {
+      input.classList.remove("border-red-500", "border-green-500");
+      if (input.dataset.color) {
+        input.classList.add(`border-${input.dataset.color}-200`);
+      }
+    }
 
-        function showQuestion() {
-            const question = questions[currentQuestion];
-            const container = document.getElementById('question-container');
-            
-            container.innerHTML = `
-                <div class="mb-6">
-                    <h4 class="text-xl font-bold text-gray-900 mb-4">${question.question}</h4>
-                    <div class="space-y-3">
-                        ${question.options.map((option, index) => `
-                            <label class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
-                                <input type="radio" name="answer" value="${option.score}" class="mr-3">
-                                <span class="text-gray-700">${option.text}</span>
-                            </label>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
+    // Email capture form
+    document.getElementById('auditEmailForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const firstName = formData.get('firstName').trim();
+      const email = formData.get('email').trim();
+      let valid = true;
 
-            // Update progress
-            document.getElementById('progress').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
-            document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+      // Validate name
+      const firstInput = document.getElementById('firstName');
+      const firstError = document.getElementById('error-firstName');
+      if (!firstName) {
+        firstInput.classList.add("border-red-500");
+        firstError.textContent = "First name required";
+        valid = false;
+      } else { resetBorder(firstInput); firstError.textContent=""; }
 
-            // Update buttons
-            document.getElementById('prev-btn').classList.toggle('hidden', currentQuestion === 0);
-            document.getElementById('next-btn').textContent = currentQuestion === questions.length - 1 ? 'Get Results →' : 'Next →';
-        }
+      // Validate email
+      const emailInput = document.getElementById('email');
+      const emailError = document.getElementById('error-email');
+      if (!email.includes("@")) {
+        emailInput.classList.add("border-red-500");
+        emailError.textContent = "Valid email required";
+        valid = false;
+      } else { resetBorder(emailInput); emailError.textContent=""; }
 
-        function nextQuestion() {
-            const selected = document.querySelector('input[name="answer"]:checked');
-            if (!selected) {
-                alert('Please select an answer before continuing.');
-                return;
-            }
+      if (!valid) return;
 
-            answers[currentQuestion] = parseInt(selected.value);
+      // Save
+      window.userData = { firstName, email };
+      localStorage.setItem("aiPairwiseUser", JSON.stringify(window.userData));
 
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                showQuestion();
-            } else {
-                showResults();
-            }
-        }
+      // Send to Google Sheets (replace with your Script ID)
+      fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+        method: "POST",
+        body: new URLSearchParams(window.userData),
+      }).catch(err => console.log("⚠️ Sheets error:", err));
 
-        function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                showQuestion();
-            }
-        }
+      // Show next step
+      document.getElementById("emailCapture").classList.add("hidden");
+      document.getElementById("auditTool").classList.remove("hidden");
+    });
 
-        function showResults() {
-            const totalScore = answers.reduce((sum, score) => sum + score, 0);
-            const maxScore = questions.length * 4;
-            const percentage = Math.round((totalScore / maxScore) * 100);
+    // Generate recommendations
+    function generateRecommendations(e) {
+      e.preventDefault();
+      let valid = true;
+      ["businessType","timeDrain","budget"].forEach(id=>{
+        const el=document.getElementById(id);
+        const err=document.getElementById("error-"+id);
+        if(!el.value){ el.classList.add("border-red-500"); err.textContent="Required"; valid=false; }
+        else { resetBorder(el); err.textContent=""; }
+      });
+      if(!valid) return;
 
-            let level, recommendation;
-            if (percentage < 40) {
-                level = "AI Beginner";
-                recommendation = "Start with Tier 1 to build your foundation";
-            } else if (percentage < 70) {
-                level = "AI Explorer";
-                recommendation = "Tier 2 will accelerate your AI journey";
-            } else {
-                level = "AI Power User";
-                recommendation = "Tier 2 + Leadership Toolkit is perfect for you";
-            }
+      const businessType=document.getElementById("businessType").value;
+      const timeDrain=document.getElementById("timeDrain").value;
+      const budget=document.getElementById("budget").value;
 
-            document.getElementById('assessment').classList.add('hidden');
-            document.getElementById('results').classList.remove('hidden');
-            document.getElementById('score-display').textContent = `${percentage}%`;
-            document.getElementById('readiness-level').textContent = level;
-        }
+      const list=document.getElementById("recommendationList");
+      list.innerHTML="";
+      list.innerHTML+=`<li>As a <b>${businessType}</b>, AI can help automate <b>${timeDrain}</b>.</li>`;
+      list.innerHTML+=`<li>With a budget of <b>${budget}</b>, start with ChatGPT + Zapier for quick wins.</li>`;
+      list.innerHTML+=`<li>Later, expand to specialized tools for scale.</li>`;
 
-        function selectTier(tier) {
-            if (tier === 'free') {
-                // Hide main content and show starter kit
-                document.querySelector('main').style.display = 'none';
-                document.getElementById('starter-kit').classList.add('unlocked');
-            } else if (tier === 'pro') {
-                // Show purchase form for Tier 2
-                showPurchaseForm();
-            } else if (tier === 'vip') {
-                // Show VIP booking form
-                showVipBookingForm();
-            }
-        }
+      document.getElementById("auditTool").classList.add("hidden");
+      document.getElementById("resultsContainer").classList.remove("hidden");
+      document.getElementById("userName").textContent = window.userData?.firstName || "User";
+    }
 
-        function upgradeToTier2() {
-            // Hide starter kit and show purchase form
-            document.getElementById('starter-kit').classList.remove('unlocked');
-            document.querySelector('main').style.display = 'block';
-            showPurchaseForm();
-        }
+    // PDF download
+    function downloadPDF() {
+      const element=document.getElementById("resultsContainer");
+      html2pdf().from(element).set({
+        margin:0.5, filename:"AiPairWise_Assessment.pdf",
+        image:{type:"jpeg",quality:0.98},
+        html2canvas:{scale:2,useCORS:true},
+        jsPDF:{unit:"in",format:"letter",orientation:"portrait"}
+      }).save();
+    }
 
-        function showPurchaseForm() {
-            const purchaseHtml = `
-                <div id="purchase-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Complete Your Purchase</h3>
-                        <p class="text-gray-600 mb-6">Unlock the complete AI Mastery Kit + Leadership Toolkit</p>
-                        
-                        <form id="purchase-form" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                                <input type="text" id="customer-name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                                <input type="email" id="customer-email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            
-                            <div class="bg-yellow-100 border border-yellow-300 rounded-lg p-4">
-                                <p class="text-yellow-800 text-sm">
-                                    <strong>Demo Mode:</strong> In production, this would process a $47 payment via Stripe/PayPal.
-                                </p>
-                            </div>
-                            
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <div class="flex justify-between font-bold">
-                                    <span>Total: $47.00</span>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
-                                Complete Purchase & Access Kit
-                            </button>
-                            
-                            <button type="button" onclick="closePurchaseForm()" class="w-full bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-semibold hover:bg-gray-400 transition-colors duration-200">
-                                Cancel
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', purchaseHtml);
-            
-            document.getElementById('purchase-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const name = document.getElementById('customer-name').value;
-                const email = document.getElementById('customer-email').value;
-                
-                if (name && email) {
-                    // Simulate successful purchase
-                    setTimeout(() => {
-                        closePurchaseForm();
-                        showTier3Upsell(name, email);
-                    }, 1000);
-                }
-            });
-        }
+    // Restart app
+    function resetApp() {
+      localStorage.removeItem("aiPairwiseUser");
+      location.reload();
+    }
 
-        function closePurchaseForm() {
-            const modal = document.getElementById('purchase-modal');
-            if (modal) {
-                modal.remove();
-            }
-        }
-
-        function showTier3Upsell(name, email) {
-            const upsellHtml = `
-                <div id="tier3-upsell" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white rounded-xl p-8 max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
-                        <div class="text-center mb-6">
-                            <span class="text-6xl mb-4 block">🎉</span>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-4">Congratulations ${name}!</h3>
-                            <p class="text-gray-600 mb-4">Your AI Mastery Kit + Leadership Toolkit is ready!</p>
-                            
-                            <div class="bg-green-100 border border-green-300 rounded-lg p-4 mb-6">
-                                <p class="text-green-800 text-sm">✓ Payment processed successfully</p>
-                                <p class="text-green-800 text-sm">✓ Access granted to all Tier 2 content</p>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-xl p-6 mb-6">
-                            <div class="text-center mb-4">
-                                <span class="text-4xl mb-2 block">🚀</span>
-                                <h4 class="text-xl font-bold text-gray-900 mb-2">One-Time VIP Upgrade Offer</h4>
-                                <p class="text-gray-600 text-sm">Available only to Tier 2 customers</p>
-                            </div>
-                            
-                            <div class="bg-white rounded-lg p-4 mb-4">
-                                <h5 class="font-bold text-purple-800 mb-3">🎯 Add VIP Implementation Session</h5>
-                                <ul class="text-sm text-gray-700 space-y-2">
-                                    <li class="flex items-center"><span class="text-purple-500 mr-2">•</span>60-minute personal walkthrough via screen share</li>
-                                    <li class="flex items-center"><span class="text-purple-500 mr-2">•</span>We'll set up 3 AI tools together, live</li>
-                                    <li class="flex items-center"><span class="text-purple-500 mr-2">•</span>Custom prompts designed for your specific role</li>
-                                    <li class="flex items-center"><span class="text-purple-500 mr-2">•</span>Personal implementation roadmap</li>
-                                    <li class="flex items-center"><span class="text-purple-500 mr-2">•</span>Session recording for future reference</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="text-center">
-                                <div class="flex items-center justify-center space-x-4 mb-3">
-                                    <span class="text-gray-500 line-through text-lg">$197</span>
-                                    <span class="text-2xl font-bold text-purple-600">$97</span>
-                                    <span class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">50% OFF</span>
-                                </div>
-                                <p class="text-xs text-gray-600">Special upgrade pricing - today only</p>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-3">
-                            <button onclick="acceptVipUpgrade('${name}', '${email}')" class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors duration-200">
-                                Yes! Add VIP Session for $97
-                            </button>
-                            
-                            <button onclick="declineVipUpgrade('${name}', '${email}')" class="w-full bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-semibold hover:bg-gray-400 transition-colors duration-200">
-                                No Thanks, Just Give Me Access
-                            </button>
-                        </div>
-                        
-                        <div class="mt-4 text-center">
-                            <p class="text-xs text-gray-500">🔒 This upgrade offer expires when you close this window</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', upsellHtml);
-        }
-
-        function acceptVipUpgrade(name, email) {
-            // Close upsell modal
-            const modal = document.getElementById('tier3-upsell');
-            if (modal) modal.remove();
-            
-            // Show VIP booking form with pre-filled info
-            showVipBookingFormUpgrade(name, email);
-        }
-
-        function declineVipUpgrade(name, email) {
-            // Close upsell modal
-            const modal = document.getElementById('tier3-upsell');
-            if (modal) modal.remove();
-            
-            // Go directly to mastery kit
-            unlockMasteryKit(name, email);
-        }
-
-        function showVipBookingFormUpgrade(name, email) {
-            const vipHtml = `
-                <div id="vip-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white rounded-xl p-8 max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">🎯 Complete Your VIP Upgrade</h3>
-                        <p class="text-gray-600 mb-6">Just a few details to schedule your personal implementation session</p>
-                        
-                        <form id="vip-upgrade-form" class="space-y-4">
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                                    <input type="text" id="vip-firstname" value="${name.split(' ')[0] || name}" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50" readonly>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                                    <input type="email" id="vip-email" value="${email}" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50" readonly>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Job Title/Role *</label>
-                                <input type="text" id="vip-role" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="e.g., Marketing Manager, Project Manager, CEO">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Which 3 AI tools interest you most? *</label>
-                                <textarea id="vip-tools" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="e.g., ChatGPT for writing, Claude for analysis, Notion AI for organization..."></textarea>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">What's your biggest workflow challenge? *</label>
-                                <textarea id="vip-challenge" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="e.g., Too much time on emails, need better meeting summaries, want to automate reports..."></textarea>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Preferred session time</label>
-                                <select id="vip-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
-                                    <option value="">Select preferred time</option>
-                                    <option value="morning">Morning (9am-12pm EST)</option>
-                                    <option value="afternoon">Afternoon (12pm-5pm EST)</option>
-                                    <option value="evening">Evening (5pm-8pm EST)</option>
-                                    <option value="flexible">I'm flexible</option>
-                                </select>
-                            </div>
-                            
-                            <div class="bg-yellow-100 border border-yellow-300 rounded-lg p-4">
-                                <p class="text-yellow-800 text-sm">
-                                    <strong>Demo Mode:</strong> In production, this would process a $97 upgrade payment.
-                                </p>
-                            </div>
-                            
-                            <div class="bg-purple-50 p-4 rounded-lg">
-                                <div class="flex justify-between items-center">
-                                    <span>VIP Upgrade:</span>
-                                    <div class="text-right">
-                                        <span class="text-gray-500 line-through text-sm">$197</span>
-                                        <span class="font-bold text-purple-600 ml-2">$97</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors duration-200">
-                                Complete VIP Upgrade - $97
-                            </button>
-                            
-                            <button type="button" onclick="closeVipUpgradeForm(); unlockMasteryKit('${name}', '${email}')" class="w-full bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-semibold hover:bg-gray-400 transition-colors duration-200">
-                                Skip Upgrade & Access Kit
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', vipHtml);
-            
-            document.getElementById('vip-upgrade-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Simulate upgrade purchase
-                const submitBtn = e.target.querySelector('button[type="submit"]');
-                submitBtn.textContent = 'Processing Upgrade...';
-                submitBtn.disabled = true;
-                
-                setTimeout(() => {
-                    closeVipUpgradeForm();
-                    showVipUpgradeSuccess(name, email);
-                }, 1500);
-            });
-        }
-
-        function closeVipUpgradeForm() {
-            const modal = document.getElementById('vip-modal');
-            if (modal) {
-                modal.remove();
-            }
-        }
-
-        function showVipUpgradeSuccess(name, email) {
-            const successHtml = `
-                <div id="vip-success" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
-                        <div class="text-center">
-                            <span class="text-6xl mb-4 block">🚀</span>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-4">VIP Upgrade Complete!</h3>
-                            <p class="text-gray-600 mb-6">Welcome to the VIP experience, ${name}!</p>
-                            
-                            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
-                                <h4 class="font-bold text-purple-800 mb-2">What happens next:</h4>
-                                <ul class="text-sm text-purple-700 text-left space-y-1">
-                                    <li>✓ Instant access to complete AI Mastery Kit</li>
-                                    <li>✓ Calendar link sent to ${email}</li>
-                                    <li>✓ Your 60-min VIP session scheduled within 24 hours</li>
-                                    <li>✓ Personal setup of your 3 chosen AI tools</li>
-                                    <li>✓ Custom prompts for your specific role</li>
-                                </ul>
-                            </div>
-                            
-                            <button onclick="closeVipSuccess(); unlockMasteryKit('${name}', '${email}')" class="bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors duration-200 w-full">
-                                Access Your Complete AI Mastery Kit
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', successHtml);
-        }
-
-        function showVipBookingForm() {
-            const vipHtml = `
-                <div id="vip-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white rounded-xl p-8 max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">🎯 Book Your VIP Implementation Session</h3>
-                        <p class="text-gray-600 mb-6">Get personal 1-on-1 guidance to implement 3 AI tools perfectly for your workflow</p>
-                        
-                        <form id="vip-form" class="space-y-4">
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
-                                    <input type="text" id="vip-firstname" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
-                                    <input type="text" id="vip-lastname" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-                                <input type="email" id="vip-email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Job Title/Role *</label>
-                                <input type="text" id="vip-role" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="e.g., Marketing Manager, Project Manager, CEO">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Which 3 AI tools interest you most? *</label>
-                                <textarea id="vip-tools" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="e.g., ChatGPT for writing, Claude for analysis, Notion AI for organization..."></textarea>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">What's your biggest workflow challenge? *</label>
-                                <textarea id="vip-challenge" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="e.g., Too much time on emails, need better meeting summaries, want to automate reports..."></textarea>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Preferred session time</label>
-                                <select id="vip-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
-                                    <option value="">Select preferred time</option>
-                                    <option value="morning">Morning (9am-12pm EST)</option>
-                                    <option value="afternoon">Afternoon (12pm-5pm EST)</option>
-                                    <option value="evening">Evening (5pm-8pm EST)</option>
-                                    <option value="flexible">I'm flexible</option>
-                                </select>
-                            </div>
-                            
-                            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                                <h4 class="font-bold text-purple-800 mb-2">🚀 Your VIP Session Includes:</h4>
-                                <ul class="text-sm text-purple-700 space-y-1">
-                                    <li>• Everything from Tier 1 & 2 (AI Mastery Kit + Leadership Toolkit)</li>
-                                    <li>• 60-minute live screen-share session</li>
-                                    <li>• Personal setup of your 3 chosen AI tools</li>
-                                    <li>• Custom prompts designed for your specific role</li>
-                                    <li>• Personal implementation roadmap</li>
-                                    <li>• Recording of your session for future reference</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="bg-yellow-100 border border-yellow-300 rounded-lg p-4">
-                                <p class="text-yellow-800 text-sm">
-                                    <strong>Demo Mode:</strong> In production, this would process a $197 payment and calendar booking.
-                                </p>
-                            </div>
-                            
-                            <div class="bg-purple-50 p-4 rounded-lg">
-                                <div class="flex justify-between font-bold">
-                                    <span>Total: $197.00</span>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors duration-200">
-                                Book VIP Session & Get Instant Access
-                            </button>
-                            
-                            <button type="button" onclick="closeVipForm()" class="w-full bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-semibold hover:bg-gray-400 transition-colors duration-200">
-                                Cancel
-                            </button>
-                        </form>
-                        
-                        <div class="mt-6 text-center">
-                            <p class="text-xs text-gray-500">🔒 30-day money-back guarantee • Session scheduled within 48 hours</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', vipHtml);
-            
-            document.getElementById('vip-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Collect form data
-                const formData = {
-                    firstName: document.getElementById('vip-firstname').value,
-                    lastName: document.getElementById('vip-lastname').value,
-                    email: document.getElementById('vip-email').value,
-                    role: document.getElementById('vip-role').value,
-                    tools: document.getElementById('vip-tools').value,
-                    challenge: document.getElementById('vip-challenge').value,
-                    time: document.getElementById('vip-time').value
-                };
-                
-                // Simulate form submission
-                const submitBtn = e.target.querySelector('button[type="submit"]');
-                submitBtn.textContent = 'Processing...';
-                submitBtn.disabled = true;
-                
-                setTimeout(() => {
-                    closeVipForm();
-                    showVipSuccess(formData);
-                }, 1500);
-            });
-        }
-
-        function closeVipForm() {
-            const modal = document.getElementById('vip-modal');
-            if (modal) {
-                modal.remove();
-            }
-        }
-
-        function showVipSuccess(formData) {
-            const successHtml = `
-                <div id="vip-success" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
-                        <div class="text-center">
-                            <span class="text-6xl mb-4 block">🎉</span>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-4">Welcome to VIP, ${formData.firstName}!</h3>
-                            <p class="text-gray-600 mb-6">Your VIP Implementation Session has been booked successfully.</p>
-                            
-                            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
-                                <h4 class="font-bold text-purple-800 mb-2">What happens next:</h4>
-                                <ul class="text-sm text-purple-700 text-left space-y-1">
-                                    <li>✓ Instant access to AI Mastery Kit + Leadership Toolkit</li>
-                                    <li>✓ Calendar link sent to ${formData.email}</li>
-                                    <li>✓ Your 60-min session scheduled within 48 hours</li>
-                                    <li>✓ Personal setup of your 3 chosen AI tools</li>
-                                    <li>✓ Custom prompts for ${formData.role}</li>
-                                </ul>
-                            </div>
-                            
-                            <button onclick="closeVipSuccess(); unlockMasteryKit('${formData.firstName}', '${formData.email}')" class="bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors duration-200 mb-3 w-full">
-                                Access Your AI Mastery Kit Now
-                            </button>
-                            
-                            <button onclick="closeVipSuccess()" class="bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-semibold hover:bg-gray-400 transition-colors duration-200 w-full">
-                                Continue Exploring
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', successHtml);
-        }
-
-        function closeVipSuccess() {
-            const modal = document.getElementById('vip-success');
-            if (modal) {
-                modal.remove();
-            }
-        }
-
-        function unlockMasteryKit(name, email) {
-            // Hide main content and show mastery kit
-            document.querySelector('main').style.display = 'none';
-            document.getElementById('mastery-kit').classList.add('unlocked');
-            
-            // Show success message
-            alert(`🎉 Welcome ${name}! Your AI Mastery Kit is now unlocked. Check your email (${email}) for additional resources.`);
-        }
-
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function copyToClipboard(elementId) {
-            const element = document.getElementById(elementId);
-            element.select();
-            document.execCommand('copy');
-            
-            // Show feedback
-            const button = element.nextElementSibling;
-            const originalText = button.textContent;
-            button.textContent = '✓ Copied!';
-            button.style.color = '#10b981';
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.color = '';
-            }, 2000);
-        }
-
-        function downloadGuide(tool) {
-            // Map tool names to user-friendly names
-            const toolNames = {
-                'chatgpt': 'ChatGPT Complete Setup Guide',
-                'complete-prompts': '100+ AI Prompts Collection',
-                'claude': 'Claude AI Setup Guide',
-                'perplexity': 'Perplexity AI Research Guide',
-                'notion': 'Notion AI Productivity Guide',
-                'obsidian': 'Obsidian AI Knowledge Guide',
-                'mem': 'Mem AI Memory Guide',
-                'canva': 'Canva AI Design Guide',
-                'midjourney': 'Midjourney AI Art Guide',
-                'runway': 'Runway AI Video Guide',
-                'leadership-toolkit': 'Leadership AI Toolkit'
-            };
-            
-            const guideName = toolNames[tool] || `${tool} Guide`;
-            
-            // Show download confirmation with specific guide name
-            const downloadHtml = `
-                <div id="download-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
-                        <div class="text-center">
-                            <span class="text-4xl mb-4 block">📥</span>
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Downloading: ${guideName}</h3>
-                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                                <p class="text-blue-800 text-sm">
-                                    <strong>Demo Mode:</strong> In production, this would download a comprehensive PDF guide with:
-                                </p>
-                                <ul class="text-blue-700 text-xs mt-2 text-left space-y-1">
-                                    <li>• Step-by-step setup instructions</li>
-                                    <li>• Screenshots and visual guides</li>
-                                    <li>• Advanced tips and tricks</li>
-                                    <li>• Troubleshooting section</li>
-                                    <li>• Bonus prompts and templates</li>
-                                </ul>
-                            </div>
-                            <button onclick="closeDownloadModal()" class="bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 w-full">
-                                Got It!
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', downloadHtml);
-        }
-
-        function closeDownloadModal() {
-            const modal = document.getElementById('download-modal');
-            if (modal) {
-                modal.remove();
-            }
-        }
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'979fc6c4634e61fb',t:'MTc1NzAxMjkxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    // Restore saved user
+    document.addEventListener("DOMContentLoaded", () => {
+      const saved = localStorage.getItem("aiPairwiseUser");
+      if (saved) {
+        const data = JSON.parse(saved);
+        document.getElementById("firstName").value = data.firstName;
+        document.getElementById("email").value = data.email;
+      }
+    });
+  </script>
+</body>
 </html>
