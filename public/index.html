@@ -5,14 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AiPairWise – Smart AI Audit & Roadmap</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- html2pdf for PDF exports -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-YcsIP1f8m3s5q0l4Z8m2JQZl3V8k1s6lJz7QF2Gk5b6bY4uSEKJwA0wn9aXnFQb3uJ02oQf5fL2tZz+uHvF1WQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
   body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
   .gradient-header { background: linear-gradient(135deg,#10B981 0%,#059669 100%); }
   .hidden{display:none}
   .card{transition:transform .2s ease, box-shadow .2s ease}
   .card:hover{transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.08)}
-  @media print { .no-print{display:none!important} }
+  @media print { .no-print{display:none !important} }
   .page-break { page-break-before: always; break-before: page; }
   .page-avoid { page-break-inside: avoid; break-inside: avoid-page; }
   /* PDF mode cleans shadows/padding quirks */
@@ -258,9 +259,7 @@
             <thead class="bg-gray-100"><tr>
               <th class="p-2">Use Case</th><th class="p-2">Temp</th><th class="p-2">Top-p</th><th class="p-2">Length</th><th class="p-2">Notes</th>
             </tr></thead>
-            <tbody id="calibrationRows">
-              <!-- filled in JS -->
-            </tbody>
+            <tbody id="calibrationRows"></tbody>
           </table>
         </div>
       </section>
@@ -519,47 +518,73 @@
 </main>
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
   // ---- App State ----
   const state = { user:{ firstName:'', email:'' }, answers:{}, paid27:false, paid17:false, paid47:false };
 
   // ---- Helpers ----
   const $  = (s, r=document)=> r.querySelector(s);
-  function show(e){ e.classList.remove('hidden'); }
-  function hide(e){ e.classList.add('hidden'); }
+  const appNav = $('#appNav');
 
-  // Robust PDF export: force top, clean mode, respect breaks
+  function show(e){ e && e.classList.remove('hidden'); }
+  function hide(e){ e && e.classList.add('hidden'); }
+
+  // Robust PDF export: force top, reflow, clean mode, honor breaks
   function downloadPDFFixed(nodeId, filename){
-    // Force scroll to top so capture starts at beginning
-    window.scrollTo(0,0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
+    try{
+      // Force to top & reflow twice to ensure consistent capture
+      window.scrollTo(0,0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
 
-    document.body.classList.add('pdf-mode'); // remove shadows
-    const node = document.getElementById(nodeId);
-    const opt = {
-      margin: [0.5,0.5,0.5,0.5],
-      filename,
-      image: { type:'jpeg', quality:0.98 },
-      html2canvas: { scale: 2, useCORS: true, scrollY: 0, scrollX: 0, windowWidth: document.body.scrollWidth },
-      jsPDF: { unit:'in', format:'letter', orientation:'portrait' },
-      pagebreak: { mode: ['css','legacy'] }
-    };
-    // next frame to ensure layout at top
-    requestAnimationFrame(()=>{
-      html2pdf().set(opt).from(node).save().then(()=> {
-        document.body.classList.remove('pdf-mode');
-      }).catch(()=> document.body.classList.remove('pdf-mode'));
-    });
+      document.body.classList.add('pdf-mode');
+      const node = document.getElementById(nodeId);
+      if(!node){ alert('PDF container not found.'); document.body.classList.remove('pdf-mode'); return; }
+
+      const opt = {
+        margin: [0.5,0.5,0.5,0.5],
+        filename,
+        image: { type:'jpeg', quality:0.98 },
+        html2canvas: { scale: 2, useCORS: true, scrollY: 0, scrollX: 0, windowWidth: document.body.scrollWidth },
+        jsPDF: { unit:'in', format:'letter', orientation:'portrait' },
+        pagebreak: { mode: ['css','legacy'] }
+      };
+
+      // Two RAFs for layout stabilization before capture
+      requestAnimationFrame(()=> {
+        requestAnimationFrame(()=> {
+          html2pdf().set(opt).from(node).save().then(()=> {
+            document.body.classList.remove('pdf-mode');
+          }).catch((err)=>{
+            console.error(err);
+            document.body.classList.remove('pdf-mode');
+          });
+        });
+      });
+    }catch(err){
+      console.error(err);
+      document.body.classList.remove('pdf-mode');
+    }
   }
 
   // ---- Sticky Nav routing ----
-  const appNav = $('#appNav');
-  $('#navResults').onclick = ()=>{ hide($('#bonusUpsell')); hide($('#bonusContentWrap')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); };
-  $('#navBonus').onclick   = ()=>{ if(!state.paid27){alert('Complete the assessment first.');return;} hide($('#results')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap')); show($('#bonusUpsell')); window.scrollTo({top:0,behavior:'smooth'}); };
-  $('#navGuard').onclick   = ()=>{ if(!state.paid17){alert('Unlock the $17 bonus first.');return;} hide($('#results')); hide($('#bonusUpsell')); hide($('#bonusContentWrap')); show($('#guardrailUpsell')); window.scrollTo({top:0,behavior:'smooth'}); };
+  $('#navResults')?.addEventListener('click', ()=>{
+    hide($('#bonusUpsell')); hide($('#bonusContentWrap')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap'));
+    show($('#results')); window.scrollTo({top:0,behavior:'smooth'});
+  });
+  $('#navBonus')?.addEventListener('click', ()=>{
+    if(!state.paid27){ alert('Complete the assessment first.'); return; }
+    hide($('#results')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap'));
+    show($('#bonusUpsell')); window.scrollTo({top:0,behavior:'smooth'});
+  });
+  $('#navGuard')?.addEventListener('click', ()=>{
+    if(!state.paid17){ alert('Unlock the $17 bonus first.'); return; }
+    hide($('#results')); hide($('#bonusUpsell')); hide($('#bonusContentWrap'));
+    show($('#guardrailUpsell')); window.scrollTo({top:0,behavior:'smooth'});
+  });
 
   // ---- Email capture ----
-  $('#emailForm').addEventListener('submit', (e)=>{
+  $('#emailForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const firstName = $('#firstName').value.trim();
     const email = $('#email').value.trim();
@@ -570,15 +595,15 @@
 
   // Show "Other"
   const timeDrain = $('#timeDrain'), timeDrainOther = $('#timeDrainOther');
-  timeDrain.addEventListener('change', ()=> timeDrainOther.classList.toggle('hidden', timeDrain.value!=='Other'));
+  timeDrain?.addEventListener('change', ()=> timeDrainOther.classList.toggle('hidden', timeDrain.value!=='Other'));
 
   // ---- $27 Generate (demo) ----
-  $('#pay27Btn').addEventListener('click', ()=>{
+  $('#pay27Btn')?.addEventListener('click', ()=>{
     const industry = $('#industry').value;
     const teamSize = $('#teamSize').value;
     const priority = $('#priority').value;
     const tdSel = $('#timeDrain').value;
-    const td = tdSel==='Other' ? (timeDrainOther.value.trim()||'other') : tdSel;
+    const td = tdSel==='Other' ? ($('#timeDrainOther').value.trim()||'other') : tdSel;
     const aiExperience = $('#aiExperience').value;
     const budget = $('#budget').value;
     const usage = $('#usage').value.trim();
@@ -594,7 +619,7 @@
     hide($('#assessment'));
     populateMainResults();
     show($('#results'));
-    appNav.classList.remove('hidden'); // enable sticky nav after results exist
+    appNav?.classList.remove('hidden'); // enable sticky nav after results exist
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
@@ -643,7 +668,7 @@
     });
 
     // Calibration recipes
-    const cal = calibrationRows(state.answers.industry);
+    const cal = calibrationRows();
     const calBody = $('#calibrationRows'); calBody.innerHTML='';
     cal.forEach(r=>{
       const tr=document.createElement('tr'); tr.innerHTML=`<td class="p-2">${r.use}</td><td class="p-2">${r.temp}</td><td class="p-2">${r.topp}</td><td class="p-2">${r.len}</td><td class="p-2">${r.notes}</td>`; calBody.appendChild(tr);
@@ -800,8 +825,7 @@
     ];
   }
 
-  function calibrationRows(ind){
-    // same recipes across industries (tweakable)
+  function calibrationRows(){
     return [
       { use:'Precise instructions (SOPs, emails)', temp:'0.2–0.4', topp:'0.8–0.9', len:'Short-Med', notes:'Clarity over creativity' },
       { use:'Brainstorming / ideation', temp:'0.7–0.9', topp:'0.9–1.0', len:'Medium', notes:'Diverse ideas, expect to prune' },
@@ -829,25 +853,23 @@
     ];
   }
 
-  // Core PDF
-  $('#dlMain').addEventListener('click', ()=> downloadPDFFixed('pdfMain','AiPairWise_Main_Report.pdf'));
-
-  // ----- $17 Upsell -----
-  $('#upsell17').addEventListener('click', ()=>{
+  // Buttons & Routing (all bound once)
+  $('#dlMain')?.addEventListener('click', ()=> downloadPDFFixed('pdfMain','AiPairWise_Main_Report.pdf'));
+  $('#upsell17')?.addEventListener('click', ()=>{
     if(!state.paid27){ alert('Complete the assessment first.'); return; }
     hide($('#results')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap'));
     show($('#bonusUpsell')); window.scrollTo({top:0,behavior:'smooth'});
   });
-  $('#backFromBonusUpsell').onclick = ()=>{ hide($('#bonusUpsell')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); };
+  $('#backFromBonusUpsell')?.addEventListener('click', ()=>{ hide($('#bonusUpsell')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); });
 
-  $('#pay17Btn').addEventListener('click', ()=>{
+  $('#pay17Btn')?.addEventListener('click', ()=>{
     state.paid17 = true;
     hide($('#bonusUpsell'));
     populateBonus();
     show($('#bonusContentWrap'));
     window.scrollTo({ top: 0, behavior:'smooth' });
   });
-  $('#backFromBonus').onclick = ()=>{ hide($('#bonusContentWrap')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); };
+  $('#backFromBonus')?.addEventListener('click', ()=>{ hide($('#bonusContentWrap')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); });
 
   function populateBonus(){
     const tools = [
@@ -877,7 +899,8 @@
         settings:['Smart replies: enabled','Snippets: common scenarios','Shortcuts: on'],
         prompts:['“Draft a polite decline for a partnership that’s not a fit; thank them and keep door open.”','“Follow-up to a warm lead who clicked but didn’t book; offer two time slots.”'] }
     ];
-    const wrap = $('#secretTools'); wrap.innerHTML='';
+    const wrap = $('#secretTools'); if(!wrap) return;
+    wrap.innerHTML='';
     tools.forEach(t=>{
       const div = document.createElement('div');
       div.className='border rounded p-4';
@@ -890,17 +913,16 @@
     });
   }
 
-  // Bonus PDF
-  $('#dlBonus').addEventListener('click', ()=> downloadPDFFixed('pdfBonus','AiPairWise_Bonus_5_Secret_Tools.pdf'));
+  $('#dlBonus')?.addEventListener('click', ()=> downloadPDFFixed('pdfBonus','AiPairWise_Bonus_5_Secret_Tools.pdf'));
 
-  // ----- $47 Guardrails -----
-  $('#upsell47').addEventListener('click', ()=>{
+  // Guardrails flow
+  $('#upsell47')?.addEventListener('click', ()=>{
     if(!state.paid17){ alert('Unlock the $17 bonus first.'); return; }
     hide($('#bonusContentWrap')); show($('#guardrailUpsell')); window.scrollTo({top:0,behavior:'smooth'});
   });
-  $('#backFromGuardUpsell').onclick = ()=>{ hide($('#guardrailUpsell')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); };
+  $('#backFromGuardUpsell')?.addEventListener('click', ()=>{ hide($('#guardrailUpsell')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); });
 
-  $('#pay47Btn').addEventListener('click', ()=>{
+  $('#pay47Btn')?.addEventListener('click', ()=>{
     state.paid47 = true;
     hide($('#guardrailUpsell')); show($('#guardrailsWrap'));
     const today = new Date().toISOString().slice(0,10);
@@ -908,16 +930,15 @@
     $('#guardCompanyInline').textContent = $('#guardCompany').value || 'Your Company, Inc.';
     window.scrollTo({top:0,behavior:'smooth'});
   });
-  $('#backFromGuard').onclick = ()=>{ hide($('#guardrailsWrap')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); };
+  $('#backFromGuard')?.addEventListener('click', ()=>{ hide($('#guardrailsWrap')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); });
 
   // keep inline company name synced
-  $('#guardrailsWrap').addEventListener('input',(e)=>{ if(e.target.id==='guardCompany'){ $('#guardCompanyInline').textContent = e.target.value || 'Your Company, Inc.'; }});
+  $('#guardrailsWrap')?.addEventListener('input',(e)=>{ if(e.target.id==='guardCompany'){ $('#guardCompanyInline').textContent = e.target.value || 'Your Company, Inc.'; }});
 
-  // Guardrails PDF
-  $('#dlGuardrails').addEventListener('click', ()=> downloadPDFFixed('pdfGuardrails','AiPairWise_AI_Guardrails_ISO_Inspired.pdf'));
-
-  // Main PDF
-  $('#dlMain').addEventListener('click', ()=> downloadPDFFixed('pdfMain','AiPairWise_Main_Report.pdf'));
+  // PDF buttons
+  $('#dlMain')?.addEventListener('click', ()=> downloadPDFFixed('pdfMain','AiPairWise_Main_Report.pdf'));
+  $('#dlGuardrails')?.addEventListener('click', ()=> downloadPDFFixed('pdfGuardrails','AiPairWise_AI_Guardrails_ISO_Inspired.pdf'));
+});
 </script>
 </body>
 </html>
