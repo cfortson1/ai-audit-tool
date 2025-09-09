@@ -4,9 +4,21 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AiPairWise – Smart AI Audit & Roadmap</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<!-- html2pdf for PDF exports -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-YcsIP1f8m3s5q0l4Z8m2JQZl3V8k1s6lJz7QF2Gk5b6bY4uSEKJwA0wn9aXnFQb3uJ02oQf5fL2tZz+uHvF1WQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- CSP (you can keep; add 'unsafe-eval' to script-src if Tailwind CDN warnings bug you) -->
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self';
+           script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com 'nonce-r4nd0m123';
+           style-src 'self' 'unsafe-inline';
+           img-src 'self' data:;
+           font-src 'self' data:;
+           connect-src 'self';
+           object-src 'none';
+           base-uri 'self';
+           frame-ancestors 'self';">
+
+<script src="https://cdn.tailwindcss.com" nonce="r4nd0m123"></script>
+
 <style>
   body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
   .gradient-header { background: linear-gradient(135deg,#10B981 0%,#059669 100%); }
@@ -16,10 +28,8 @@
   @media print { .no-print{display:none !important} }
   .page-break { page-break-before: always; break-before: page; }
   .page-avoid { page-break-inside: avoid; break-inside: avoid-page; }
-  /* PDF mode cleans shadows/padding quirks */
   .pdf-mode .card{ box-shadow:none !important }
   .pdf-doc{ background:#fff }
-  /* sticky nav */
   #appNav { position:sticky; top:0; z-index:40; }
 </style>
 </head>
@@ -28,9 +38,9 @@
 <!-- STICKY NAV -->
 <nav id="appNav" class="no-print hidden bg-white/90 backdrop-blur border-b">
   <div class="max-w-5xl mx-auto px-4 py-2 flex gap-2 flex-wrap">
-    <button id="navResults" class="px-3 py-2 rounded bg-slate-800 text-white text-sm">← Back to Assessment Results</button>
-    <button id="navBonus" class="px-3 py-2 rounded bg-purple-600 text-white text-sm">Bonus Tools ($17)</button>
-    <button id="navGuard" class="px-3 py-2 rounded bg-red-600 text-white text-sm">Guardrails ($47)</button>
+    <button id="navResults" type="button" class="px-3 py-2 rounded bg-slate-800 text-white text-sm">← Back to Assessment Results</button>
+    <button id="navBonus" type="button" class="px-3 py-2 rounded bg-purple-600 text-white text-sm">Bonus Tools ($17)</button>
+    <button id="navGuard" type="button" class="px-3 py-2 rounded bg-red-600 text-white text-sm">Guardrails ($47)</button>
   </div>
 </nav>
 
@@ -42,21 +52,19 @@
 
 <main class="container mx-auto px-4 max-w-5xl my-8">
 
-  <!-- VALUE PROP (hide after assessment) -->
+  <!-- VALUE PROP -->
   <section id="landingIntro" class="bg-white p-6 rounded-xl shadow card mb-8">
     <h2 class="text-2xl font-bold text-emerald-800 mb-3">🚀 Why This Assessment Matters</h2>
     <p class="mb-3">
-      Most people waste hours Googling “best AI tools” and end up using them like a fancy search box.
-      This audit gives you a <strong>done-for-you AI strategy</strong>: the <strong>right tool pairings</strong>,
-      <strong>calibrated settings</strong> (temperature, tone, output length), and
-      <strong>customized prompt stacks</strong> you can reuse for consistent, high-quality results.
+      Skip the guesswork. Get <strong>the right tool pairings</strong>, <strong>calibrated settings</strong> (temperature, tone, output length),
+      and <strong>customized prompt stacks</strong> for consistent, high-quality results.
     </p>
   </section>
 
   <!-- STEP 1: EMAIL CAPTURE -->
   <section id="emailCapture" class="bg-white p-6 rounded-xl shadow card">
     <h3 class="text-xl font-bold text-blue-800 mb-4">🔑 Start Your AI Workflow Assessment</h3>
-    <form id="emailForm" class="grid md:grid-cols-2 gap-4">
+    <form id="emailForm" class="grid md:grid-cols-2 gap-4" autocomplete="off">
       <div>
         <label class="block font-semibold mb-1" for="firstName">First Name *</label>
         <input id="firstName" type="text" required class="w-full border p-3 rounded-lg"/>
@@ -158,7 +166,7 @@
     </div>
 
     <div class="mt-6 text-center">
-      <button id="pay27Btn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-bold">
+      <button id="pay27Btn" type="button" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-bold">
         💳 Generate My AI Roadmap ($27)
       </button>
     </div>
@@ -166,6 +174,9 @@
 
   <!-- STEP 3: RESULTS (MAIN REPORT) -->
   <section id="results" class="hidden mt-8">
+    <!-- Render error banner -->
+    <div id="resultsError" class="hidden mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded"></div>
+
     <div id="pdfMain" class="pdf-doc bg-white p-6 rounded-xl shadow card">
       <h2 class="text-2xl font-extrabold text-emerald-800 mb-1">✅ Your Customized AI Roadmap</h2>
       <p class="text-gray-700 mb-4">
@@ -173,55 +184,38 @@
         priority: <span id="userPriority"></span>, budget: <span id="userBudget"></span>.
       </p>
 
-      <!-- TOP 3 -->
       <section class="mb-6">
         <h3 class="text-xl font-bold text-blue-900 mb-2">🏆 Top 3 Tools for Your Situation</h3>
         <div id="top3" class="grid md:grid-cols-3 gap-4"></div>
       </section>
 
-      <!-- WEEK 1 MINI ROADMAP -->
       <section class="mb-6">
         <h3 class="text-xl font-bold text-indigo-900 mb-2">🗺️ Week-1 Mini Roadmap</h3>
         <div class="grid md:grid-cols-2 gap-4 text-sm">
           <div class="bg-indigo-50 p-4 rounded page-avoid">
             <h4 class="font-semibold">Days 1–2: Setup & Calibration</h4>
-            <ul class="list-disc ml-5">
-              <li>Create accounts for the Top 3 tools.</li>
-              <li>Apply recommended settings (temp, tone, templates).</li>
-              <li>Load brand voice / project examples.</li>
-            </ul>
+            <ul class="list-disc ml-5"><li>Create accounts for the Top 3 tools.</li><li>Apply recommended settings (temp, tone, templates).</li><li>Load brand voice / project examples.</li></ul>
           </div>
           <div class="bg-indigo-50 p-4 rounded page-avoid">
             <h4 class="font-semibold">Days 3–4: First Workflow</h4>
-            <ul class="list-disc ml-5">
-              <li>Implement a single workflow tied to your priority.</li>
-              <li>Test end-to-end with real data.</li>
-            </ul>
+            <ul class="list-disc ml-5"><li>Implement a single workflow tied to your priority.</li><li>Test end-to-end with real data.</li></ul>
           </div>
           <div class="bg-indigo-50 p-4 rounded page-avoid">
             <h4 class="font-semibold">Day 5: Quick Wins</h4>
-            <ul class="list-disc ml-5">
-              <li>Automate 1 recurring task (Zapier).</li>
-              <li>Save 60+ mins / week immediately.</li>
-            </ul>
+            <ul class="list-disc ml-5"><li>Automate 1 recurring task (Zapier).</li><li>Save 60+ mins / week immediately.</li></ul>
           </div>
           <div class="bg-indigo-50 p-4 rounded page-avoid">
             <h4 class="font-semibold">Day 6–7: Review & Iterate</h4>
-            <ul class="list-disc ml-5">
-              <li>Refine prompts; add metrics dashboard.</li>
-              <li>Document and standardize the workflow.</li>
-            </ul>
+            <ul class="list-disc ml-5"><li>Refine prompts; add metrics dashboard.</li><li>Document and standardize the workflow.</li></ul>
           </div>
         </div>
       </section>
 
-      <!-- QUICK WINS -->
       <section class="mb-6">
         <h3 class="text-xl font-bold text-emerald-900 mb-2">⚡ Quick Wins (First Hour)</h3>
         <ul id="quickWins" class="list-disc ml-6 text-sm"></ul>
       </section>
 
-      <!-- CHECKLIST -->
       <section class="mb-6">
         <h3 class="text-xl font-bold text-pink-900 mb-2">✅ Best-Practices Checklist</h3>
         <ul class="list-disc ml-6 text-sm">
@@ -232,7 +226,6 @@
         </ul>
       </section>
 
-      <!-- TOOL COMPARISON SNAPSHOT -->
       <section class="mb-6">
         <h3 class="text-xl font-bold text-slate-900 mb-2">📊 Tool Comparison Snapshot</h3>
         <div class="overflow-x-auto">
@@ -245,15 +238,13 @@
         </div>
       </section>
 
-      <!-- IMPLEMENTATION COOKBOOK (per Top 3) -->
       <section class="mb-6 page-break">
         <h3 class="text-xl font-bold text-indigo-900 mb-2">👩‍🍳 Implementation Cookbook (Step-by-Step)</h3>
         <div id="cookbook" class="space-y-4 text-sm"></div>
       </section>
 
-      <!-- CALIBRATION RECIPES -->
       <section class="mb-6">
-        <h3 class="text-xl font-bold text-amber-900 mb-2">🧪 Calibration Recipes (When to change temperature, tone, length)</h3>
+        <h3 class="text-xl font-bold text-amber-900 mb-2">🧪 Calibration Recipes</h3>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead class="bg-gray-100"><tr>
@@ -264,14 +255,18 @@
         </div>
       </section>
 
-      <!-- PROMPT WORKSHOP -->
       <section class="mb-6">
-        <h3 class="text-xl font-bold text-fuchsia-900 mb-2">🧰 Prompt Refinement Workshop</h3>
-        <p class="text-sm mb-2">Pattern: <code>[Role] + [Goal] + [Inputs] + [Constraints] + [Format] + [Quality bar]</code></p>
-        <pre class="bg-gray-50 p-3 rounded text-xs overflow-x-auto">"You are a [ROLE]. Goal: [WHAT]. Use: [INPUTS]. Constraints: [STYLE, LENGTH, COMPLIANCE]. Format: [SECTIONS]. Quality: self-check against [CRITERIA] and suggest 2 improvements."</pre>
+        <h3 class="text-xl font-bold text-fuchsia-900 mb-2">🧰 Prompt Examples (Tailored)</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-100"><tr>
+              <th class="p-2">Use Case</th><th class="p-2">Prompt</th><th class="p-2">Tool</th><th class="p-2">Tone</th>
+            </tr></thead>
+            <tbody id="promptTable"></tbody>
+          </table>
+        </div>
       </section>
 
-      <!-- QC RUBRIC -->
       <section class="mb-6">
         <h3 class="text-xl font-bold text-slate-900 mb-2">🧮 Quality Control Rubric (Score 1–5)</h3>
         <div class="overflow-x-auto">
@@ -287,66 +282,32 @@
           </table>
         </div>
       </section>
-
-      <!-- TEAM ONBOARDING & METRICS -->
-      <section class="mb-6">
-        <h3 class="text-xl font-bold text-teal-900 mb-2">👥 Team Onboarding & Metrics</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-100"><tr>
-              <th class="p-2">Task</th><th class="p-2">Owner</th><th class="p-2">Due</th><th class="p-2">Status</th>
-            </tr></thead>
-            <tbody>
-              <tr><td class="p-2">Create tool accounts</td><td class="p-2">—</td><td class="p-2">—</td><td class="p-2">Not started</td></tr>
-              <tr><td class="p-2">Load brand voice</td><td class="p-2">—</td><td class="p-2">—</td><td class="p-2">Not started</td></tr>
-              <tr><td class="p-2">Define 3 KPIs</td><td class="p-2">—</td><td class="p-2">—</td><td class="p-2">Not started</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- TROUBLESHOOTING & FAQ -->
-      <section class="mb-2">
-        <h3 class="text-xl font-bold text-rose-900 mb-2">🛠️ Troubleshooting & FAQ</h3>
-        <ul class="list-disc ml-6 text-sm">
-          <li><strong>Outputs feel generic:</strong> add audience, examples, and a quality bar.</li>
-          <li><strong>Too long/short:</strong> set “Max tokens/output length” explicitly.</li>
-          <li><strong>Hallucinations:</strong> ask for sources; verify two independent links.</li>
-        </ul>
-      </section>
     </div>
 
-    <!-- Export + Upsell -->
     <div class="mt-4 flex flex-wrap gap-3">
-      <button id="dlMain" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">📄 Download Main Report (PDF)</button>
-      <button id="upsell17" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold">✨ Unlock 5 Secret Tools ($17)</button>
+      <button id="dlMain" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">📄 Download Main Report (PDF)</button>
+      <button id="upsell17" type="button" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold">✨ Unlock 5 Secret Tools ($17)</button>
     </div>
   </section>
 
-  <!-- STEP 3.5: $17 BONUS – EXPLANATION BEFORE CTA -->
+  <!-- $17 Upsell (explanation) -->
   <section id="bonusUpsell" class="hidden bg-white p-6 mt-8 rounded-xl shadow card">
     <div class="no-print mb-3">
-      <button class="text-sm underline" id="backFromBonusUpsell">← Back to Assessment Results</button>
+      <button id="backFromBonusUpsell" type="button" class="text-sm underline">← Back to Assessment Results</button>
     </div>
     <h2 class="text-2xl font-bold text-purple-800 mb-3">✨ Unlock 5 Little-Known AI Tools</h2>
-    <p class="mb-3">
-      Imagine a tool that <strong>turns raw notes into polished proposals</strong>… one that
-      <strong>auto-builds elegant slide decks</strong>… or an AI that <strong>scans your market daily</strong> and pings you with top opportunities.
-    </p>
-    <p class="mb-3">
-      We handpicked <strong>5 under-the-radar tools</strong> that save hours and multiply output. You’ll get
-      <strong>best practices</strong>, <strong>settings calibration</strong>, and a <strong>prompt stack</strong> for each.
-    </p>
+    <p class="mb-3">Imagine a tool that <strong>turns raw notes into polished proposals</strong>… one that <strong>auto-builds elegant slide decks</strong>… or an AI that <strong>scans your market daily</strong>.</p>
+    <p class="mb-3">You’ll get <strong>best practices</strong>, <strong>settings calibration</strong>, and a <strong>prompt stack</strong> for each.</p>
     <p class="mb-4 text-purple-700 font-semibold">Unlock everything now for just <strong>$17</strong>.</p>
-    <button id="pay17Btn" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold">
+    <button id="pay17Btn" type="button" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold">
       💳 Unlock the 5 Secret AI Tools ($17)
     </button>
   </section>
 
-  <!-- STEP 4: BONUS CONTENT (UNLOCKED) -->
+  <!-- $17 Bonus Content -->
   <section id="bonusContentWrap" class="hidden mt-8">
     <div class="no-print mb-3">
-      <button class="text-sm underline" id="backFromBonus">← Back to Assessment Results</button>
+      <button id="backFromBonus" type="button" class="text-sm underline">← Back to Assessment Results</button>
     </div>
     <div id="pdfBonus" class="pdf-doc bg-white p-6 rounded-xl shadow card">
       <h2 class="text-2xl font-extrabold text-purple-800 mb-1">🚀 The 5 Secret AI Tools – Full Playbook</h2>
@@ -354,37 +315,29 @@
       <div id="secretTools" class="space-y-6 text-sm"></div>
     </div>
     <div class="mt-4 flex gap-3">
-      <button id="dlBonus" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">📄 Download Bonus Report (PDF)</button>
-      <button id="upsell47" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold">🔒 Get AI Guardrails ($47)</button>
+      <button id="dlBonus" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">📄 Download Bonus Report (PDF)</button>
+      <button id="upsell47" type="button" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold">🔒 Get AI Guardrails ($47)</button>
     </div>
   </section>
 
-  <!-- STEP 4.5: $47 GUARDRAILS – EXPLANATION BEFORE CTA -->
+  <!-- $47 Upsell (explanation) -->
   <section id="guardrailUpsell" class="hidden bg-white p-6 mt-8 rounded-xl shadow card">
     <div class="no-print mb-3">
-      <button class="text-sm underline" id="backFromGuardUpsell">← Back to Assessment Results</button>
+      <button id="backFromGuardUpsell" type="button" class="text-sm underline">← Back to Assessment Results</button>
     </div>
     <h2 class="text-2xl font-bold text-red-800 mb-3">🔒 AI Guardrails – Your “Seatbelt” for AI</h2>
-    <p class="mb-3">
-      AI is powerful—but without best practices, it’s like driving a racecar without seatbelts. One wrong input can expose sensitive data,
-      create compliance headaches, or publish inaccurate content. Every organization needs a simple, enforceable AI usage policy.
-    </p>
-    <ul class="list-disc ml-6 mb-3">
-      <li>Prevent data leaks & protect customer privacy</li>
-      <li>Fact-check outputs to avoid reputation hits</li>
-      <li>Enforce consistent usage rules across your team</li>
-      <li>Align with common security & privacy standards</li>
-    </ul>
+    <p class="mb-3">Prevent data leaks, reduce inaccuracies, and align with common standards via an ISO-inspired policy you can deploy today.</p>
+    <ul class="list-disc ml-6 mb-3"><li>Protect privacy & customers</li><li>Enforce consistent usage</li><li>Review & fact-check steps</li><li>Incident logging</li></ul>
     <p class="mb-4 text-red-700 font-semibold">Unlock the ISO-inspired policy template for a one-time <strong>$47</strong>.</p>
-    <button id="pay47Btn" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold">
+    <button id="pay47Btn" type="button" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold">
       💳 Get the AI Guardrails Template ($47)
     </button>
   </section>
 
-  <!-- STEP 5: GUARDRAILS POLICY (UNLOCKED) -->
+  <!-- Guardrails Content -->
   <section id="guardrailsWrap" class="hidden mt-8">
     <div class="no-print mb-3">
-      <button class="text-sm underline" id="backFromGuard">← Back to Assessment Results</button>
+      <button id="backFromGuard" type="button" class="text-sm underline">← Back to Assessment Results</button>
     </div>
     <div id="pdfGuardrails" class="pdf-doc bg-white p-6 rounded-xl shadow card">
       <div class="mb-4 p-4 bg-amber-50 border border-amber-300 text-amber-900">
@@ -392,7 +345,6 @@
         do not constitute legal, compliance, security, privacy, or risk-management advice. They are not an official ISO document or endorsement,
         and do not create compliance. Consult qualified professionals before adoption.
       </div>
-      <!-- Header Block -->
       <div class="border rounded p-4 mb-4">
         <div class="grid md:grid-cols-2 gap-4 text-sm">
           <div>
@@ -413,14 +365,12 @@
           </div>
         </div>
       </div>
-      <!-- Numbered Sections -->
       <div class="space-y-5 text-sm">
         <div>
           <h3 class="text-lg font-bold">1. Purpose & Scope</h3>
           <p>Applies to all employees, contractors, and vendors using AI on behalf of <span id="guardCompanyInline" class="font-semibold">Your Company, Inc.</span>.</p>
           <textarea class="w-full border p-2 rounded mt-2" placeholder="Describe objectives and scope..."></textarea>
         </div>
-
         <div class="page-break">
           <h3 class="text-lg font-bold">2. Roles & Responsibilities</h3>
           <table class="w-full text-sm">
@@ -432,7 +382,6 @@
             </tbody>
           </table>
         </div>
-
         <div class="page-break">
           <h3 class="text-lg font-bold">3. Data Security Guardrails</h3>
           <p class="mb-2">Do not input the following into public AI tools unless lawful basis and contracts exist (e.g., DPA/BAA):</p>
@@ -446,7 +395,6 @@
           </table>
           <p><strong>Controls:</strong> Redact identifiers, minimize data, encrypt outputs, restrict access.</p>
         </div>
-
         <div class="page-break">
           <h3 class="text-lg font-bold">4. Accuracy & Fact-Checking</h3>
           <ul class="list-disc ml-6">
@@ -458,7 +406,6 @@
             <input class="w-full border p-2 rounded" placeholder="e.g., Jane Smith, 2025-09-08"/>
           </div>
         </div>
-
         <div class="page-break">
           <h3 class="text-lg font-bold">5. Privacy & Compliance</h3>
           <table class="w-full text-sm">
@@ -470,7 +417,6 @@
             </tbody>
           </table>
         </div>
-
         <div class="page-break">
           <h3 class="text-lg font-bold">6. Approved Tools & Usage</h3>
           <table class="w-full text-sm mb-2">
@@ -482,7 +428,6 @@
             </tbody>
           </table>
         </div>
-
         <div class="page-break">
           <h3 class="text-lg font-bold">7. Incident Reporting & Log</h3>
           <table class="w-full text-sm">
@@ -497,7 +442,6 @@
             </tbody>
           </table>
         </div>
-
         <div class="page-break">
           <h3 class="text-lg font-bold">8. Employee Acknowledgment</h3>
           <p>I acknowledge that I have read and agree to follow this AI Governance & Guardrails Policy.</p>
@@ -511,63 +455,78 @@
     </div>
     <div class="mt-2 text-xs text-gray-600">Tip: Type in fields before downloading — the PDF will capture your entries.</div>
     <div class="mt-3">
-      <button id="dlGuardrails" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">📄 Download Guardrails (PDF)</button>
+      <button id="dlGuardrails" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">📄 Download Guardrails (PDF)</button>
     </div>
   </section>
 
 </main>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // ---- App State ----
-  const state = { user:{ firstName:'', email:'' }, answers:{}, paid27:false, paid17:false, paid47:false };
+<!-- LOCAL first (optional) -->
+<script src="/vendor/html2pdf.bundle.min.js" defer></script>
+<!-- CDN fallback (kept defer so it won’t block our app code if local exists) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
 
-  // ---- Helpers ----
-  const $  = (s, r=document)=> r.querySelector(s);
+<!-- App -->
+<script nonce="r4nd0m123">
+document.addEventListener('DOMContentLoaded', () => {
+  const state = { user:{ firstName:'', email:'' }, answers:{}, paid27:false, paid17:false, paid47:false };
+  const $ = (s, r=document)=> r.querySelector(s);
+
   const appNav = $('#appNav');
 
   function show(e){ e && e.classList.remove('hidden'); }
   function hide(e){ e && e.classList.add('hidden'); }
 
-  // Robust PDF export: force top, reflow, clean mode, honor breaks
-  function downloadPDFFixed(nodeId, filename){
+  function log(...args){ console.log('[AiPairWise]', ...args); }
+  function err(...args){ console.error('[AiPairWise]', ...args); }
+
+  // html2pdf availability (either local or cdn)
+  function hasHtml2Pdf(){ return typeof window.html2pdf !== 'undefined'; }
+
+  async function downloadPDFFixed(nodeId, filename){
     try{
-      // Force to top & reflow twice to ensure consistent capture
       window.scrollTo(0,0);
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
-
       document.body.classList.add('pdf-mode');
       const node = document.getElementById(nodeId);
       if(!node){ alert('PDF container not found.'); document.body.classList.remove('pdf-mode'); return; }
 
-      const opt = {
-        margin: [0.5,0.5,0.5,0.5],
-        filename,
-        image: { type:'jpeg', quality:0.98 },
-        html2canvas: { scale: 2, useCORS: true, scrollY: 0, scrollX: 0, windowWidth: document.body.scrollWidth },
-        jsPDF: { unit:'in', format:'letter', orientation:'portrait' },
-        pagebreak: { mode: ['css','legacy'] }
-      };
-
-      // Two RAFs for layout stabilization before capture
-      requestAnimationFrame(()=> {
-        requestAnimationFrame(()=> {
-          html2pdf().set(opt).from(node).save().then(()=> {
-            document.body.classList.remove('pdf-mode');
-          }).catch((err)=>{
-            console.error(err);
-            document.body.classList.remove('pdf-mode');
-          });
-        });
-      });
-    }catch(err){
-      console.error(err);
-      document.body.classList.remove('pdf-mode');
-    }
+      if (hasHtml2Pdf()){
+        const opt = {
+          margin: [0.5,0.5,0.5,0.5],
+          filename,
+          image: { type:'jpeg', quality:0.98 },
+          html2canvas: { scale: 2, useCORS: true, scrollY: 0, scrollX: 0, windowWidth: document.body.scrollWidth },
+          jsPDF: { unit:'in', format:'letter', orientation:'portrait' },
+          pagebreak: { mode: ['css','legacy'] }
+        };
+        await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+        await html2pdf().set(opt).from(node).save();
+        document.body.classList.remove('pdf-mode');
+      } else {
+        // print fallback
+        const css = document.querySelector('style')?.outerHTML || '';
+        const title = document.title || 'Document';
+        const win = window.open('', '_blank', 'noopener,noreferrer');
+        if(!win){ alert('Pop-up blocked: enable pop-ups to print.'); document.body.classList.remove('pdf-mode'); return; }
+        win.document.open();
+        win.document.write(`<html><head><title>${title}</title><style>
+          @page { margin: 0.5in; }
+          body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+          .page-break { page-break-before: always; }
+          .page-avoid { page-break-inside: avoid; }
+          table { border-collapse: collapse; width: 100%; }
+          th, td { border: 1px solid #e5e7eb; padding: 6px; font-size: 12px; }
+          h1,h2,h3,h4 { margin: 0 0 8px 0; }
+        </style>${css}</head><body>${node.outerHTML}</body></html>`);
+        win.document.close(); win.focus(); win.print(); win.close();
+        document.body.classList.remove('pdf-mode');
+      }
+    }catch(e){ err('PDF export failed', e); document.body.classList.remove('pdf-mode'); alert('Export failed. See console for details.'); }
   }
 
-  // ---- Sticky Nav routing ----
+  // NAV
   $('#navResults')?.addEventListener('click', ()=>{
     hide($('#bonusUpsell')); hide($('#bonusContentWrap')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap'));
     show($('#results')); window.scrollTo({top:0,behavior:'smooth'});
@@ -583,143 +542,158 @@ document.addEventListener('DOMContentLoaded', () => {
     show($('#guardrailUpsell')); window.scrollTo({top:0,behavior:'smooth'});
   });
 
-  // ---- Email capture ----
+  // EMAIL
   $('#emailForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
-    const firstName = $('#firstName').value.trim();
-    const email = $('#email').value.trim();
+    const firstName = $('#firstName')?.value.trim();
+    const email = $('#email')?.value.trim();
     if(!firstName || !email){ alert('Please enter name and email.'); return; }
     state.user = { firstName, email };
     hide($('#emailCapture')); hide($('#landingIntro')); show($('#assessment'));
+    log('Email captured', state.user);
   });
 
-  // Show "Other"
-  const timeDrain = $('#timeDrain'), timeDrainOther = $('#timeDrainOther');
-  timeDrain?.addEventListener('change', ()=> timeDrainOther.classList.toggle('hidden', timeDrain.value!=='Other'));
+  // “Other” time drain
+  $('#timeDrain')?.addEventListener('change', ()=>{
+    const val = $('#timeDrain').value;
+    $('#timeDrainOther').classList.toggle('hidden', val!=='Other');
+  });
 
-  // ---- $27 Generate (demo) ----
+  // $27 Generate (demo)
   $('#pay27Btn')?.addEventListener('click', ()=>{
-    const industry = $('#industry').value;
-    const teamSize = $('#teamSize').value;
-    const priority = $('#priority').value;
-    const tdSel = $('#timeDrain').value;
-    const td = tdSel==='Other' ? ($('#timeDrainOther').value.trim()||'other') : tdSel;
-    const aiExperience = $('#aiExperience').value;
-    const budget = $('#budget').value;
-    const usage = $('#usage').value.trim();
+    const industry = $('#industry')?.value;
+    const teamSize = $('#teamSize')?.value;
+    const priority = $('#priority')?.value;
+    const tdSel = $('#timeDrain')?.value;
+    const td = tdSel==='Other' ? ($('#timeDrainOther')?.value.trim()||'other') : tdSel;
+    const aiExperience = $('#aiExperience')?.value;
+    const budget = $('#budget')?.value;
+    const usage = $('#usage')?.value.trim();
 
-    if(!industry || !teamSize || !priority || !tdSel || !aiExperience || !budget){
-      alert('Please complete all required fields.');
+    const missing = [];
+    if(!industry) missing.push('Industry');
+    if(!teamSize) missing.push('Team Size');
+    if(!priority) missing.push('Top Priority');
+    if(!tdSel)    missing.push('Time Drain');
+    if(!aiExperience) missing.push('AI Experience');
+    if(!budget) missing.push('Budget');
+
+    if(missing.length){
+      alert('Please complete: ' + missing.join(', '));
+      log('Missing required fields', missing);
       return;
     }
 
     state.paid27 = true;
     state.answers = { industry, teamSize, priority, timeDrain: td, aiExperience, budget, usage };
+    log('Assessment answers', state.answers);
 
     hide($('#assessment'));
-    populateMainResults();
-    show($('#results'));
-    appNav?.classList.remove('hidden'); // enable sticky nav after results exist
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const ok = populateMainResults();
+    if(ok){
+      show($('#results'));
+      appNav?.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   });
 
-  // ---- Populate Results ----
   function populateMainResults(){
-    $('#userName').textContent = state.user.firstName || 'You';
-    $('#userIndustry').textContent = state.answers.industry;
-    $('#userTeam').textContent = state.answers.teamSize;
-    $('#userPriority').textContent = state.answers.priority;
-    $('#userBudget').textContent = state.answers.budget;
+    const errorBox = $('#resultsError');
+    const safe = (el,msg)=>{ if(!el){ throw new Error(`Missing element: ${msg}`); } return el; };
 
-    // Top 3
-    const tools = top3ByIndustry(state.answers.industry);
-    const wrap = $('#top3'); wrap.innerHTML='';
-    tools.forEach(t=>{
-      const div = document.createElement('div');
-      div.className='border rounded p-4 page-avoid';
-      div.innerHTML = `
-        <h4 class="font-semibold text-indigo-900">${t.name}</h4>
-        <p class="text-sm"><strong>Why:</strong> ${t.why}</p>
-        <p class="text-sm mt-1"><strong>Best Practices:</strong> ${t.best}</p>
-        <p class="text-sm mt-1"><strong>Setup:</strong> ${t.setup}</p>`;
-      wrap.appendChild(div);
-    });
+    try{
+      safe($('#userName'),'#userName').textContent    = state.user.firstName || 'You';
+      safe($('#userIndustry'),'#userIndustry').textContent = state.answers.industry;
+      safe($('#userTeam'),'#userTeam').textContent    = state.answers.teamSize;
+      safe($('#userPriority'),'#userPriority').textContent= state.answers.priority;
+      safe($('#userBudget'),'#userBudget').textContent= state.answers.budget;
 
-    // Quick wins
-    const qw = quickWinsByIndustry(state.answers.industry);
-    const qwList = $('#quickWins'); qwList.innerHTML=''; qw.forEach(x=>{ const li=document.createElement('li'); li.textContent=x; qwList.appendChild(li); });
+      // Top 3
+      const tools = top3ByIndustry(state.answers.industry);
+      const wrap = safe($('#top3'),'#top3'); wrap.innerHTML='';
+      tools.forEach(t=>{
+        const div = document.createElement('div');
+        div.className='border rounded p-4 page-avoid';
+        div.innerHTML = `
+          <h4 class="font-semibold text-indigo-900">${t.name}</h4>
+          <p class="text-sm"><strong>Why:</strong> ${t.why}</p>
+          <p class="text-sm mt-1"><strong>Best Practices:</strong> ${t.best}</p>
+          <p class="text-sm mt-1"><strong>Setup:</strong> ${t.setup}</p>`;
+        wrap.appendChild(div);
+      });
 
-    // Tool comparison
-    const comp = compareByIndustry(state.answers.industry);
-    const tbody = $('#toolCompare'); tbody.innerHTML='';
-    comp.forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td class="p-2">${r.tool}</td><td class="p-2">${r.strength}</td><td class="p-2">${r.greatFor}</td><td class="p-2">${r.alt}</td>`; tbody.appendChild(tr); });
+      // Quick wins
+      const qwList = safe($('#quickWins'),'#quickWins'); qwList.innerHTML='';
+      quickWinsByIndustry(state.answers.industry)
+        .forEach(x=>{ const li=document.createElement('li'); li.textContent=x; qwList.appendChild(li); });
 
-    // Cookbook (per tool)
-    const cb = $('#cookbook'); cb.innerHTML='';
-    tools.forEach(t=>{
-      const block = document.createElement('div');
-      block.className='border rounded p-4';
-      block.innerHTML = `
-        <h4 class="font-semibold text-indigo-900 mb-1">${t.name}: 6 Steps</h4>
-        <ol class="list-decimal ml-5 text-sm space-y-1">
-          ${t.steps.map(s=>`<li>${s}</li>`).join('')}
-        </ol>`;
-      cb.appendChild(block);
-    });
+      // Comparison
+      const tbody = safe($('#toolCompare'),'#toolCompare'); tbody.innerHTML='';
+      compareByIndustry(state.answers.industry).forEach(r=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td class="p-2">${r.tool}</td><td class="p-2">${r.strength}</td><td class="p-2">${r.greatFor}</td><td class="p-2">${r.alt}</td>`;
+        tbody.appendChild(tr);
+      });
 
-    // Calibration recipes
-    const cal = calibrationRows();
-    const calBody = $('#calibrationRows'); calBody.innerHTML='';
-    cal.forEach(r=>{
-      const tr=document.createElement('tr'); tr.innerHTML=`<td class="p-2">${r.use}</td><td class="p-2">${r.temp}</td><td class="p-2">${r.topp}</td><td class="p-2">${r.len}</td><td class="p-2">${r.notes}</td>`; calBody.appendChild(tr);
-    });
+      // Cookbook
+      const cb = safe($('#cookbook'),'#cookbook'); cb.innerHTML='';
+      tools.forEach(t=>{
+        const block = document.createElement('div');
+        block.className='border rounded p-4';
+        block.innerHTML = `
+          <h4 class="font-semibold text-indigo-900 mb-1">${t.name}: 6 Steps</h4>
+          <ol class="list-decimal ml-5 text-sm space-y-1">
+            ${t.steps.map(s=>`<li>${s}</li>`).join('')}
+          </ol>`;
+        cb.appendChild(block);
+      });
 
-    // Prompt examples
-    const pt = $('#promptTable'); pt.innerHTML='';
-    const prompts = promptExamples(state.answers.industry);
-    prompts.forEach(row=>{
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td class="p-2">${row.use}</td><td class="p-2"><code>${row.prompt}</code></td><td class="p-2">${row.tool}</td><td class="p-2">${row.tone}</td>`;
-      pt.appendChild(tr);
-    });
+      // Calibration
+      const calBody = safe($('#calibrationRows'),'#calibrationRows'); calBody.innerHTML='';
+      calibrationRows().forEach(r=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td class="p-2">${r.use}</td><td class="p-2">${r.temp}</td><td class="p-2">${r.topp}</td><td class="p-2">${r.len}</td><td class="p-2">${r.notes}</td>`;
+        calBody.appendChild(tr);
+      });
+
+      // Prompts
+      const pt = safe($('#promptTable'),'#promptTable'); pt.innerHTML='';
+      promptExamples(state.answers.industry).forEach(row=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="p-2">${row.use}</td><td class="p-2"><code>${row.prompt}</code></td><td class="p-2">${row.tool}</td><td class="p-2">${row.tone}</td>`;
+        pt.appendChild(tr);
+      });
+
+      hide(errorBox);
+      return true;
+    }catch(e){
+      err('Populate results failed', e);
+      if(errorBox){
+        errorBox.textContent = 'We hit a rendering error. Please refresh the page. Technical: '+ (e?.message || e);
+        show(errorBox);
+      } else {
+        alert('We hit a rendering error. See console.');
+      }
+      return false;
+    }
   }
 
+  // Data helpers
   function top3ByIndustry(ind){
     if(ind==='Project Management'){
       return [
         { name:'Notion AI', why:'Central hub for tasks/docs; AI summaries & briefs.',
           best:'Use project templates; tie Tasks↔Projects; auto-summaries.',
           setup:'Create Projects DB (Status, Owner, Due); connect Slack via Zapier.',
-          steps:[
-            'Create Projects & Tasks databases with Relations.',
-            'Add templates: Kickoff, Weekly Update, Retro.',
-            'Paste meeting notes → Notion AI → “Summarize to decisions & actions.”',
-            'Create view: “Risks” filtered by Priority=High.',
-            'Zap: New task → Slack #project-updates.',
-            'Share client view (read-only).'
-          ]},
+          steps:['Create Projects & Tasks databases with Relations.','Add templates: Kickoff, Weekly Update, Retro.','Paste meeting notes → Notion AI → “Summarize to decisions & actions.”','Create view: “Risks” filtered by Priority=High.','Zap: New task → Slack #project-updates.','Share client view (read-only).']},
         { name:'Claude', why:'Excellent at long transcripts & risk analysis.',
           best:'Role: Program Manager. Ask for risks, blockers, mitigations.',
           setup:'Save PM analysis system prompt; paste sprint notes; export actions.',
-          steps:[
-            'Save System Prompt: “You are a Program Manager…”',
-            'Paste sprint notes; ask for: Progress, Risks, Blockers, Next Steps.',
-            'Request action list with owners + dates.',
-            'Ask for executive 150-word summary.',
-            'Copy risks into Notion “Risks” DB.',
-            'Iterate weekly; track deltas.'
-          ]},
+          steps:['Save System Prompt: “You are a Program Manager…”','Paste sprint notes; ask for: Progress, Risks, Blockers, Next Steps.','Request action list with owners + dates.','Ask for executive 150-word summary.','Copy risks into Notion “Risks” DB.','Iterate weekly; track deltas.']},
         { name:'Zapier', why:'Removes copy/paste; triggers stakeholder updates.',
           best:'Use filters & delays; clear naming conventions.',
           setup:'Notion (new task) → Slack post; test with real data.',
-          steps:[
-            'Create Zap: Gmail → Notion (create Task).',
-            'Add Filter: from client domain only.',
-            'Delay 2 min → Slack channel post.',
-            'Name Zaps “PM/LeadIntake/001”.',
-            'Test with real email samples.',
-            'Add Error handling: email yourself on failure.'
-          ]}
+          steps:['Create Zap: Gmail → Notion (create Task).','Add Filter: from client domain only.','Delay 2 min → Slack channel post.','Name Zaps “PM/LeadIntake/001”.','Test with real email samples.','Add Error handling: email yourself on failure.']}
       ];
     }
     if(ind==='Non-Profit'){
@@ -727,36 +701,15 @@ document.addEventListener('DOMContentLoaded', () => {
         { name:'Claude', why:'Drafts LOIs & grants from criteria + program notes.',
           best:'Provide funder criteria + outcomes; ask 150-word exec summary.',
           setup:'“Grant Writer” prompt with 5 sections; store exemplars.',
-          steps:[
-            'Save System Prompt “Grant Writer (LOI)” with required sections.',
-            'Paste program notes + funder criteria.',
-            'Request LOI 400–500 words + 150-word exec summary.',
-            'Ask for 3 measurable outcomes with metrics.',
-            'Paste draft into Notion “Grants” for review.',
-            'Track versions and approvals.'
-          ]},
+          steps:['Save System Prompt “Grant Writer (LOI)” with required sections.','Paste program notes + funder criteria.','Request LOI 400–500 words + 150-word exec summary.','Ask for 3 measurable outcomes with metrics.','Paste draft into Notion “Grants” for review.','Track versions and approvals.']},
         { name:'Perplexity', why:'Citation-rich research to find aligned funders.',
           best:'Filter by geography/cause; verify links.',
           setup:'Saved searches; export funders to Sheets.',
-          steps:[
-            'Create saved queries for your cause & region.',
-            'Scan weekly; export links & notes to Sheets.',
-            'Score fit (0–3) by alignment & eligibility.',
-            'Share shortlist with team for action.',
-            'Archive citations with date.',
-            'Feed top results to Claude for brief.'
-          ]},
+          steps:['Create saved queries for your cause & region.','Scan weekly; export links & notes to Sheets.','Score fit (0–3) by alignment & eligibility.','Share shortlist with team for action.','Archive citations with date.','Feed top results to Claude for brief.']},
         { name:'Jasper', why:'Consistent donor stories & campaigns.',
           best:'Brand Voice; 3 subject variants; A/B test.',
           setup:'Set Brand Voice; newsletter/thank-you templates.',
-          steps:[
-            'Configure Brand Voice from 3 sample emails.',
-            'Create “Thank-you” and “Impact Story” templates.',
-            'Generate 3 subject variants per email.',
-            'A/B test subjects; track open rates.',
-            'Build monthly donor newsletter.',
-            'Create evergreen PSAs for social.'
-          ]}
+          steps:['Configure Brand Voice from 3 sample emails.','Create “Thank-you” and “Impact Story” templates.','Generate 3 subject variants per email.','A/B test subjects; track open rates.','Build monthly donor newsletter.','Create evergreen PSAs for social.']}
       ];
     }
     // Solopreneur
@@ -764,36 +717,15 @@ document.addEventListener('DOMContentLoaded', () => {
       { name:'ChatGPT', why:'Versatile drafting partner for outreach & scripts.',
         best:'Define audience/offer/objections; iterate variants.',
         setup:'Custom Instructions with business + tone; save prompt templates.',
-        steps:[
-          'Set Custom Instructions with niche, offer, tone.',
-          'Create 5 evergreen prompts (bio, DM, follow-up, post, FAQ).',
-          'Generate 3 variants per asset.',
-          'Pick best; refine with specifics.',
-          'Create “objection bank” and responses.',
-          'Save winning copy in snippets.'
-        ]},
+        steps:['Set Custom Instructions with niche, offer, tone.','Create 5 evergreen prompts (bio, DM, follow-up, post, FAQ).','Generate 3 variants per asset.','Pick best; refine with specifics.','Create “objection bank” and responses.','Save winning copy in snippets.']},
       { name:'Jasper', why:'Platform-specific content at scale.',
         best:'Creativity 3/5; batch & schedule.',
         setup:'Brand Voice + 3 templates (LinkedIn, IG, email).',
-        steps:[
-          'Train Brand Voice with 3 posts.',
-          'Create templates for LinkedIn, IG, Email.',
-          'Batch 2 weeks of content.',
-          'Export and schedule.',
-          'Review analytics weekly.',
-          'Iterate hooks & CTAs.'
-        ]},
+        steps:['Train Brand Voice with 3 posts.','Create templates for LinkedIn, IG, Email.','Batch 2 weeks of content.','Export and schedule.','Review analytics weekly.','Iterate hooks & CTAs.']},
       { name:'Zapier', why:'Automates lead capture & follow-ups.',
         best:'Filters to reduce noise; CRM logging.',
         setup:'Form submit → CRM row → Gmail draft; Slack alert.',
-        steps:[
-          'Form submit → Google Sheets CRM.',
-          'Filter: only qualified leads.',
-          'Create Gmail draft with template.',
-          'Slack DM alert with lead context.',
-          'If no reply in 3 days → reminder.',
-          'Log outcomes to CRM.'
-        ]}
+        steps:['Form submit → Google Sheets CRM.','Filter: only qualified leads.','Create Gmail draft with template.','Slack DM alert with lead context.','If no reply in 3 days → reminder.','Log outcomes to CRM.']}
     ];
   }
 
@@ -853,8 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
   }
 
-  // Buttons & Routing (all bound once)
-  $('#dlMain')?.addEventListener('click', ()=> downloadPDFFixed('pdfMain','AiPairWise_Main_Report.pdf'));
+  // ROUTING: Bonus flow
   $('#upsell17')?.addEventListener('click', ()=>{
     if(!state.paid27){ alert('Complete the assessment first.'); return; }
     hide($('#results')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap'));
@@ -873,28 +804,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function populateBonus(){
     const tools = [
-      { codename:'Tool Alpha (Pitch-Deck Generator)',
-        why:'Convert outlines/notes into clean, on-brand decks fast.',
+      { codename:'Tool Alpha (Pitch-Deck Generator)', why:'Convert outlines/notes into clean, on-brand decks fast.',
         best:['Start with a clear outline; 1 idea per slide.','Use brand colors & consistent headings.','Export PDF; keep source editable.'],
         settings:['Theme: Professional/Minimal','Structure: 10–12 slides (Title, Problem, Solution, Proof, CTA)','Tone: Executive, concise'],
         prompts:['“Turn this outline into a 10-slide client proposal with 1-slide executive summary and pricing options.”','“Create a deck for [PRODUCT] demo: highlight 3 benefits, 2 proofs, 1 CTA.”'] },
-      { codename:'Tool Beta (Opportunity Scanner)',
-        why:'Daily answers with citations for market/news scans.',
+      { codename:'Tool Beta (Opportunity Scanner)', why:'Daily answers with citations for market/news scans.',
         best:['Create saved queries; compare sources.','Bookmark repeating insights with dates.','Ask for counter-evidence to reduce bias.'],
         settings:['Mode: Deep/Cited','Answer style: Bulleted with links','Follow-ups: Request opposing evidence'],
         prompts:['“List 7 emerging trends in [INDUSTRY] with links to primary sources. Give implications & risk flags.”','“Compare top 5 vendors for [NEED] with price ranges and 3 differentiators each (cite sources).”'] },
-      { codename:'Tool Gamma (Meeting-to-Brief)',
-        why:'Record meeting → transcript → brief (owners & due dates).',
-        best:['Tag speakers and decisions during recording.','Use a brief template: Context, Decisions, Risks, Next Steps.','Sync action items to your task system.'],
+      { codename:'Tool Gamma (Meeting-to-Brief)', why:'Record meeting → transcript → brief.',
+        best:['Tag speakers & decisions during recording.','Brief template: Context, Decisions, Risks, Next Steps.','Sync action items to your task system.'],
         settings:['Auto-join via calendar','Highlight speakers & keywords','Brief template linked to Tasks DB'],
-        prompts:['“From this transcript, extract Decisions, Risks (w/ owners), and Next Steps (w/ due dates). Return a bulleted brief.”','“Summarize for an executive update in 150 words; include 3 asks.”'] },
-      { codename:'Tool Delta (Visual Story Engine)',
-        why:'Generates/edits short videos for ads and explainers.',
+        prompts:['“From this transcript, extract Decisions, Risks (w/ owners), and Next Steps (w/ due dates).”','“Summarize for an executive update in 150 words; include 3 asks.”'] },
+      { codename:'Tool Delta (Visual Story Engine)', why:'Generates/edits short videos.',
         best:['Storyboard first; 3–5 second shots.','Readable captions & brand palette.','Export multiple aspect ratios.'],
         settings:['Mode: Generate or Edit','Style: Clean product focus','Duration: 15–30s for ads'],
-        prompts:['“Create a 20s explainer emphasizing [BENEFIT]; clean overlays, brand colors, product close-ups.”','“Edit this clip into 15s ad with captions, logo stinger, and upbeat pacing.”'] },
-      { codename:'Tool Epsilon (Inbox Accelerator)',
-        why:'Drafts replies, routes emails, accelerates triage.',
+        prompts:['“Create a 20s explainer emphasizing [BENEFIT]; clean overlays, brand colors, product close-ups.”','“Edit this clip into 15s ad with captions, logo stinger, upbeat pacing.”'] },
+      { codename:'Tool Epsilon (Inbox Accelerator)', why:'Drafts replies, routes emails.',
         best:['Rules for leads vs misc; canned snippets.','Teach tone preferences.','Batch 2–3×/day to avoid context switching.'],
         settings:['Smart replies: enabled','Snippets: common scenarios','Shortcuts: on'],
         prompts:['“Draft a polite decline for a partnership that’s not a fit; thank them and keep door open.”','“Follow-up to a warm lead who clicked but didn’t book; offer two time slots.”'] }
@@ -913,6 +839,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  $('#dlMain')?.addEventListener('click', ()=> downloadPDFFixed('pdfMain','AiPairWise_Main_Report.pdf'));
   $('#dlBonus')?.addEventListener('click', ()=> downloadPDFFixed('pdfBonus','AiPairWise_Bonus_5_Secret_Tools.pdf'));
 
   // Guardrails flow
@@ -934,10 +861,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // keep inline company name synced
   $('#guardrailsWrap')?.addEventListener('input',(e)=>{ if(e.target.id==='guardCompany'){ $('#guardCompanyInline').textContent = e.target.value || 'Your Company, Inc.'; }});
-
-  // PDF buttons
-  $('#dlMain')?.addEventListener('click', ()=> downloadPDFFixed('pdfMain','AiPairWise_Main_Report.pdf'));
-  $('#dlGuardrails')?.addEventListener('click', ()=> downloadPDFFixed('pdfGuardrails','AiPairWise_AI_Guardrails_ISO_Inspired.pdf'));
 });
 </script>
 </body>
