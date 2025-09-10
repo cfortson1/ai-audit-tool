@@ -1,303 +1,1022 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AiPairWise - Smart AI Tool Combinations for Small Business</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-    body { font-family: 'Inter', sans-serif; }
-    .gradient-header { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
-    .audit-step { border-left: 4px solid #10B981; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AiPairWise – Smart AI Audit & Roadmap</title>
+
+<!-- CSP: keep nonce in the inline script below in sync -->
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self';
+           script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com 'nonce-r4nd0m123';
+           style-src 'self' 'unsafe-inline';
+           img-src 'self' data:;
+           font-src 'self' data:;
+           connect-src 'self';
+           object-src 'none';
+           base-uri 'self';
+           frame-ancestors 'self';">
+
+<script src="https://cdn.tailwindcss.com" nonce="r4nd0m123"></script>
+<style>
+  body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+  .gradient-header { background: linear-gradient(135deg,#10B981 0%,#059669 100%); }
+  .hidden{display:none}
+  .card{transition:transform .2s ease, box-shadow .2s ease}
+  .card:hover{transform:translateY(-2px); box-shadow:0 10px 25px rgba(0,0,0,.08)}
+  @media print { .no-print{display:none !important} }
+  .page-break { page-break-before: always; break-before: page; }
+  .page-avoid { page-break-inside: avoid; break-inside: avoid-page; }
+  .pdf-mode .card{ box-shadow:none !important }
+  .pdf-doc{ background:#fff }
+  #appNav { position:sticky; top:0; z-index:40; }
+  code { background:#f8fafc; padding:2px 4px; border-radius:4px; }
+  textarea{ resize:vertical }
+</style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 text-gray-800">
 
-  <!-- Header -->
-  <header class="gradient-header text-white py-8 no-print">
-    <div class="container mx-auto px-4 text-center">
-      <h1 class="text-4xl font-bold mb-2">🤝 AiPairWise</h1>
-      <p class="text-xl opacity-90">Smart AI Tool Combinations for Small Business Success</p>
-    </div>
-  </header>
-
-  <div class="container mx-auto px-4 max-w-6xl">
-    <!-- Email Capture -->
-    <section class="mb-12 no-print" id="emailCapture">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">🔍 AI Workflow Assessment Tool</h2>
-      <div class="bg-white border-2 border-blue-200 rounded-xl p-6 shadow-lg">
-        <form id="auditEmailForm" class="space-y-4 max-w-md mx-auto">
-          <div>
-            <label class="font-semibold text-blue-700 block mb-2">First Name *</label>
-            <input type="text" name="firstName" required class="w-full p-3 border-2 border-blue-200 rounded-lg focus:border-blue-500 focus:outline-none">
-          </div>
-          <div>
-            <label class="font-semibold text-blue-700 block mb-2">Email Address *</label>
-            <input type="email" name="email" required class="w-full p-3 border-2 border-blue-200 rounded-lg focus:border-blue-500 focus:outline-none">
-          </div>
-          <div class="text-center">
-            <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-all duration-300 shadow-lg w-full">
-              🚀 Start My AI Assessment
-            </button>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <!-- Audit Tool -->
-    <section class="mb-12" id="auditTool" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">📝 Complete Your AI Workflow Assessment</h2>
-      <div class="bg-white border-2 border-blue-200 rounded-xl p-6 shadow-lg space-y-6">
-        <!-- Step 1 -->
-        <div>
-          <label class="block font-semibold mb-2">Business Type *</label>
-          <select required class="w-full p-2 border rounded">
-            <option value="">Select...</option>
-            <option>Real Estate</option>
-            <option>E-commerce/Retail</option>
-            <option>Professional Services</option>
-            <option>Healthcare/Wellness</option>
-            <option>Marketing Agency</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div>
-          <label class="block font-semibold mb-2">Team Size *</label>
-          <select required class="w-full p-2 border rounded">
-            <option value="">Select...</option>
-            <option>Solo</option>
-            <option>2-5 employees</option>
-            <option>6-15 employees</option>
-            <option>16-50 employees</option>
-            <option>50+</option>
-          </select>
-        </div>
-        <div>
-          <label class="block font-semibold mb-2">Biggest Time Drain *</label>
-          <select required class="w-full p-2 border rounded">
-            <option value="">Select...</option>
-            <option>Content creation</option>
-            <option>Customer service</option>
-            <option>Admin tasks</option>
-            <option>Marketing/Leads</option>
-            <option>Data analysis</option>
-            <option>Scheduling</option>
-          </select>
-        </div>
-        <div>
-          <label class="block font-semibold mb-2">AI Experience *</label>
-          <select required class="w-full p-2 border rounded">
-            <option value="">Select...</option>
-            <option>Beginner</option>
-            <option>Used ChatGPT</option>
-            <option>Regular user</option>
-            <option>Tried multiple tools</option>
-            <option>Advanced</option>
-          </select>
-        </div>
-        <div class="text-center">
-          <button onclick="generateRecommendations()" type="button" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition-all duration-300 shadow-lg">
-            ⚡ Generate My AI Recommendations
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Recommendations -->
-    <section class="mb-12" id="recommendations" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">🔥 Personalized AI Recommendations</h2>
-    </section>
-
-    <!-- Automation Examples -->
-    <section class="mb-12" id="automationExamples" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">⚙️ Advanced Automation Ideas</h2>
-    </section>
-
-    <!-- Implementation Guide -->
-    <section class="mb-12" id="implementationGuide" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">📅 30-Day AI Implementation Roadmap</h2>
-      <p class="text-gray-600">Your step-by-step action plan will appear here.</p>
-    </section>
-
-    <!-- AI Guardrails Upsell -->
-    <section class="mb-12" id="aiGuardrails" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">🛡️ AI with Seatbelts – Guardrails for Responsible Business</h2>
-      <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-lg">
-        <h3 class="text-2xl font-bold text-red-800 mb-4">📑 Must-Have AI Guardrails ($17)</h3>
-        <p class="text-gray-700 mb-4">
-          This <strong>ISO-inspired AI Guardrails framework</strong> helps your organization put <em>seatbelts on AI</em>.  
-          It’s not an official ISO document, but a practical <strong>one-page checklist</strong> to prevent misuse and encourage best practices.
-        </p>
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-          <p class="text-yellow-800 font-semibold">💡 Why You Need This:</p>
-          <ul class="list-disc ml-6 space-y-1 text-gray-700">
-            <li>Protect your team from AI misuse risks</li>
-            <li>Educate employees on safe AI adoption</li>
-            <li>Prove to clients you take AI responsibility seriously</li>
-            <li>Quickly align AI use with compliance expectations</li>
-          </ul>
-        </div>
-        <div class="text-center">
-          <button onclick="downloadGuardrailsPDF()" class="bg-red-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition-all duration-300 shadow-lg">
-            📥 Get 'AI with Seatbelts' PDF – $17
-          </button>
-          <p class="text-xs text-gray-500 mt-2">Educational template – not an official ISO standard.</p>
-        </div>
-      </div>
-    </section>
+<!-- STICKY NAV -->
+<nav id="appNav" class="no-print hidden bg-white/90 backdrop-blur border-b">
+  <div class="max-w-5xl mx-auto px-4 py-2 flex gap-2 flex-wrap">
+    <button id="navResults" type="button" class="px-3 py-2 rounded bg-slate-800 text-white text-sm">← Back to Assessment Results</button>
+    <button id="navBonus" type="button" class="px-3 py-2 rounded bg-purple-600 text-white text-sm">Bonus Tools ($17)</button>
+    <button id="navGuard" type="button" class="px-3 py-2 rounded bg-red-600 text-white text-sm">Guardrails ($47)</button>
   </div>
+</nav>
 
-  <!-- Scripts -->
-  <script>
-    // Email capture → show audit form
-    document.getElementById('auditEmailForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const firstName = formData.get('firstName');
-      const email = formData.get('email');
-      window.userData = { firstName, email };
-      document.getElementById('emailCapture').style.display = 'none';
-      document.getElementById('auditTool').style.display = 'block';
-      document.getElementById('auditTool').scrollIntoView({ behavior: 'smooth' });
+<!-- HEADER -->
+<header class="gradient-header text-white py-8 text-center no-print">
+  <h1 class="text-4xl font-extrabold">🤝 AiPairWise</h1>
+  <p class="text-lg opacity-90">Smart AI Tool Combinations for Small Business Success</p>
+</header>
+
+<main class="container mx-auto px-4 max-w-5xl my-8">
+
+  <!-- VALUE PROP -->
+  <section id="landingIntro" class="bg-white p-6 rounded-xl shadow card mb-8">
+    <h2 class="text-2xl font-bold text-emerald-800 mb-3">🚀 Why This Assessment Matters</h2>
+    <p class="mb-2">
+      Searching for “best AI tools” gives random lists. This assessment builds a <strong>custom plan</strong> for your business:
+      <strong>the right tools</strong>, <strong>how to set them up</strong>, <strong>what settings to use</strong> (like temperature, tone, and length),
+      and a <strong>prompt library</strong> you can reuse for consistent, higher-quality results.
+    </p>
+  </section>
+
+  <!-- STEP 1: EMAIL CAPTURE -->
+  <section id="emailCapture" class="bg-white p-6 rounded-xl shadow card">
+    <h3 class="text-xl font-bold text-blue-800 mb-4">🔑 Start Your AI Workflow Assessment</h3>
+    <form id="emailForm" class="grid md:grid-cols-2 gap-4" autocomplete="off">
+      <div>
+        <label class="block font-semibold mb-1" for="firstName">First Name *</label>
+        <input id="firstName" type="text" required class="w-full border p-3 rounded-lg"/>
+      </div>
+      <div>
+        <label class="block font-semibold mb-1" for="email">Email *</label>
+        <input id="email" type="email" required class="w-full border p-3 rounded-lg"/>
+      </div>
+      <div class="md:col-span-2">
+        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-bold">
+          🚀 Start My Assessment
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- STEP 2: ASSESSMENT -->
+  <section id="assessment" class="hidden bg-white p-6 mt-8 rounded-xl shadow card">
+    <h2 class="text-2xl font-bold text-blue-800 mb-4">🔍 AI Workflow Assessment</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <label class="block font-semibold mb-1">Industry *</label>
+        <select id="industry" class="w-full border p-3 rounded-lg" required>
+          <option value="">Select…</option>
+          <option>Project Management</option>
+          <option>Non-Profit</option>
+          <option>Solopreneur</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label class="block font-semibold mb-1">Team Size *</label>
+        <select id="teamSize" class="w-full border p-3 rounded-lg" required>
+          <option value="">Select…</option>
+          <option>Just me (Solo)</option>
+          <option>2–5</option>
+          <option>6–15</option>
+          <option>16–50</option>
+          <option>50+</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-1">Top Priority (next 6 months) *</label>
+        <select id="priority" class="w-full border p-3 rounded-lg" required>
+          <option value="">Select…</option>
+          <option>Increase sales/bookings</option>
+          <option>Improve marketing content quality</option>
+          <option>Save time via admin automation</option>
+          <option>Customer service efficiency</option>
+          <option>Project tracking/visibility</option>
+          <option>Fundraising/donor engagement</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label class="block font-semibold mb-1">Biggest Time Drain *</label>
+        <select id="timeDrain" class="w-full border p-3 rounded-lg" required>
+          <option value="">Select…</option>
+          <option>Content creation</option>
+          <option>Customer support</option>
+          <option>Admin tasks/paperwork</option>
+          <option>Scheduling & meetings</option>
+          <option>Reporting & analysis</option>
+          <option>Fundraising & grants (non-profit)</option>
+          <option>Project updates & status</option>
+          <option>Other</option>
+        </select>
+        <input id="timeDrainOther" class="hidden mt-2 w-full border p-3 rounded-lg" placeholder="Describe your time drain"/>
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-1">AI Experience *</label>
+        <select id="aiExperience" class="w-full border p-3 rounded-lg" required>
+          <option value="">Select…</option>
+          <option>Complete beginner</option>
+          <option>Used ChatGPT a few times</option>
+          <option>Regular ChatGPT user</option>
+          <option>Tried multiple AI tools</option>
+          <option>Advanced AI user</option>
+        </select>
+      </div>
+      <div>
+        <label class="block font-semibold mb-1">Monthly AI Budget *</label>
+        <select id="budget" class="w-full border p-3 rounded-lg" required>
+          <option value="">Select…</option>
+          <option>$0–50</option>
+          <option>$51–150</option>
+          <option>$151–300</option>
+          <option>$301–500</option>
+          <option>$500+</option>
+        </select>
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block font-semibold mb-1">How do you use AI today? (optional)</label>
+        <textarea id="usage" class="w-full border p-3 rounded-lg h-24" placeholder="e.g., Draft emails, summarize meetings, brainstorm content"></textarea>
+      </div>
+    </div>
+
+    <div class="mt-6 text-center">
+      <button id="pay27Btn" type="button" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-bold">
+        💳 Generate My AI Roadmap ($27)
+      </button>
+    </div>
+  </section>
+
+  <!-- STEP 3: RESULTS (MAIN REPORT) -->
+  <section id="results" class="hidden mt-8">
+    <div id="resultsError" class="hidden mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded"></div>
+
+    <div id="pdfMain" class="pdf-doc bg-white p-6 rounded-xl shadow card">
+      <h2 class="text-2xl font-extrabold text-emerald-800 mb-1">✅ Your Customized AI Roadmap</h2>
+      <p class="text-gray-700 mb-4">
+        For <span id="userName"></span> — <span id="userIndustry"></span>, team: <span id="userTeam"></span>,
+        priority: <span id="userPriority"></span>, budget: <span id="userBudget"></span>.
+      </p>
+
+      <!-- TOP 3 TOOLS -->
+      <section class="mb-6">
+        <h3 class="text-xl font-bold text-blue-900 mb-2">🏆 Top 3 Tools for Your Situation</h3>
+        <div id="top3" class="grid md:grid-cols-3 gap-4"></div>
+      </section>
+
+      <!-- QUICK WINS with EXPLANATIONS -->
+      <section class="mb-6">
+        <h3 class="text-xl font-bold text-emerald-900 mb-2">⚡ Quick Wins (What, Why, How)</h3>
+        <div id="quickWinsExpanded" class="space-y-3 text-sm"></div>
+      </section>
+
+      <!-- PLAIN-ENGLISH IMPLEMENTATION GUIDE -->
+      <section class="mb-6">
+        <h3 class="text-xl font-bold text-indigo-900 mb-2">🗺️ Simple Implementation Guide (Plain English)</h3>
+        <ol id="implGuide" class="list-decimal ml-5 text-sm space-y-2"></ol>
+      </section>
+
+      <!-- TOOL COMPARISON SNAPSHOT -->
+      <section class="mb-6">
+        <h3 class="text-xl font-bold text-slate-900 mb-2">📊 Tool Snapshot</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-100"><tr>
+              <th class="p-2">Tool</th><th class="p-2">What it’s best at</th><th class="p-2">Good use</th><th class="p-2">Alternative</th>
+            </tr></thead>
+            <tbody id="toolCompare"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- PROMPT LIBRARY STARTER -->
+      <section class="mb-6">
+        <h3 class="text-xl font-bold text-fuchsia-900 mb-2">🧰 Prompt Library Starter (Copy & Reuse)</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-100"><tr>
+              <th class="p-2">Use Case</th><th class="p-2">Prompt</th><th class="p-2">Tool</th><th class="p-2">Tone</th>
+            </tr></thead>
+            <tbody id="promptTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- REVIEW & SIGN-OFF CHECKLIST -->
+      <section class="mb-2">
+        <h3 class="text-xl font-bold text-rose-900 mb-2">🔍 Review & Sign-Off Checklist (Plain English)</h3>
+        <ul class="list-disc ml-6 text-sm">
+          <li><strong>Accurate?</strong> Anything that sounds made-up must be checked against a reliable source.</li>
+          <li><strong>On brand?</strong> Voice, terms, and promises match your usual style.</li>
+          <li><strong>Fit for purpose?</strong> The output solves the task you asked for, not a different one.</li>
+          <li><strong>Data safety?</strong> No sensitive customer or employee data appears in the output.</li>
+          <li><strong>Clear next step?</strong> Each deliverable tells the reader what to do next.</li>
+        </ul>
+      </section>
+
+      <!-- AI GLOSSARY -->
+      <section>
+        <h3 class="text-xl font-bold text-amber-900 mb-2">📚 AI Glossary (No Jargon)</h3>
+        <ul class="list-disc ml-6 text-sm">
+          <li><strong>Temperature:</strong> How “creative” the AI is. Lower = predictable. Higher = more variety (and risk).</li>
+          <li><strong>Top-p:</strong> Another creativity slider. 0.8–0.95 is a safe range.</li>
+          <li><strong>Max length:</strong> Cap response size to avoid too short/too long outputs.</li>
+          <li><strong>System/Instructions:</strong> Describe the expert role you want the AI to play.</li>
+          <li><strong>Prompt:</strong> The exact request. Include role, goal, audience, format.</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- NEW: TEST THIS NOW PANEL -->
+    <section id="testNow" class="bg-white p-6 rounded-xl shadow card mt-6">
+      <h3 class="text-xl font-bold text-violet-900 mb-3">🧪 Test This Now (Live Prompt Builder)</h3>
+      <p class="text-sm text-gray-600 mb-4">Pick a use case, fill any fields, preview the final prompt, then copy and try it in your favorite tool.</p>
+
+      <div class="grid md:grid-cols-3 gap-4 text-sm">
+        <div>
+          <label class="font-semibold mb-1 block">Use Case</label>
+          <select id="testUseCase" class="w-full border p-2 rounded"></select>
+        </div>
+        <div>
+          <label class="font-semibold mb-1 block">Target Tool</label>
+          <select id="testTool" class="w-full border p-2 rounded">
+            <option>ChatGPT</option>
+            <option>Claude</option>
+            <option>Jasper</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-semibold mb-1 block">Tone (optional)</label>
+          <input id="testTone" class="w-full border p-2 rounded" placeholder="e.g., Professional, warm"/>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-4 mt-4 text-sm">
+        <div>
+          <label class="font-semibold mb-1 block">Audience</label>
+          <input id="varAudience" class="w-full border p-2 rounded" placeholder="e.g., busy founders"/>
+        </div>
+        <div>
+          <label class="font-semibold mb-1 block">Offer / Program / Niche</label>
+          <input id="varOffer" class="w-full border p-2 rounded" placeholder="e.g., weekly coaching program"/>
+        </div>
+        <div>
+          <label class="font-semibold mb-1 block">Notes / Raw Text</label>
+          <input id="varNotes" class="w-full border p-2 rounded" placeholder="Paste key notes here"/>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <label class="font-semibold mb-1 block">Final Prompt Preview</label>
+        <textarea id="testPreview" class="w-full border p-3 rounded h-40" readonly></textarea>
+      </div>
+
+      <div class="flex flex-wrap gap-3 mt-4">
+        <button id="btnBuildPrompt" type="button" class="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded font-semibold">Build / Refresh</button>
+        <button id="btnCopyPrompt" type="button" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded font-semibold">Copy to Clipboard</button>
+        <a href="https://chat.openai.com/" target="_blank" rel="noopener" class="px-4 py-2 rounded border font-semibold">Open ChatGPT</a>
+        <a href="https://claude.ai/" target="_blank" rel="noopener" class="px-4 py-2 rounded border font-semibold">Open Claude</a>
+        <a href="https://app.jasper.ai/" target="_blank" rel="noopener" class="px-4 py-2 rounded border font-semibold">Open Jasper</a>
+      </div>
+      <p class="text-xs text-gray-500 mt-2">Note: Most tools don’t allow auto-prefilled prompts via URL for security reasons. Use “Copy” then paste into the tab you open.</p>
+    </section>
+
+    <!-- Export + Upsell -->
+    <div class="mt-6 flex flex-wrap gap-3">
+      <button id="dlMain" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">📄 Download Main Report (PDF)</button>
+      <button id="upsell17" type="button" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold">✨ Unlock 5 Secret Tools ($17)</button>
+    </div>
+  </section>
+
+  <!-- $17 Upsell (explanation BEFORE CTA) -->
+  <section id="bonusUpsell" class="hidden bg-white p-6 mt-8 rounded-xl shadow card">
+    <div class="no-print mb-3">
+      <button id="backFromBonusUpsell" type="button" class="text-sm underline">← Back to Assessment Results</button>
+    </div>
+    <h2 class="text-2xl font-bold text-purple-800 mb-3">✨ Unlock 5 Little-Known AI Tools</h2>
+    <p class="mb-3">
+      Imagine a tool that <strong>turns raw notes into client-ready proposals</strong>, or one that <strong>auto-builds polished slide decks</strong>,
+      or an AI that <strong>monitors your market daily</strong> and brings you warm opportunities. We hand-picked five that save hours.
+    </p>
+    <p class="mb-3">Inside you’ll get <strong>best practices</strong>, <strong>settings calibration</strong>, and a <strong>prompt stack</strong> for each.</p>
+    <p class="mb-4 text-purple-700 font-semibold">Unlock now for just <strong>$17</strong>.</p>
+    <button id="pay17Btn" type="button" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold">
+      💳 Unlock the 5 Secret AI Tools ($17)
+    </button>
+  </section>
+
+  <!-- $17 Bonus Content -->
+  <section id="bonusContentWrap" class="hidden mt-8">
+    <div class="no-print mb-3">
+      <button id="backFromBonus" type="button" class="text-sm underline">← Back to Assessment Results</button>
+    </div>
+    <div id="pdfBonus" class="pdf-doc bg-white p-6 rounded-xl shadow card">
+      <h2 class="text-2xl font-extrabold text-purple-800 mb-1">🚀 The 5 Secret AI Tools – Full Playbook</h2>
+      <p class="text-sm text-gray-600 mb-4">Includes why, best practices, settings calibration, and prompt stacks.</p>
+      <div id="secretTools" class="space-y-6 text-sm"></div>
+    </div>
+    <div class="mt-4 flex gap-3">
+      <button id="dlBonus" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">📄 Download Bonus Report (PDF)</button>
+      <button id="upsell47" type="button" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold">🔒 Get AI Guardrails ($47)</button>
+    </div>
+  </section>
+
+  <!-- $47 Guardrail Upsell (explanation BEFORE CTA) -->
+  <section id="guardrailUpsell" class="hidden bg-white p-6 mt-8 rounded-xl shadow card">
+    <div class="no-print mb-3">
+      <button id="backFromGuardUpsell" type="button" class="text-sm underline">← Back to Assessment Results</button>
+    </div>
+    <h2 class="text-2xl font-bold text-red-800 mb-3">🔒 AI Guardrails – Your “Seatbelt” for AI</h2>
+    <p class="mb-3">
+      AI is powerful. Without boundaries, teams can paste sensitive data or publish wrong info. This ISO-inspired policy helps you
+      <strong>prevent data leaks</strong>, <strong>set review steps</strong>, and <strong>standardize good habits</strong>.
+    </p>
+    <ul class="list-disc ml-6 mb-3">
+      <li>What to share vs never share with AI</li>
+      <li>Clear review & fact-checking steps</li>
+      <li>Incident logging & accountability</li>
+      <li>Simple sign-off for staff</li>
+    </ul>
+    <p class="mb-4 text-red-700 font-semibold">Unlock the policy template for a one-time <strong>$47</strong>.</p>
+    <button id="pay47Btn" type="button" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold">
+      💳 Get the AI Guardrails Template ($47)
+    </button>
+  </section>
+
+  <!-- Guardrails Content -->
+  <section id="guardrailsWrap" class="hidden mt-8">
+    <div class="no-print mb-3">
+      <button id="backFromGuard" type="button" class="text-sm underline">← Back to Assessment Results</button>
+    </div>
+    <div id="pdfGuardrails" class="pdf-doc bg-white p-6 rounded-xl shadow card">
+      <div class="mb-4 p-4 bg-amber-50 border border-amber-300 text-amber-900">
+        <strong>Disclaimer:</strong> The “AI Guardrails – ISO-inspired” materials are for informational and educational purposes only and
+        do not constitute legal, compliance, security, privacy, or risk-management advice. They are not an official ISO document or endorsement,
+        and do not create compliance. Consult qualified professionals before adoption.
+      </div>
+
+      <!-- ORG HEADER -->
+      <div class="border rounded p-4 mb-4">
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <label class="font-semibold">Company Name</label>
+            <input id="guardCompany" class="w-full border p-2 rounded" value="Your Company, Inc."/>
+          </div>
+          <div>
+            <label class="font-semibold">Document Title</label>
+            <input class="w-full border p-2 rounded" value="AI Governance & Guardrails Policy (ISO-Inspired)"/>
+          </div>
+          <div>
+            <label class="font-semibold">Effective Date</label>
+            <input id="guardDate" class="w-full border p-2 rounded"/>
+          </div>
+          <div>
+            <label class="font-semibold">Revision</label>
+            <input class="w-full border p-2 rounded" value="v1.0"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOs & DON'Ts -->
+      <section class="mb-6">
+        <h3 class="text-xl font-bold text-green-800 mb-2">✅ Do’s & ❌ Don’ts (Plain English)</h3>
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+          <div class="bg-green-50 p-4 rounded border">
+            <h4 class="font-semibold mb-1">Do</h4>
+            <ul class="list-disc ml-5">
+              <li>Use redacted or fake data when testing prompts.</li>
+              <li>Say who the audience is and what you want the output to look like.</li>
+              <li>Ask for sources and check at least two when publishing externally.</li>
+              <li>Save good prompts in a shared library for the team.</li>
+              <li>Flag any strange outputs to your manager and log serious issues.</li>
+            </ul>
+          </div>
+          <div class="bg-red-50 p-4 rounded border">
+            <h4 class="font-semibold mb-1">Don’t</h4>
+            <ul class="list-disc ml-5">
+              <li>Paste customer PII, credit card data, health data, or secrets into public AI tools.</li>
+              <li>Publish AI text without human review.</li>
+              <li>Rely on a single source for facts or prices.</li>
+              <li>Use AI to bypass laws or contracts.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- BEST-USE POLICY TEMPLATES -->
+      <section class="mb-6">
+        <h3 class="text-xl font-bold text-slate-800 mb-2">📋 Best-Use Policy Templates</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-100"><tr>
+              <th class="p-2">Scenario</th><th class="p-2">Allowed</th><th class="p-2">Not Allowed</th><th class="p-2">Review Needed</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td class="p-2">Drafting emails/blogs</td>
+                <td class="p-2">Yes (non-sensitive topics)</td>
+                <td class="p-2">No client secrets</td>
+                <td class="p-2">Manager review before publishing</td>
+              </tr>
+              <tr>
+                <td class="p-2">Summarizing meetings</td>
+                <td class="p-2">Yes with consent</td>
+                <td class="p-2">No transcripts with PII in public AIs</td>
+                <td class="p-2">Internal review for accuracy</td>
+              </tr>
+              <tr>
+                <td class="p-2">Customer support replies</td>
+                <td class="p-2">Yes using templates</td>
+                <td class="p-2">No legal promises/refunds auto-approved</td>
+                <td class="p-2">Escalate edge cases</td>
+              </tr>
+              <tr>
+                <td class="p-2">Data analysis</td>
+                <td class="p-2">Yes with anonymized data</td>
+                <td class="p-2">No regulated/secret data in public tools</td>
+                <td class="p-2">Analyst verification</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ROLES -->
+      <section class="mb-6">
+        <h3 class="text-lg font-bold">👥 Roles & Responsibilities</h3>
+        <table class="w-full text-sm">
+          <thead class="bg-gray-100"><tr><th class="p-2">Role</th><th class="p-2">Name</th><th class="p-2">Responsibilities</th></tr></thead>
+          <tbody>
+            <tr><td class="p-2">AI Admin</td><td class="p-2"><input class="w-full"/></td><td class="p-2"><textarea class="w-full h-16">Tool access, logs, training</textarea></td></tr>
+            <tr><td class="p-2">Reviewer</td><td class="p-2"><input class="w-full"/></td><td class="p-2"><textarea class="w-full h-16">Fact-check & approvals</textarea></td></tr>
+            <tr><td class="p-2">User</td><td class="p-2"><input class="w-full"/></td><td class="p-2"><textarea class="w-full h-16">Follow policy, report issues</textarea></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- PRIVACY/COMPLIANCE SUMMARY -->
+      <section class="mb-6">
+        <h3 class="text-lg font-bold">🔐 Privacy & Compliance (at a glance)</h3>
+        <ul class="list-disc ml-6 text-sm">
+          <li>Store prompts/outputs in company systems, not personal drives.</li>
+          <li>Use approved tools; request new tools via IT.</li>
+          <li>Report incidents in the log within 24 hours.</li>
+        </ul>
+      </section>
+
+      <!-- INCIDENT LOG -->
+      <section class="mb-6">
+        <h3 class="text-lg font-bold">🧾 Incident Log</h3>
+        <table class="w-full text-sm">
+          <thead class="bg-gray-100"><tr><th class="p-2">Date</th><th class="p-2">Issue</th><th class="p-2">Impact</th><th class="p-2">Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="p-2"><input class="w-full" placeholder="YYYY-MM-DD"/></td>
+              <td class="p-2"><input class="w-full" placeholder="e.g., Exposed email list"/></td>
+              <td class="p-2"><input class="w-full" placeholder="Low/Med/High"/></td>
+              <td class="p-2"><input class="w-full" placeholder="Containment + prevention"/></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ACK -->
+      <section class="mb-2">
+        <h3 class="text-lg font-bold">✍️ Employee Acknowledgment</h3>
+        <div class="grid md:grid-cols-2 gap-4 mt-2">
+          <div><label class="font-semibold">Employee Name</label><input class="w-full border p-2 rounded"/></div>
+          <div><label class="font-semibold">Date</label><input class="w-full border p-2 rounded" placeholder="YYYY-MM-DD"/></div>
+          <div class="md:col-span-2"><label class="font-semibold">Signature (type name if digital)</label><input class="w-full border p-2 rounded"/></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="mt-2 text-xs text-gray-600">Tip: Type in fields before downloading — the PDF will capture your entries.</div>
+    <div class="mt-3">
+      <button id="dlGuardrails" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold">📄 Download Guardrails (PDF)</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- PDF engine: local first, then CDN -->
+<script src="/vendor/html2pdf.bundle.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+
+<!-- App -->
+<script nonce="r4nd0m123">
+document.addEventListener('DOMContentLoaded', () => {
+  const state = { user:{ firstName:'', email:'' }, answers:{}, paid27:false, paid17:false, paid47:false };
+  const $ = (s, r=document)=> r.querySelector(s);
+  const show = el => el && el.classList.remove('hidden');
+  const hide = el => el && el.classList.add('hidden');
+  const hasHtml2Pdf = ()=> typeof window.html2pdf !== 'undefined';
+  const appNav = $('#appNav');
+
+  async function downloadPDFFixed(nodeId, filename){
+    try{
+      window.scrollTo(0,0);
+      document.body.classList.add('pdf-mode');
+      const node = document.getElementById(nodeId);
+      if(!node){ alert('PDF container not found.'); document.body.classList.remove('pdf-mode'); return; }
+      if (hasHtml2Pdf()){
+        const opt = {
+          margin: [0.5,0.5,0.5,0.5],
+          filename,
+          image: { type:'jpeg', quality:0.98 },
+          html2canvas: { scale: 2, useCORS: true, scrollY: 0, scrollX: 0, windowWidth: document.body.scrollWidth },
+          jsPDF: { unit:'in', format:'letter', orientation:'portrait' },
+          pagebreak: { mode: ['css','legacy'] }
+        };
+        await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+        await html2pdf().set(opt).from(node).save();
+      } else {
+        const css = document.querySelector('style')?.outerHTML || '';
+        const title = document.title || 'Document';
+        const win = window.open('', '_blank', 'noopener,noreferrer');
+        if(!win){ alert('Pop-up blocked: enable pop-ups to print.'); document.body.classList.remove('pdf-mode'); return; }
+        win.document.open();
+        win.document.write(`<html><head><title>${title}</title><style>
+          @page { margin: 0.5in; } body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+          .page-break { page-break-before: always; } .page-avoid { page-break-inside: avoid; }
+          table { border-collapse: collapse; width: 100%; } th, td { border: 1px solid #e5e7eb; padding: 6px; font-size: 12px; }
+          h1,h2,h3,h4 { margin: 0 0 8px 0; }
+        </style>${css}</head><body>${node.outerHTML}</body></html>`);
+        win.document.close(); win.focus(); win.print(); win.close();
+      }
+    }catch(e){ console.error(e); alert('PDF export failed. See console for details.'); }
+    finally{ document.body.classList.remove('pdf-mode'); }
+  }
+
+  // NAV
+  $('#navResults')?.addEventListener('click', ()=>{
+    hide($('#bonusUpsell')); hide($('#bonusContentWrap')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap'));
+    show($('#results')); window.scrollTo({top:0,behavior:'smooth'});
+  });
+  $('#navBonus')?.addEventListener('click', ()=>{
+    if(!state.paid27){ alert('Complete the assessment first.'); return; }
+    hide($('#results')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap'));
+    show($('#bonusUpsell')); window.scrollTo({top:0,behavior:'smooth'});
+  });
+  $('#navGuard')?.addEventListener('click', ()=>{
+    if(!state.paid17){ alert('Unlock the $17 bonus first.'); return; }
+    hide($('#results')); hide($('#bonusUpsell')); hide($('#bonusContentWrap'));
+    show($('#guardrailUpsell')); window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // EMAIL CAPTURE
+  $('#emailForm')?.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const firstName = $('#firstName').value.trim();
+    const email = $('#email').value.trim();
+    if(!firstName || !email){ alert('Please enter name and email.'); return; }
+    state.user = { firstName, email };
+    hide($('#emailCapture')); hide($('#landingIntro')); show($('#assessment'));
+  });
+
+  // Show “Other”
+  $('#timeDrain')?.addEventListener('change', ()=>{
+    $('#timeDrainOther').classList.toggle('hidden', $('#timeDrain').value!=='Other');
+  });
+
+  // $27 demo generate
+  $('#pay27Btn')?.addEventListener('click', ()=>{
+    const industry = $('#industry').value;
+    const teamSize = $('#teamSize').value;
+    const priority = $('#priority').value;
+    const tdSel = $('#timeDrain').value;
+    const td = tdSel==='Other' ? ($('#timeDrainOther').value.trim()||'other') : tdSel;
+    const aiExperience = $('#aiExperience').value;
+    const budget = $('#budget').value;
+    const usage = $('#usage').value.trim();
+
+    const missing = [];
+    if(!industry) missing.push('Industry');
+    if(!teamSize) missing.push('Team Size');
+    if(!priority) missing.push('Top Priority');
+    if(!tdSel)    missing.push('Time Drain');
+    if(!aiExperience) missing.push('AI Experience');
+    if(!budget) missing.push('Budget');
+    if(missing.length){ alert('Please complete: ' + missing.join(', ')); return; }
+
+    state.paid27 = true;
+    state.answers = { industry, teamSize, priority, timeDrain: td, aiExperience, budget, usage };
+
+    hide($('#assessment'));
+    if(populateResults()){
+      show($('#results'));
+      appNav?.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      initTestThisNow(); // build panel options when results appear
+    }
+  });
+
+  function populateResults(){
+    const errorBox = $('#resultsError');
+    const safe = (el,msg)=>{ if(!el) throw new Error('Missing element '+msg); return el; };
+    try{
+      safe($('#userName'),'#userName').textContent    = state.user.firstName || 'You';
+      safe($('#userIndustry'),'#userIndustry').textContent = state.answers.industry;
+      safe($('#userTeam'),'#userTeam').textContent    = state.answers.teamSize;
+      safe($('#userPriority'),'#userPriority').textContent= state.answers.priority;
+      safe($('#userBudget'),'#userBudget').textContent= state.answers.budget;
+
+      // Top 3
+      const tools = top3ByIndustry(state.answers.industry);
+      const wrap = safe($('#top3'),'#top3'); wrap.innerHTML='';
+      tools.forEach(t=>{
+        const div = document.createElement('div');
+        div.className='border rounded p-4 page-avoid';
+        div.innerHTML = `
+          <h4 class="font-semibold text-indigo-900">${t.name}</h4>
+          <p class="text-sm"><strong>Why we chose this:</strong> ${t.why}</p>
+          <p class="text-sm mt-1"><strong>Best practices:</strong> ${t.best}</p>
+          <p class="text-sm mt-1"><strong>How to set it up:</strong> ${t.setup}</p>`;
+        wrap.appendChild(div);
+      });
+
+      // Quick Wins Expanded
+      const qwWrap = safe($('#quickWinsExpanded'),'#quickWinsExpanded'); qwWrap.innerHTML='';
+      quickWinsExpanded(state.answers.industry).forEach(q=>{
+        const box = document.createElement('div');
+        box.className = 'border rounded p-4';
+        box.innerHTML = `<p><strong>What:</strong> ${q.what}</p><p><strong>Why:</strong> ${q.why}</p><p><strong>How:</strong> ${q.how}</p>`;
+        qwWrap.appendChild(box);
+      });
+
+      // Implementation Guide (plain English)
+      const impl = safe($('#implGuide'),'#implGuide'); impl.innerHTML='';
+      implementationSteps(state.answers.industry).forEach(s=>{
+        const li=document.createElement('li'); li.textContent=s; impl.appendChild(li);
+      });
+
+      // Tool snapshot
+      const tbody = safe($('#toolCompare'),'#toolCompare'); tbody.innerHTML='';
+      compareByIndustry(state.answers.industry).forEach(r=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td class="p-2">${r.tool}</td><td class="p-2">${r.strength}</td><td class="p-2">${r.greatFor}</td><td class="p-2">${r.alt}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      // Prompt Library
+      const pt = safe($('#promptTable'),'#promptTable'); pt.innerHTML='';
+      promptExamples(state.answers.industry).forEach(row=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="p-2">${row.use}</td><td class="p-2"><code>${row.prompt}</code></td><td class="p-2">${row.tool}</td><td class="p-2">${row.tone}</td>`;
+        pt.appendChild(tr);
+      });
+
+      hide(errorBox);
+      return true;
+    }catch(e){
+      console.error(e);
+      if(errorBox){ errorBox.textContent = 'We hit a rendering error. Please refresh. Technical: '+ (e?.message||e); show(errorBox); }
+      return false;
+    }
+  }
+
+  // ===== “Test This Now” panel =====
+  function initTestThisNow(){
+    const useCaseSel = $('#testUseCase');
+    if(!useCaseSel) return;
+    // hydrate dropdown from tailored examples
+    const examples = promptExamples(state.answers.industry);
+    useCaseSel.innerHTML = examples.map((x,i)=>`<option value="${i}">${x.use} — (${x.tool})</option>`).join('');
+    $('#testTool').value = examples[0]?.tool || 'ChatGPT';
+    $('#testTone').value = examples[0]?.tone || '';
+    buildPromptPreview(); // initial
+  }
+
+  function getSelectedExample(){
+    const idx = parseInt($('#testUseCase').value || '0', 10);
+    const examples = promptExamples(state.answers.industry);
+    return examples[Math.max(0, Math.min(idx, examples.length-1))];
+  }
+
+  function buildPromptPreview(){
+    const ex = getSelectedExample();
+    const tone = ($('#testTone').value || ex.tone || '').trim();
+    const audience = $('#varAudience').value.trim();
+    const offer = $('#varOffer').value.trim();
+    const notes = $('#varNotes').value.trim();
+
+    // Base prompt text from library
+    let p = ex?.prompt || '';
+
+    // Auto-inject tone if not already in prompt
+    if(tone && !/tone:/i.test(p)) {
+      p += `\nTone: ${tone}.`;
+    }
+
+    // Replace known placeholders
+    const replacements = [
+      { tag:'[AUDIENCE]', val: audience },
+      { tag:'[OFFER]', val: offer },
+      { tag:'[PROGRAM]', val: offer },
+      { tag:'[NICHE]', val: offer },
+      { tag:'[PASTE NOTES]', val: notes || '[Your notes here]' },
+      { tag:'[CONTENT]', val: notes || '[Your content here]' },
+      { tag:'[PRODUCT]', val: offer },
+      { tag:'[INDUSTRY]', val: offer },
+      { tag:'[NEED]', val: offer },
+      { tag:'[CAUSE/REGION]', val: offer }
+    ];
+    replacements.forEach(r=>{
+      p = p.replaceAll(r.tag, r.val || r.tag);
     });
 
-    // Guardrails PDF download
-    async function downloadGuardrailsPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
+    // Add context from assessment to increase personalization
+    const ctx = [
+      state.user.firstName ? `Name: ${state.user.firstName}` : null,
+      state.answers.industry ? `Industry: ${state.answers.industry}` : null,
+      state.answers.priority ? `Priority: ${state.answers.priority}` : null,
+      state.answers.teamSize ? `Team size: ${state.answers.teamSize}` : null,
+      state.answers.budget ? `Budget: ${state.answers.budget}` : null
+    ].filter(Boolean).join(' | ');
+    if(ctx) p = `Context: ${ctx}\n\n${p}`;
 
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(18);
-      doc.text("🛡️ AI with Seatbelts", 14, 20);
+    $('#testPreview').value = p;
+    // keep tool select in sync with suggestion from example
+    $('#testTool').value = ex?.tool || $('#testTool').value;
+  }
 
-      doc.setFontSize(12);
-      doc.setFont("helvetica", "normal");
-      doc.text("ISO-inspired Guardrails for Responsible AI Adoption", 14, 30);
-      doc.setTextColor(150);
-      doc.text("(Educational use only – Not an official ISO document)", 14, 36);
-      doc.setTextColor(0);
+  $('#testUseCase')?.addEventListener('change', ()=>{
+    const ex = getSelectedExample();
+    $('#testTool').value = ex?.tool || 'ChatGPT';
+    $('#testTone').value = ex?.tone || '';
+    buildPromptPreview();
+  });
+  $('#testTool')?.addEventListener('change', buildPromptPreview);
+  $('#testTone')?.addEventListener('input', buildPromptPreview);
+  $('#varAudience')?.addEventListener('input', buildPromptPreview);
+  $('#varOffer')?.addEventListener('input', buildPromptPreview);
+  $('#varNotes')?.addEventListener('input', buildPromptPreview);
+  $('#btnBuildPrompt')?.addEventListener('click', buildPromptPreview);
+  $('#btnCopyPrompt')?.addEventListener('click', async ()=>{
+    try{
+      await navigator.clipboard.writeText($('#testPreview').value);
+      alert('Prompt copied. Paste it into the tool tab you opened!');
+    }catch(e){
+      console.error(e);
+      // fallback
+      const ta = $('#testPreview');
+      ta.select(); ta.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      alert('Copied via fallback.');
+    }
+  });
 
-      const guardrails = [
-        "Transparency – Always disclose AI-generated content.",
-        "Human Oversight – Keep final decisions human-controlled.",
-        "Data Privacy – Don’t upload sensitive data into public AI tools.",
-        "Bias Monitoring – Regularly review AI outputs for fairness.",
-        "Security – Use trusted platforms and keep tools updated.",
-        "Training – Educate staff on safe and effective AI use.",
-        "Accountability – Assign roles for monitoring and approvals."
+  // ===== Data helpers (same as before) =====
+  function top3ByIndustry(ind){
+    if(ind==='Project Management'){
+      return [
+        { name:'Notion AI', why:'Keep all tasks, docs, and updates together. AI turns notes into action lists.',
+          best:'Use project templates; link Tasks↔Projects; use summaries to brief clients.',
+          setup:'Create Projects/Tasks databases (Status, Owner, Due). Add “Weekly Update” template. Connect Slack via Zapier.'},
+        { name:'Claude', why:'Understands long notes; great at risks/next steps.',
+          best:'Give it the role “Program Manager” and ask for risks + owners + dates.',
+          setup:'Save a reusable “PM Status” prompt. Paste sprint notes. Export actions.'},
+        { name:'Zapier', why:'Stops manual copy/paste across tools.',
+          best:'Add filters and small delays so only meaningful events trigger.',
+          setup:'New Notion task → Slack update. Email from client → create task. Test with real data.'}
       ];
-
-      let y = 50;
-      guardrails.forEach(rule => {
-        doc.rect(14, y - 4, 6, 6); // checkbox
-        doc.text(rule, 24, y);
-        y += 10;
-      });
-
-      doc.setFontSize(10);
-      doc.setTextColor(200, 0, 0);
-      doc.text("⚠️ Disclaimer: This is an educational resource, not a legal or compliance document.", 14, y + 10, { maxWidth: 180 });
-
-      doc.save("AI_with_Seatbelts_Guardrails.pdf");
     }
-
-    // Dynamic recommendations with hidden gem tools
-    function generateRecommendations() {
-      const form = document.getElementById('auditTool');
-      const selects = form.querySelectorAll('select[required]');
-      let allFilled = true;
-      selects.forEach(field => {
-        if (!field.value.trim()) {
-          allFilled = false;
-          field.style.borderColor = '#ef4444';
-        } else {
-          field.style.borderColor = '#10B981';
-        }
-      });
-      if (!allFilled) {
-        alert("⚠️ Please complete all fields.");
-        return;
-      }
-
-      const businessType = selects[0].value;
-      const teamSize = selects[1].value;
-      const timeDrain = selects[2].value;
-      const aiExperience = selects[3].value;
-      const userName = window.userData?.firstName || "you";
-
-      const matchContent = [];
-      if (businessType.includes("Real Estate")) {
-        matchContent.push("🏠 Real Estate: Use Jasper for listings, Perplexity for neighborhood trends, Gamma for property decks.");
-      } else if (businessType.includes("E-commerce")) {
-        matchContent.push("🛒 E-commerce: Automate cart recovery with Jasper + Calendly + Otter.ai.");
-      } else if (businessType.includes("Marketing")) {
-        matchContent.push("📣 Marketing: Use Jasper + Midjourney for campaigns, Zapier for automation.");
-      }
-
-      if (timeDrain.includes("Content creation")) {
-        matchContent.push("✍️ Content Creation: Jasper, Canva AI, and Copy.ai can automate blogs, social, and emails.");
-      }
-      if (aiExperience.includes("Beginner")) {
-        matchContent.push("👶 Start simple: ChatGPT + proven prompts will give you fastest wins.");
-      }
-
-      const hiddenToolsByType = {
-        "Real Estate": [
-          { name: "Midjourney", use: "🎨 Generate stunning property visuals." },
-          { name: "Gamma", use: "📑 Build interactive property presentations." },
-          { name: "Wondercraft", use: "🎧 Produce real estate podcasts easily." }
-        ],
-        "E-commerce/Retail": [
-          { name: "Gumloop", use: "🔄 Automate product workflows without code." },
-          { name: "Make", use: "🔗 Connect order, shipping, and customer systems." },
-          { name: "11ElevenLabs", use: "🎙️ Voiceovers for personalized product promos." }
-        ],
-        "Professional Services": [
-          { name: "Cursor", use: "👩‍💻 Build client portals and automation faster." },
-          { name: "n8n", use: "🔧 Open-source workflow automation." },
-          { name: "Manus", use: "📝 Draft contracts and proposals quickly." }
-        ],
-        "Healthcare/Wellness": [
-          { name: "Base44", use: "📊 Streamline patient financial reporting." },
-          { name: "Claude", use: "🧠 Analyze research & documentation securely." },
-          { name: "Gemini", use: "🧬 Multimodal analysis of text + medical scans." }
-        ],
-        "Marketing Agency": [
-          { name: "Midjourney", use: "🎨 Campaign visuals on demand." },
-          { name: "Bolt", use: "⚡ Rapid microsite prototyping." },
-          { name: "Lovable", use: "💻 Turn ideas into apps for campaigns." }
-        ],
-        "Other": [
-          { name: "Manus", use: "📝 Documentation assistant for any industry." },
-          { name: "Gamma", use: "📑 Easy pitch decks for clients or investors." },
-          { name: "11ElevenLabs", use: "🎙️ Training & content voiceovers." }
-        ]
-      };
-      const hiddenTools = hiddenToolsByType[businessType] || hiddenToolsByType["Other"];
-
-      const personalizedHTML = `
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mt-6">
-          <h3 class="font-bold mb-2">🧠 Personalized Insights for ${userName}:</h3>
-          <ul class="list-disc ml-5 space-y-1">${matchContent.map(i => `<li>${i}</li>`).join("")}</ul>
-        </div>
-        <div class="bg-white border-2 border-indigo-200 rounded-xl p-6 shadow-lg mt-6">
-          <h3 class="text-xl font-bold mb-3">🧩 Top AI Tools You Probably Never Heard Of (for ${businessType})</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            ${hiddenTools.map(t => `<li><strong>${t.name}</strong> — ${t.use}</li>`).join("")}
-          </ul>
-        </div>
-      `;
-
-      document.getElementById("recommendations").innerHTML += personalizedHTML;
-
-      ["recommendations", "automationExamples", "implementationGuide", "aiGuardrails"].forEach(id => {
-        document.getElementById(id).style.display = "block";
-      });
-
-      document.getElementById("recommendations").scrollIntoView({ behavior: "smooth" });
+    if(ind==='Non-Profit'){
+      return [
+        { name:'Claude', why:'Turns program notes + funder criteria into solid LOIs/grants.',
+          best:'Always include outcomes and word limits; request a 150-word summary.',
+          setup:'Save a “Grant Writer” system message with sections. Track versions in Notion.'},
+        { name:'Perplexity', why:'Finds funders with citations so you can verify.',
+          best:'Keep saved searches; log sources with dates.',
+          setup:'Run weekly scans; export to Sheets; score fit and review with team.'},
+        { name:'Jasper', why:'Keeps donor emails consistent and on brand.',
+          best:'Train Brand Voice from 3 examples; generate 3 subject lines and A/B test.',
+          setup:'Create templates: “Thank-you,” “Impact Story,” “Monthly Update.”'}
+      ];
     }
-  </script>
+    // Solopreneur
+    return [
+      { name:'ChatGPT', why:'General helper for outreach, scripts, and SOPs.',
+        best:'Define your audience and offer; ask for 2–3 options each time.',
+        setup:'Fill Custom Instructions with niche + tone. Save five evergreen prompts.'},
+      { name:'Jasper', why:'Makes platform-specific content quickly.',
+        best:'Use creativity 3/5; keep consistent Brand Voice.',
+        setup:'Train voice; create templates for LinkedIn/IG/Email; batch 2 weeks.'},
+      { name:'Zapier', why:'Catches leads and sends follow-ups automatically.',
+        best:'Filter out junk; always log to your CRM/Sheet.',
+        setup:'Form submit → Google Sheet CRM → Gmail draft + Slack DM to you.'}
+    ];
+  }
+
+  function quickWinsExpanded(ind){
+    if(ind==='Project Management') return [
+      { what:'Turn meeting notes into action items',
+        why:'Saves 30–45 minutes after each meeting and prevents dropped tasks.',
+        how:'Paste notes into Claude with the prompt: “List Decisions, Risks (owner), and Next Steps (due dates).” Paste results into Notion Tasks.' },
+      { what:'Auto-create tasks from client emails',
+        why:'Stops manual copying and ensures every client request is tracked.',
+        how:'Zapier: Gmail (from client) → Notion (create task). Add a 2-minute delay and a filter for the client’s domain.' },
+      { what:'Weekly status summary',
+        why:'Gives leaders a clear view without hunting through docs.',
+        how:'Notion AI “Summarize” your project page; paste into a status email template.' }
+    ];
+    if(ind==='Non-Profit') return [
+      { what:'Rapid LOI draft',
+        why:'Gets a solid first draft fast so you can focus on tailoring.',
+        how:'Claude: “Act as a grant writer…” Include funder criteria and program notes. Ask for 400–500 words and a 150-word summary.' },
+      { what:'Funder prospect list with sources',
+        why:'Saves hours of research and keeps citations for credibility.',
+        how:'Perplexity: “List funders for [cause/region]. Provide links.” Export to Sheets and score fit (0–3).' },
+      { what:'Donor thank-you variations',
+        why:'Keeps messages fresh and personal at scale.',
+        how:'Jasper: Train Brand Voice. Generate 3 versions; pick the best and schedule.' }
+    ];
+    return [
+      { what:'Outbound DM script that gets replies',
+        why:'Gives you a clean, friendly message you can personalize in seconds.',
+        how:'ChatGPT: “Write a 120-word DM to [AUDIENCE] about [OFFER]. Include 1 benefit and 1 question.”' },
+      { what:'Two-week content batch',
+        why:'Removes daily stress and keeps posting consistent.',
+        how:'Jasper: 10 LinkedIn posts from your 3 themes; export and schedule.' },
+      { what:'Lead capture → auto follow-up',
+        why:'Responds while you’re busy and logs everything.',
+        how:'Zapier: Form → Sheet → Gmail draft + Slack DM. Add a 3-day no-reply reminder.' }
+    ];
+  }
+
+  function implementationSteps(ind){
+    const common = [
+      'Create accounts for your Top 3 tools.',
+      'Add your brand voice (paste two real examples).',
+      'Save two prompts you’ll reuse every week.',
+      'Run one workflow end-to-end with real data.',
+      'Measure time saved; keep what works; adjust one thing at a time.'
+    ];
+    if(ind==='Project Management') return [
+      'Create Notion Projects & Tasks; add “Weekly Update” template.',
+      'Save a “PM Status” prompt in Claude.',
+      'Make a Zap: client emails → Notion task (with filter).',
+      ...common
+    ];
+    if(ind==='Non-Profit') return [
+      'Create a “Grants” page in Notion with status and due date.',
+      'Save a “Grant Writer” prompt in Claude (sections + word limits).',
+      'Set Perplexity saved searches and a weekly reminder.',
+      ...common
+    ];
+    return [
+      'Fill Custom Instructions in ChatGPT with your niche, offer, and tone.',
+      'Train Jasper Brand Voice with 3 examples; build 2 templates.',
+      'Zap: form → CRM/Sheet → Gmail draft; add Slack alert.',
+      ...common
+    ];
+  }
+
+  function compareByIndustry(ind){
+    if(ind==='Project Management'){
+      return [
+        { tool:'Notion AI', strength:'Docs + tasks + summaries', greatFor:'PM hubs', alt:'ClickUp/Asana' },
+        { tool:'Claude', strength:'Long context analysis', greatFor:'Status/Risk reports', alt:'ChatGPT-4' },
+        { tool:'Zapier', strength:'Integrations', greatFor:'Notifications/Syncs', alt:'Make.com' },
+      ];
+    }
+    if(ind==='Non-Profit'){
+      return [
+        { tool:'Claude', strength:'Grant drafting', greatFor:'LOIs/Proposals', alt:'ChatGPT-4' },
+        { tool:'Perplexity', strength:'Cited research', greatFor:'Funder scans', alt:'Google Scholar' },
+        { tool:'Jasper', strength:'Donor comms', greatFor:'Emails/Newsletters', alt:'Copy.ai' },
+      ];
+    }
+    return [
+      { tool:'ChatGPT', strength:'Reasoning', greatFor:'General ops', alt:'Claude' },
+      { tool:'Jasper', strength:'Marketing content', greatFor:'Posts/Emails', alt:'Copy.ai' },
+      { tool:'Zapier', strength:'Automations', greatFor:'Leads/Follow-ups', alt:'Make.com' },
+    ];
+  }
+
+  function promptExamples(ind){
+    if(ind==='Project Management'){
+      return [
+        { use:'Weekly Status Summary', tool:'Claude', tone:'Crisp, executive', prompt:'You are a program manager. From these notes, produce: 1) Progress summary, 2) Risks w/ owners, 3) Next steps w/ dates. Keep under 300 words. [PASTE NOTES]' },
+        { use:'Client Kickoff Email',  tool:'ChatGPT', tone:'Professional, warm', prompt:'Draft a concise kickoff email with timeline, next steps, requested materials, and meeting link.' }
+      ];
+    }
+    if(ind==='Non-Profit'){
+      return [
+        { use:'Grant LOI Draft', tool:'Claude', tone:'Formal, impact-focused', prompt:'Act as a grant writer. Draft an LOI (400–500 words) with: Need, Approach, Impact, Budget overview. Use this funder’s criteria: [PASTE].' },
+        { use:'Donor Story Email', tool:'Jasper', tone:'Warm, inspiring', prompt:'Create a 180-word donor update featuring [PROGRAM]. Include an impact story and a soft CTA.' }
+      ];
+    }
+    return [
+      { use:'Outbound DM', tool:'ChatGPT', tone:'Friendly, concise', prompt:'Write a 120-word cold DM to [AUDIENCE] about [OFFER]. Include one benefit and a qualifying question.' },
+      { use:'Weekly Content Plan', tool:'Jasper', tone:'Helpful, expert', prompt:'Create 5 LinkedIn post ideas for [NICHE] with a hook, 3 bullets, and a CTA.' }
+    ];
+  }
+
+  // Bonus
+  $('#upsell17')?.addEventListener('click', ()=>{
+    if(!state.paid27){ alert('Complete the assessment first.'); return; }
+    hide($('#results')); hide($('#guardrailUpsell')); hide($('#guardrailsWrap'));
+    show($('#bonusUpsell')); window.scrollTo({top:0,behavior:'smooth'});
+  });
+  $('#backFromBonusUpsell')?.addEventListener('click', ()=>{ hide($('#bonusUpsell')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); });
+
+  $('#pay17Btn')?.addEventListener('click', ()=>{
+    state.paid17 = true;
+    hide($('#bonusUpsell'));
+    populateBonus();
+    show($('#bonusContentWrap'));
+    window.scrollTo({ top: 0, behavior:'smooth' });
+  });
+  $('#backFromBonus')?.addEventListener('click', ()=>{ hide($('#bonusContentWrap')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); });
+
+  function populateBonus(){
+    const tools = [
+      { codename:'Tool Alpha (Pitch-Deck Generator)', why:'Turn outlines/notes into clean decks fast.',
+        best:['One idea per slide.','Use brand colors & consistent headings.','Export PDF and keep source editable.'],
+        settings:['Theme: Professional/Minimal','10–12 slides (Title, Problem, Solution, Proof, CTA)','Tone: Executive, concise'],
+        prompts:['“Turn this outline into a 10-slide client proposal with a 1-slide summary and pricing options.”','“Create a product demo deck: 3 benefits, 2 proofs, 1 CTA.”'] },
+      { codename:'Tool Beta (Opportunity Scanner)', why:'Cited market/news scans.',
+        best:['Create saved queries; compare sources.','Bookmark repeating insights with dates.','Request opposing evidence.'],
+        settings:['Mode: Deep/Cited','Answer style: Bulleted with links','Follow-ups: Ask for counter-evidence'],
+        prompts:['“List 7 emerging trends in [INDUSTRY] with links and implications.”','“Compare 5 vendors for [NEED] with price ranges and 3 differentiators each.”'] },
+      { codename:'Tool Gamma (Meeting-to-Brief)', why:'Transcript → action brief.',
+        best:['Tag speakers & decisions.','Use a brief template.','Sync actions to your task tool.'],
+        settings:['Auto-join via calendar','Highlight keywords','Brief template linked to Tasks DB'],
+        prompts:['“Extract Decisions, Risks (owner), and Next Steps (due dates).”','“Give an executive update in 150 words with 3 asks.”'] },
+      { codename:'Tool Delta (Visual Story Engine)', why:'Short videos for ads/explainers.',
+        best:['Storyboard first; 3–5s shots.','Readable captions & brand palette.','Export multiple aspect ratios.'],
+        settings:['Mode: Generate/Edit','Style: Clean/Brand','Duration: 15–30s'],
+        prompts:['“Create a 20s explainer emphasizing [BENEFIT] with clean overlays and brand colors.”','“Edit this clip into a 15s ad with captions and logo sting.”'] },
+      { codename:'Tool Epsilon (Inbox Accelerator)', why:'Draft replies & triage.',
+        best:['Rules for leads vs misc.','Teach tone preferences.','Batch 2–3×/day.'],
+        settings:['Smart replies: on','Snippets: common scenarios','Shortcuts: enabled'],
+        prompts:['“Polite decline for a partnership; thank them and keep the door open.”','“Follow-up to a warm lead who clicked but didn’t book; offer two time slots.”'] }
+    ];
+    const wrap = $('#secretTools'); wrap.innerHTML='';
+    tools.forEach(t=>{
+      const div = document.createElement('div');
+      div.className='border rounded p-4';
+      div.innerHTML = `<h3 class="font-semibold text-purple-900">${t.codename}</h3>
+        <p class="mt-1"><strong>Why we chose it:</strong> ${t.why}</p>
+        <p class="mt-2 font-semibold">Best Practices</p><ul class="list-disc ml-6">${t.best.map(b=>`<li>${b}</li>`).join('')}</ul>
+        <p class="mt-2 font-semibold">Settings Calibration</p><ul class="list-disc ml-6">${t.settings.map(s=>`<li>${s}</li>`).join('')}</ul>
+        <p class="mt-2 font-semibold">Prompt Stack</p><ul class="list-disc ml-6">${t.prompts.map(p=>`<li><code>${p}</code></li>`).join('')}</ul>`;
+      wrap.appendChild(div);
+    });
+  }
+
+  $('#dlMain')?.addEventListener('click', ()=> downloadPDFFixed('pdfMain','AiPairWise_Main_Report.pdf'));
+  $('#dlBonus')?.addEventListener('click', ()=> downloadPDFFixed('pdfBonus','AiPairWise_Bonus_5_Secret_Tools.pdf'));
+
+  // Guardrails
+  $('#upsell47')?.addEventListener('click', ()=>{
+    if(!state.paid17){ alert('Unlock the $17 bonus first.'); return; }
+    hide($('#bonusContentWrap')); show($('#guardrailUpsell')); window.scrollTo({top:0,behavior:'smooth'});
+  });
+  $('#backFromGuardUpsell')?.addEventListener('click', ()=>{ hide($('#guardrailUpsell')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); });
+
+  $('#pay47Btn')?.addEventListener('click', ()=>{
+    state.paid47 = true;
+    hide($('#guardrailUpsell')); show($('#guardrailsWrap'));
+    const today = new Date().toISOString().slice(0,10);
+    $('#guardDate').value = today;
+    $('#guardCompanyInline').textContent = $('#guardCompany').value || 'Your Company, Inc.';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  $('#backFromGuard')?.addEventListener('click', ()=>{ hide($('#guardrailsWrap')); show($('#results')); window.scrollTo({top:0,behavior:'smooth'}); });
+
+  $('#guardrailsWrap')?.addEventListener('input',(e)=>{ if(e.target.id==='guardCompany'){ $('#guardCompanyInline').textContent = e.target.value || 'Your Company, Inc.'; }});
+
+  $('#dlGuardrails')?.addEventListener('click', ()=> downloadPDFFixed('pdfGuardrails','AiPairWise_AI_Guardrails_ISO_Inspired.pdf'));
+});
+</script>
 </body>
 </html>
