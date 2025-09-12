@@ -4,12 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AIpairwise – Instant AI Playbooks for PMs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f4f6f8;
       --text: #2d3748;
       --primary: #4a90e2;
       --accent: #edf2f7;
+      --warning: #f6c90e;
+      --upsell-bg: #fffbe6;
+      --bonus-bg: #f0fdf4;
     }
 
     * { box-sizing: border-box; }
@@ -23,10 +27,25 @@
     }
 
     header {
-      background: var(--primary);
-      color: white;
+      background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+      padding: 2rem 1rem;
+    }
+
+    header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.8rem;
       text-align: center;
-      padding: 1rem 0;
+      color: white;
+      margin-bottom: 0.25rem;
+      text-shadow: 1px 1px 2px #00000055;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      text-align: center;
+      color: #e0f2fe;
+      font-weight: 300;
+      margin-top: 0;
     }
 
     .container {
@@ -35,11 +54,7 @@
       padding: 1.5rem;
     }
 
-    h1, h2 {
-      text-align: center;
-      margin-bottom: 0.5rem;
-    }
-
+    h2 { text-align: center; margin-bottom: 0.5rem; }
     input[type="text"], input[type="email"] {
       width: 100%;
       padding: 0.75rem;
@@ -61,7 +76,7 @@
       cursor: pointer;
     }
 
-    .results {
+    .results, .paywall {
       margin-top: 2rem;
       padding: 1rem;
       background: white;
@@ -69,7 +84,7 @@
       border-radius: 6px;
     }
 
-    .results h3 {
+    .results h3, .paywall h3 {
       margin-top: 1rem;
       color: var(--primary);
     }
@@ -81,9 +96,7 @@
       border-radius: 4px;
     }
 
-    .section {
-      margin-top: 2rem;
-    }
+    .section { margin-top: 2rem; }
 
     .tile {
       background: white;
@@ -113,14 +126,14 @@
 </head>
 <body>
   <header>
-    <h1>AIpairwise</h1>
-    <p>Your instant AI playbook assistant for project managers</p>
+    <h1>🤖 AIpairwise</h1>
+    <p>Instant AI Playbooks for Busy Project Managers</p>
   </header>
 
   <div class="container">
 
-    <!-- 🔹 Instructions Section -->
-    <div class="section" style="margin-top: 1rem; background: #e7f3ff; border: 1px solid #90cdf4; border-radius: 6px; padding: 1.5rem;">
+    <!-- Instructions -->
+    <div class="section" style="background: #e7f3ff; border: 1px solid #90cdf4; border-radius: 6px; padding: 1.5rem;">
       <h2>👋 Welcome to AIpairwise</h2>
       <p><strong>How to use this tool:</strong></p>
       <ul>
@@ -130,64 +143,81 @@
       </ul>
       <p><strong>What you'll get:</strong></p>
       <ul>
-        <li>✅ A ready-to-copy AI prompt</li>
+        <li>✅ A ready‑to‑copy AI prompt</li>
         <li>🛠 A Workflow Playbook using AI tools</li>
         <li>⚠️ A safety tip for ethical use</li>
       </ul>
-      <p><strong>Top 3 AI Tools Every PM Should Know:</strong></p>
-      <ul>
-        <li>🧠 ChatGPT / Claude – for writing, summarizing, planning</li>
-        <li>📝 Otter.ai / Fireflies – for meeting transcriptions</li>
-        <li>📂 Notion / Asana – for organizing AI outputs into tasks</li>
-      </ul>
-      <p><strong>Settings Tips:</strong> No setup required. Just start typing or clicking. Don’t input sensitive data.</p>
     </div>
 
-    <!-- 🎁 Bonus Section: PM Pro Tips -->
-    <div class="section" style="margin-top: 2rem; background: #f0fdf4; border: 2px solid #34d399; padding: 2rem; border-radius: 6px;">
+    <!-- Bonus Section -->
+    <div class="section" style="background: var(--bonus-bg); border: 2px solid #34d399; padding: 2rem; border-radius: 6px;">
       <h2 style="text-align:center;">🎁 PM Pro Tips: Customize AI Tools Like a Boss</h2>
-      <p style="text-align:center;">Most people use AI like Google. Here's how to go next-level — and actually get insightful, actionable results.</p>
-
+      <p style="text-align:center;">Stop using AI like Google. Here’s how to get strategic output.</p>
       <h3>🧠 ChatGPT / Claude</h3>
       <ul>
-        <li><strong>Set a role:</strong> “You are a certified PMP helping draft a communication plan…”</li>
-        <li><strong>Give examples:</strong> “Here’s how we handled this last quarter…”</li>
-        <li><strong>Iterate:</strong> Ask for rewrites, simplification, or stakeholder-friendly versions</li>
+        <li><strong>Go to ChatGPT → Settings → Custom Instructions:</strong> Fill in “What should ChatGPT know?” and “How should it respond?”</li>
+        <li><strong>Turn on Memory:</strong> Let ChatGPT remember your role, preferences, and tone</li>
+        <li><strong>Use real examples:</strong> Provide templates and real responses for it to learn from</li>
       </ul>
-
-      <h3>📝 Otter.ai / Fireflies.ai</h3>
+      <h3>📝 Otter.ai / Fireflies</h3>
       <ul>
-        <li><strong>Name meetings clearly:</strong> “Stakeholder Kickoff – Sept 15”</li>
-        <li><strong>Tag speakers + decisions:</strong> Helps AI extract clean action items</li>
-        <li><strong>Export clean text:</strong> Paste into AIpairwise for instant summaries</li>
+        <li><strong>Name your meetings:</strong> "Sprint Planning – Sept 22"</li>
+        <li><strong>Mark actions:</strong> Say clearly: "Decision:..." or "Action:..."</li>
+        <li><strong>Export clean transcript:</strong> and use AIpairwise to summarize or plan</li>
       </ul>
 
       <h3>📂 Notion / Asana</h3>
       <ul>
-        <li><strong>Paste AI results:</strong> into project docs, briefs, tasks</li>
-        <li><strong>Break it down:</strong> into subtasks and deadlines</li>
-        <li><strong>Tag team members:</strong> and assign deliverables</li>
+        <li><strong>Paste your results:</strong> into project briefs or tasks</li>
+        <li><strong>Break down tasks:</strong> with deadlines, owners, deliverables</li>
+        <li><strong>Assign to team:</strong> Tag collaborators to take action</li>
       </ul>
     </div>
 
-    <!-- 💬 Main Task Input -->
-    <h2>What's your project task?</h2>
-    <input type="text" id="taskInput" placeholder="e.g., draft a risk register" />
-    <b
-    <!-- 🚀 Quick Wins -->
+    <!-- Paywall Section -->
+    <div class="section paywall" id="paywall" style="background: white; border: 2px solid var(--warning); border-radius: 6px;">
+      <h3>Access Your Results – $37 One-Time</h3>
+      <p>Enter your name & email to unlock full access to the AI Prompt, Workflow Playbook, and Guardrail Tip.</p>
+      <form id="purchaseForm" style="max-width: 420px; margin: auto;">
+        <input type="text" id="buyerName" placeholder="Your Name" required />
+        <input type="email" id="buyerEmail" placeholder="Your Email" required />
+        <button type="submit" style="background: var(--warning); color: #333;">Pay & Get Access</button>
+      </form>
+    </div>
+
+    <!-- Project Task Input -->
+    <div class="section" id="taskSection" style="display: none;">
+      <h2>What's your project task?</h2>
+      <input type="text" id="taskInput" placeholder="e.g., draft a risk register" />
+      <button id="generateBtn">Generate Playbook</button>
+
+      <div class="results" id="results" style="display: none;">
+        <h3>✅ AI Prompt</h3>
+        <pre id="promptOutput"></pre>
+        <button onclick="copyToClipboard()">Copy Prompt</button>
+
+        <h3>🛠 Workflow Playbook</h3>
+        <pre id="workflowOutput"></pre>
+
+        <h3>⚠️ Guardrail Tip</h3>
+        <pre id="guardrailOutput"></pre>
+      </div>
+    </div>
+
+    <!-- Quick Wins -->
     <div class="section">
       <h2>🚀 Quick Wins for PMs</h2>
       <div id="quickWins"></div>
     </div>
 
-    <!-- 📚 Prompt Library -->
+    <!-- Prompt Library -->
     <div class="section">
-      <h2>📚 Prompt Library (Aligned with PMBOK® Knowledge Areas)</h2>
+      <h2>📚 Prompt Library (aligned with PMBOK® Knowledge Areas)</h2>
       <div id="promptLibrary"></div>
     </div>
 
-    <!-- 🧠 Upsell: Certification Waitlist -->
-    <div class="section" style="margin-top: 3rem; background: #fffbe6; padding: 2rem; border-radius: 6px; border: 2px solid #f6c90e;">
+    <!-- Upsell: Waitlist -->
+    <div class="section" style="background: var(--upsell-bg); padding: 2rem; border: 2px solid var(--warning); border-radius: 6px;">
       <h2 style="text-align:center;">🧠 Get Certified in AI Before Your Boss Asks Why You’re NOT</h2>
       <p style="text-align:center;">Career insurance for PMs & Business Consultants in the AI era.</p>
       <ul>
@@ -202,13 +232,13 @@
       </form>
     </div>
 
-    <!-- ⚖️ Legal Footer -->
+    <!-- Legal Footer -->
     <footer>
       <p>PMBOK is a registered mark of the Project Management Institute, Inc. AIpairwise is not affiliated with or endorsed by PMI.</p>
     </footer>
+
   </div>
 
-  <!-- 🔧 JS -->
   <script>
     const quickWins = [
       "Generate a WBS draft",
@@ -236,10 +266,19 @@
       Integration: ["Create project charter", "Develop project plan"]
     };
 
+    document.getElementById('purchaseForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('buyerName').value.trim();
+      const email = document.getElementById('buyerEmail').value.trim();
+      if (!name || !email) return alert("Please enter your name and email");
+      // Simulate payment
+      document.getElementById('paywall').style.display = 'none';
+      document.getElementById('taskSection').style.display = 'block';
+    });
+
     document.getElementById('generateBtn').addEventListener('click', () => {
       const task = document.getElementById('taskInput').value.trim();
       if (!task) return alert("Please enter a task.");
-
       const { prompt, workflow, guardrail } = generatePlaybook(task);
       document.getElementById('promptOutput').textContent = prompt;
       document.getElementById('workflowOutput').textContent = workflow;
@@ -250,7 +289,7 @@
     function generatePlaybook(task) {
       const prompt = `You are a project manager AI. Given this task: "${task}", generate an optimized prompt to use in an AI tool for best results.`;
       const workflow = `1. Clarify task goals\n2. Use the prompt in ChatGPT/Claude\n3. Review AI output for clarity and completeness\n4. Share with team using Notion/Asana`;
-      const guardrail = `Never input sensitive client data. Always verify key numbers, names, and assumptions before sharing AI-generated content.`;
+      const guardrail = `Never input sensitive client data. Always verify numbers, names, and assumptions before sharing AI-generated content.`;
       return { prompt, workflow, guardrail };
     }
 
@@ -295,7 +334,6 @@
     renderQuickWins();
     renderPromptLibrary();
 
-    // Waitlist submission to Google Sheets Webhook
     document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('waitlistEmail').value.trim();
@@ -304,9 +342,7 @@
       try {
         const response = await fetch('YOUR_GAS_WEBHOOK_URL_HERE', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: `email=${encodeURIComponent(email)}`
         });
         const result = await response.json();
