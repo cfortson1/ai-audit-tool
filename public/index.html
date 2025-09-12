@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AIpairwise – Instant AI Playbooks for PMs</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-  <!-- Include Typed.js early -->
+  <!-- Typed.js library -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/dist/typed.min.js"></script>
   <style>
     :root {
@@ -18,22 +18,64 @@
       --bonus-bg: #f0fdf4;
     }
     * { box-sizing: border-box; }
-    body { margin:0; font-family:'Segoe UI',sans-serif; background: var(--bg); color: var(--text); padding-bottom:3rem; }
-    header { background: linear-gradient(90deg, #1e3a8a, #3b82f6); padding:2rem 1rem; }
-    header h1 { font-family:'Poppins',sans-serif; font-size:2.8rem; text-align:center; color:white; margin-bottom:0.25rem; text-shadow:1px 1px 2px #00000055; }
-    header p { font-size:1.1rem; text-align:center; color:#e0f2fe; font-weight:300; margin-top:0; }
+    body {
+      margin:0;
+      font-family:'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom:3rem;
+    }
+    header {
+      background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+      padding:2rem 1rem;
+    }
+    header h1 {
+      font-family:'Poppins',sans-serif;
+      font-size:2.8rem;
+      text-align:center;
+      color:white;
+      margin-bottom:0.25rem;
+      text-shadow:1px 1px 2px #00000055;
+    }
+    header p {
+      font-size:1.1rem;
+      text-align:center;
+      color:#e0f2fe;
+      font-weight:300;
+      margin-top:0;
+    }
     .container { max-width:720px; margin:auto; padding:1.5rem; }
     h2 { text-align:center; margin-bottom:0.5rem; }
     h3 { margin-top:1rem; color: var(--primary); }
-    input[type="text"], input[type="email"] { width:100%; padding:0.75rem; font-size:1.1rem; border:1px solid #ccc; border-radius:4px; }
-    button { display:block; width:100%; margin-top:1rem; padding:0.75rem; font-size:1rem; background-color:var(--primary); color:white; border:none; border-radius:4px; cursor:pointer; }
-    .paywall, .typing-area { margin-top:2rem; padding:1rem; background:white; border:1px solid #ccc; border-radius:6px; }
-    pre { white-space:pre-wrap; background: var(--accent); padding:1rem; border-radius:4px; overflow-x: auto; }
+    input[type="text"], input[type="email"] {
+      width:100%; padding:0.75rem; font-size:1.1rem; border:1px solid #ccc; border-radius:4px;
+    }
+    button {
+      display:block; width:100%; margin-top:1rem; padding:0.75rem;
+      font-size:1rem; background-color:var(--primary); color:white;
+      border:none; border-radius:4px; cursor:pointer;
+    }
+    .paywall, .typing-area {
+      margin-top:2rem; padding:1rem; background:white; border:1px solid #ccc; border-radius:6px;
+    }
+    .typing-area strong {
+      display:block; margin-top:1rem;
+    }
+    pre {
+      white-space:pre-wrap; background: var(--accent); padding:1rem; border-radius:4px; overflow-x:auto;
+    }
     .section { margin-top:2rem; }
-    .tile { background:white; border:1px solid #ddd; border-radius:6px; padding:1rem; margin-bottom:0.5rem; cursor:pointer; transition:0.2s; }
+    .tile {
+      background:white; border:1px solid #ddd; border-radius:6px;
+      padding:1rem; margin-bottom:0.5rem; cursor:pointer; transition:0.2s;
+    }
     .tile:hover { background-color:#e9f2fd; }
-    footer { font-size:0.8rem; text-align:center; color:#777; margin-top:3rem; }
-    @media (max-width:600px) { button { font-size:1rem; } }
+    footer {
+      font-size:0.8rem; text-align:center; color:#777; margin-top:3rem;
+    }
+    @media (max-width:600px) {
+      button { font-size:1rem; }
+    }
   </style>
 </head>
 <body>
@@ -41,31 +83,70 @@
     <h1>🤖 AIpairwise</h1>
     <p>Instant AI Playbooks for Busy Project Managers</p>
   </header>
-
   <div class="container">
 
-    <!-- Value + Paywall -->
+    <!-- Instructions + Value -->
+    <div class="section" style="background: #e7f3ff; border:1px solid #90cdf4; border-radius:6px; padding:1.5rem;">
+      <h2>👋 Welcome to AIpairwise</h2>
+      <p><strong>How to use this tool:</strong></p>
+      <ul>
+        <li>💬 <strong>Type</strong> your project task (e.g. “summarize stakeholder meeting”)</li>
+        <li>🚀 Or <strong>click a Quick Win</strong> below</li>
+        <li>📚 Or browse the Prompt Library by PMBOK® Knowledge Areas</li>
+      </ul>
+      <p><strong>What you’ll get:</strong></p>
+      <ul>
+        <li>✅ A prompt ready to paste into ChatGPT or your AI tool</li>
+        <li>🛠 A workflow playbook with clear steps + tool suggestions</li>
+        <li>⚠️ Guardrail tips for safe, ethical use</li>
+      </ul>
+    </div>
+
+    <!-- Bonus / Tools Customization -->
+    <div class="section" style="background: var(--bonus-bg); border:2px solid #34d399; padding:2rem; border-radius:6px;">
+      <h2 style="text-align:center;">🎁 PM Pro Tips: Customize AI Tools Like a Boss</h2>
+      <p style="text-align:center;">Go beyond prompts — set up tools so AI works *with you*, not just for you.</p>
+      <h3>🧠 ChatGPT / Claude</h3>
+      <ul>
+        <li><strong>Go to Settings → Custom Instructions:</strong> Fill in “What should the assistant know about you?” and “How should it respond?” so your tone, goals, preferences stick.</li>
+        <li><strong>Use Memory or Role features:</strong> Save your project style, domain terms, stakeholder names.</li>
+        <li><strong>Supply examples:</strong> “Always list action items”, “Give me a summary then bullets”, etc.</li>
+      </ul>
+      <h3>📝 Otter.ai / Fireflies</h3>
+      <ul>
+        <li>Name meetings clearly so context is captured (“Stakeholder Kickoff – Sept 15”).</li>
+        <li>Use speaker tags + mark decisions during the meeting.</li>
+        <li>Export transcript, clean up, then feed into AI for summary.</li>
+      </ul>
+      <h3>📂 Notion / Asana</h3>
+      <ul>
+        <li>Paste AI draft outputs directly into project briefs/task boards.</li>
+        <li>Break them into subtasks with deadlines, owners.</li>
+        <li>Assign, tag team for review so nothing falls through.</li>
+      </ul>
+    </div>
+
+    <!-- Paywall / Gate -->
     <div class="section paywall" id="paywall">
-      <h3>Accelerate Your PM Tasks — Get Full AIpairwise Access for $37</h3>
-      <p>If you want to unlock prompts, playbooks & guardrails that save you HOURS, improve your planning, and impress stakeholders — click below. Your project work deserves smarter, faster tools.</p>
+      <h3>🚀 Accelerate Your PM Tasks — Full AIpairwise Access for $37</h3>
+      <p>If you want to unlock game‑changing prompts, workflow playbooks, and guardrails that save you HOURS, sharpen your planning, and deliver results your stakeholders love — this is your path. Smart, fast, effective.</p>
       <form id="purchaseForm">
         <input type="text" id="buyerName" placeholder="Your Name" required/>
         <input type="email" id="buyerEmail" placeholder="Your Email" required/>
-        <button type="submit">Claim Access ($37 One‑Time)</button>
+        <button type="submit">Claim Full Access ($37 One‑Time)</button>
       </form>
     </div>
 
-    <!-- Typing area for results -->
+    <!-- Results section (hidden until after paywall + generate) -->
     <div class="section typing-area" id="typingArea" style="display:none;">
       <div id="detectedCategory" style="font-style:italic; color:#555; text-align:center; margin-bottom:1rem;"></div>
-      <div><strong>AI Prompt:</strong> <span id="typedPrompt"></span></div>
-      <div><strong>Workflow Playbook:</strong> <span id="typedWorkflow"></span></div>
-      <div><strong>Guardrail Tip:</strong> <span id="typedGuardrail"></span></div>
+      <strong>AI Prompt:</strong> <span id="typedPrompt"></span>
+      <strong>Workflow Playbook:</strong> <span id="typedWorkflow"></span>
+      <strong>Guardrail Tip:</strong> <span id="typedGuardrail"></span>
     </div>
 
-    <!-- Task section -->
     <div class="section" id="taskSection" style="display:none;">
-      <h2>What's your project task?</h2>
+      <h2>What’s your project task?</h2>
       <input type="text" id="taskInput" placeholder="e.g., draft a risk register"/>
       <button id="generateBtn">Generate Playbook</button>
     </div>
@@ -82,165 +163,223 @@
       <div id="promptLibrary"></div>
     </div>
 
-    <!-- Upsell Waitlist -->
-    <div class="section">
-      <h2>🧠 Certification Waitlist</h2>
+    <!-- Waitlist Upsell -->
+    <div class="section" style="background: var(--upsell-bg); padding:2rem; border:2px solid var(--warning); border-radius:6px;">
+      <h2 style="text-align:center;">🧠 Get Certified in AI Before Your Boss Asks Why You’re NOT</h2>
+      <p style="text-align:center;">Career insurance for PMs & Business Consultants. Learn to lead, not scramble. Tools, workflows, certification.</p>
       <form id="waitlistForm">
-        <input type="email" id="waitlistEmail" placeholder="Your Email" required/>
+        <input type="email" id="waitlistEmail" placeholder="Enter your email to join the waitlist" required/>
         <button type="submit">Join Waitlist</button>
       </form>
-      <p id="waitlistMsg" style="display:none; color:green;">You're on the list! ✅</p>
+      <p id="waitlistMsg" style="display:none; text-align:center; color:green; margin-top:1rem;">You're officially on the waitlist! ✅</p>
     </div>
 
     <footer>
       <p>PMBOK is a registered mark of the Project Management Institute, Inc. AIpairwise is not affiliated with or endorsed by PMI.</p>
     </footer>
-
-  </div> <!-- container close -->
+  </div>
 
   <script>
-    const quickWins = ["Generate a WBS draft","Summarize stakeholder meeting","Draft a risk register","Create RACI matrix","Draft project charter","Generate executive summary","Identify project constraints","Define success criteria","Prepare kickoff agenda","Estimate task durations"];
+    const quickWins = [
+      "Generate a WBS draft",
+      "Summarize stakeholder meeting",
+      "Draft a risk register",
+      "Create RACI matrix",
+      "Draft project charter",
+      "Generate executive summary",
+      "Identify project constraints",
+      "Define success criteria",
+      "Prepare kickoff agenda",
+      "Estimate task durations"
+    ];
     const promptLibrary = {
-      Scope:["Define project scope","Create WBS","Identify deliverables"],
-      Risk:["Draft risk register","Perform risk analysis"],
-      Schedule:["Estimate task durations","Create schedule plan"],
-      Reporting:["Generate executive summary","Progress report draft"],
-      Initiation:["Draft project charter","Define objectives"]
+      Scope: ["Define project scope", "Create WBS", "Identify deliverables"],
+      Schedule: ["Estimate task durations", "Create schedule plan"],
+      Cost: ["Create budget breakdown", "Estimate costs"],
+      Risk: ["Draft risk register", "Perform risk analysis"],
+      Communication: ["Develop communication plan", "Summarize meeting"],
+      Stakeholder: ["Map stakeholders", "Engage key stakeholders"],
+      Initiation: ["Draft project charter", "Define objectives"],
+      Reporting: ["Generate executive summary", "Progress report draft"],
+      Resource: ["Assign roles", "Resource estimation"]
     };
 
     let typedPrompt, typedWorkflow, typedGuardrail;
     let currentTask = "";
 
-    document.getElementById('purchaseForm').addEventListener('submit',(e)=>{
+    // Paywall logic
+    document.getElementById('purchaseForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('buyerName').value.trim();
       const email = document.getElementById('buyerEmail').value.trim();
-      if(!name || !email){
+      if (!name || !email) {
         alert("Please enter your name and email");
         return;
       }
-      document.getElementById('paywall').style.display='none';
-      document.getElementById('taskSection').style.display='block';
+      // simulate payment
+      document.getElementById('paywall').style.display = 'none';
+      document.getElementById('taskSection').style.display = 'block';
     });
 
-    function detectCategory(task){
-      const lower=task.toLowerCase();
-      if(lower.includes("risk")) return "Risk Management";
-      if(lower.includes("summary")||lower.includes("meeting")) return "Communications / Stakeholder";
-      if(lower.includes("wbs")||lower.includes("work breakdown")) return "Scope / Planning";
-      if(lower.includes("charter")||lower.includes("initiation")) return "Initiation";
-      if(lower.includes("raci")) return "Roles / Accountability";
-      if(lower.includes("schedule")||lower.includes("timeline")) return "Schedule Management";
-      if(lower.includes("cost")||lower.includes("budget")) return "Cost Management";
+    function detectCategory(task) {
+      const lower = task.toLowerCase();
+      if (lower.includes("risk")) return "Risk Management";
+      if (lower.includes("summary") || lower.includes("meeting")) return "Communications / Stakeholder";
+      if (lower.includes("wbs") || lower.includes("work breakdown")) return "Scope / Planning";
+      if (lower.includes("charter") || lower.includes("initiation")) return "Initiation";
+      if (lower.includes("raci")) return "Roles / Accountability";
+      if (lower.includes("schedule") || lower.includes("timeline")) return "Schedule Management";
+      if (lower.includes("cost") || lower.includes("budget")) return "Cost Management";
       return "General Project Management";
     }
 
-    function generatePlaybook(task){
-      const lower=task.toLowerCase();
-      let prompt="", workflow="", tools="", guardrail="";
-      if(lower.includes("risk")){
-        prompt=`You are a project manager AI. Draft a risk register for: "${task}".`;
-        workflow=`1. Brainstorm risks\n2. Use ChatGPT to list and prioritize\n3. Format in Notion/Excel`;
-        tools=`🛠 Recommended AI Tools:\n- ChatGPT: Generates list + analysis\n- Notion/Excel: Track risks`;
-        guardrail=`Validate with team; AI may omit internal‑specific risks.`;
-      } else if(lower.includes("summary")||lower.includes("summarize")||lower.includes("meeting")){
-        prompt=`Summarize this meeting transcript into key actions & decisions: "${task}".`;
-        workflow=`1. Use Otter.ai to transcribe\n2. Paste into ChatGPT\n3. Format & share`;
-        tools=`🛠 Recommended AI Tools:\n- Otter.ai: transcribe audio to text\n- ChatGPT: summarize`;
-        guardrail=`Check transcript quality; verify decisions if unclear.`;
-      } else if(lower.includes("wbs")||lower.includes("work breakdown")){
-        prompt=`You are a PMP‑certified AI. Create a hierarchical WBS (3 levels) for: "${task}".`;
-        workflow=`1. Define deliverables\n2. Use ChatGPT to generate hierarchy\n3. Visualize in Whimsical or similar`;
-        tools=`🛠 Recommended AI Tools:\n- ChatGPT: structure WBS\n- Whimsical: visualize hierarchy`;
-        guardrail=`Always confirm WBS with stakeholders; AI may misinterpret scope.`;
-      } else if(lower.includes("charter")||lower.includes("initiation")){
-        prompt=`Draft a full Project Charter for: "${task}". Include purpose, objectives, stakeholders, and constraints.`;
-        workflow=`1. Collect sponsor inputs\n2. Use ChatGPT to draft charter\n3. Review & share with team`;
-        tools=`🛠 Recommended AI Tools:\n- ChatGPT: draft content\n- Notion / Google Docs: collaboration`;
-        guardrail=`Ensure sponsor review; AI content is draft only.`;
+    function generatePlaybook(task) {
+      const lower = task.toLowerCase();
+      let prompt, workflow, tools, guardrail;
+
+      if (lower.includes("risk")) {
+        prompt = `You are a certified PM. Draft a Risk Register for: "${task}". Use categories like Schedule, Cost, Scope, etc.`;
+        workflow = `1. Brainstorm risks with team\n2. Use ChatGPT to list risks & rate likelihood vs impact\n3. Format into table in Notion/Excel\n4. Review with stakeholders`;
+        tools = `🛠 Recommended AI Tools:\n- ChatGPT (https://chat.openai.com): For generating risk lists & analysis\n- Notion / Excel: For organizing, updating and sharing the register`;
+        guardrail = `Validate each risk with team; adjust for your organization’s risk tolerance; don’t assume AI knows all internal risks.`;
+      } else if (lower.includes("summary") || lower.includes("summarize") || lower.includes("meeting")) {
+        prompt = `You are an executive assistant AI. Summarize meeting transcript into action items, decisions & questions for: "${task}".`;
+        workflow = `1. Record or transcribe via Otter.ai / Fireflies\n2. Export and paste transcript into ChatGPT using the prompt\n3. Refine summary, highlight decisions, actions, and questions\n4. Share in your communication platform or docs`;
+        tools = `🛠 Recommended AI Tools:\n- Otter.ai or Fireflies: For capturing accurate meeting transcripts\n- ChatGPT: For summarizing and extracting key content`;
+        guardrail = `Always cross‑check transcripts; clarify ambiguous decisions; ensure action items are assigned.`;
+      } else if (lower.includes("wbs") || lower.includes("work breakdown")) {
+        prompt = `You are a PMP AI. Create a 3‑level Work Breakdown Structure based on: "${task}".`;
+        workflow = `1. Identify major deliverables\n2. Use ChatGPT to generate detailed breakdown\n3. Visualize in diagram tool (e.g. Whimsical)\n4. Confirm structure with project team`;
+        tools = `🛠 Recommended AI Tools:\n- ChatGPT: For creating hierarchical outlines\n- Whimsical or Miro: For visual diagrams and collaboration`;
+        guardrail = `Make sure deliverables map to scope & constraints; AI may propose unrealistic breakdowns without domain input.`;
+      } else if (lower.includes("charter") || lower.includes("initiation")) {
+        prompt = `Draft a Project Charter for: "${task}". Include goals, scope, stakeholder list & constraints.`;
+        workflow = `1. Gather sponsor and stakeholder input\n2. Use ChatGPT to draft charter sections\n3. Review & edit with sponsor\n4. Share final version with team`;
+        tools = `🛠 Recommended AI Tools:\n- ChatGPT: For drafting structured charter content\n- Notion / Google Docs: For collaboration & version control`;
+        guardrail = `Obtain sponsor buy‑in; ensure scope & objectives align with organizational strategy; treat draft as collaborative.`;
+      } else if (lower.includes("raci")) {
+        prompt = `Create a RACI Matrix for: "${task}". Label activities & assign R/A/C/I clearly.`;
+        workflow = `1. List all tasks/activities\n2. Use ChatGPT to propose RACI assignments\n3. Adjust with your team\n4. Document matrix and share`;
+        tools = `🛠 Recommended AI Tools:\n- ChatGPT: For proposing RACI structure\n- Excel / Notion: For visual matrix and changes tracking`;
+        guardrail = `Validate responsibilities with real roles; AI may assign based on generic assumptions.`;
+      } else if (lower.includes("schedule") || lower.includes("timeline")) {
+        prompt = `Build a timeline for: "${task}". Include milestones, dependencies & durations.`;
+        workflow = `1. Identify major phases and milestones\n2. Use ChatGPT to estimate task durations & order\n3. Adjust for team capacity & dependencies\n4. Map into Gantt/chart in Notion or Project tool`;
+        tools = `🛠 Recommended AI Tools:\n- ChatGPT: For structuring & estimating durations\n- Notion / MS Project: For visual schedule & sharing`;
+        guardrail = `AI estimates may be optimistic; always add buffer; verify with real resource availability.`;
+      } else if (lower.includes("cost") || lower.includes("budget")) {
+        prompt = `Estimate cost for: "${task}". Include cost categories, assumptions, possible risks.`;
+        workflow = `1. List cost categories (labor, materials, overhead, contingency)\n2. Use ChatGPT with those to estimate ranges\n3. Validate with vendor quotes or previous projects\n4. Document assumptions and monitor expenditure`;
+        tools = `🛠 Recommended AI Tools:\n- ChatGPT: For scenario-based cost estimation\n- Excel / Google Sheets: For tracking and comparison`;
+        guardrail = `AI gives estimates; expect variances; include contingency; monitor actuals vs estimates.`;
       } else {
-        prompt=`You are a project manager AI. Help with: "${task}".`;
-        workflow=`1. Clarify objective\n2. Use ChatGPT for structure or suggestions\n3. Validate & adapt`;
-        tools=`🛠 Recommended AI Tools:\n- ChatGPT: idea generation\n- Notion/Asana: organize output`;
-        guardrail=`Don’t treat AI output as final; adjust to your context.`;
+        prompt = `You are a PM AI. Assist with: "${task}". Suggest an approach with relevant steps and tools.`;
+        workflow = `1. Clarify the objective and deliverable\n2. Use ChatGPT for structure, ideas or drafts\n3. Customize output for your context (team, tools, timeline)\n4. Document next steps and assign`;
+        tools = `🛠 Recommended AI Tools:\n- ChatGPT: Versatile for many PM tasks\n- Notion / Asana / Trello: To organize, track, and share the output`;
+        guardrail = `Don’t assume AI knows your constraints; always adapt outputs to real conditions and verify key details.`;
       }
-      return { prompt, workflow:`${workflow}\n\n${tools}`, guardrail };
+
+      return { prompt, workflow: `${workflow}\n\n${tools}`, guardrail };
     }
 
-    function animateResults(prompt, workflow, guardrail){
-      if(!prompt || !workflow || !guardrail){
-        console.log("animateResults: missing content:", {prompt, workflow, guardrail});
+    function animateResults(prompt, workflow, guardrail) {
+      // ensure we have values
+      if (!prompt || !workflow || !guardrail) {
+        console.error("animateResults missing content:", { prompt, workflow, guardrail });
         return;
       }
-      document.getElementById('typingArea').style.display='block';
-      document.getElementById('detectedCategory').textContent=`Detected Category: ${detectCategory(currentTask)}`;
 
-      if(typedPrompt) typedPrompt.destroy();
-      if(typedWorkflow) typedWorkflow.destroy();
-      if(typedGuardrail) typedGuardrail.destroy();
+      document.getElementById('typingArea').style.display = 'block';
 
-      typedPrompt = new Typed('#typedPrompt',{ strings:[prompt], typeSpeed:40, showCursor:false });
-      typedWorkflow = new Typed('#typedWorkflow',{ strings:[workflow], typeSpeed:30, showCursor:false });
-      typedGuardrail = new Typed('#typedGuardrail',{ strings:[guardrail], typeSpeed:30, showCursor:false });
+      document.getElementById('detectedCategory').textContent = `Detected Category: ${detectCategory(currentTask)}`;
+
+      if (typedPrompt) typedPrompt.destroy();
+      if (typedWorkflow) typedWorkflow.destroy();
+      if (typedGuardrail) typedGuardrail.destroy();
+
+      typedPrompt = new Typed('#typedPrompt', { strings: [prompt], typeSpeed: 40, showCursor: false });
+      typedWorkflow = new Typed('#typedWorkflow', { strings: [workflow], typeSpeed: 30, showCursor: false });
+      typedGuardrail = new Typed('#typedGuardrail', { strings: [guardrail], typeSpeed: 30, showCursor: false });
     }
 
-    document.getElementById('generateBtn').addEventListener('click',()=>{
-      const inputEl=document.getElementById('taskInput');
-      const task=inputEl.value.trim();
-      if(!task){
+    // Click handler
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const inputEl = document.getElementById('taskInput');
+      const task = inputEl.value.trim();
+      if (!task) {
         alert("Please enter a task.");
         return;
       }
-      currentTask=task;
-      const result=generatePlaybook(task);
+      currentTask = task;
+      const result = generatePlaybook(task);
       console.log("generatePlaybook output:", result);
       animateResults(result.prompt, result.workflow, result.guardrail);
     });
 
-    function renderQuickWins(){
-      const div=document.getElementById('quickWins');
-      quickWins.forEach(q=>{
-        const t=document.createElement('div');
-        t.className='tile';
-        t.textContent=q;
-        t.onclick=()=>{ document.getElementById('taskInput').value=q; document.getElementById('generateBtn').click(); };
+    function renderQuickWins() {
+      const div = document.getElementById('quickWins');
+      quickWins.forEach(q => {
+        const t = document.createElement('div');
+        t.className = 'tile';
+        t.textContent = q;
+        t.onclick = () => {
+          document.getElementById('taskInput').value = q;
+          document.getElementById('generateBtn').click();
+        };
         div.appendChild(t);
       });
     }
 
-    function renderPromptLibrary(){
-      const div=document.getElementById('promptLibrary');
-      for(const area in promptLibrary){
-        const h=document.createElement('h3');
-        h.textContent=area;
+    function renderPromptLibrary() {
+      const div = document.getElementById('promptLibrary');
+      for (const area in promptLibrary) {
+        const h = document.createElement('h3');
+        h.textContent = area;
         div.appendChild(h);
-        promptLibrary[area].forEach(q=>{
-          const t=document.createElement('div');
-          t.className='tile';
-          t.textContent=q;
-          t.onclick=()=>{ document.getElementById('taskInput').value=q; document.getElementById('generateBtn').click(); };
+        promptLibrary[area].forEach(q => {
+          const t = document.createElement('div');
+          t.className = 'tile';
+          t.textContent = q;
+          t.onclick = () => {
+            document.getElementById('taskInput').value = q;
+            document.getElementById('generateBtn').click();
+          };
           div.appendChild(t);
         });
       }
     }
 
+    // initialize
     renderQuickWins();
     renderPromptLibrary();
 
-    document.getElementById('waitlistForm')?.addEventListener('submit',(e)=>{
+    // Waitlist logic
+    document.getElementById('waitlistForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const email=document.getElementById('waitlistEmail').value.trim();
-      if(!email){ alert("Enter your email"); return; }
-      fetch('YOUR_GAS_WEBHOOK_URL_HERE',{
+      const email = document.getElementById('waitlistEmail').value.trim();
+      if (!email) {
+        alert("Enter your email");
+        return;
+      }
+      fetch('YOUR_GAS_WEBHOOK_URL_HERE', {
         method:'POST',
         headers:{ 'Content-Type':'application/x-www-form-urlencoded' },
         body:`email=${encodeURIComponent(email)}`
       })
       .then(r=>r.json())
-      .then(res=>{ if(res.result==='success'){ document.getElementById('waitlistMsg').style.display='block'; document.getElementById('waitlistForm').reset(); } else alert("Submission error") })
-      .catch(err=>{ console.error("Waitlist error:",err); alert("Could not connect"); });
+      .then(res=>{
+        if(res.result === "success") {
+          document.getElementById('waitlistMsg').style.display = 'block';
+          document.getElementById('waitlistForm').reset();
+        } else {
+          alert("Submission error");
+        }
+      })
+      .catch(err=>{
+        console.error("Waitlist error:", err);
+        alert("Could not connect");
+      });
     });
-
   </script>
 </body>
 </html>
