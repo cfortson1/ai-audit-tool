@@ -287,10 +287,94 @@
     });
 
     function generatePlaybook(task) {
-      const prompt = `You are a project manager AI. Given this task: "${task}", generate an optimized prompt to use in an AI tool for best results.`;
-      const workflow = `1. Clarify task goals\n2. Use the prompt in ChatGPT/Claude\n3. Review AI output for clarity and completeness\n4. Share with team using Notion/Asana`;
-      const guardrail = `Never input sensitive client data. Always verify numbers, names, and assumptions before sharing AI-generated content.`;
-      return { prompt, workflow, guardrail };
+  const lower = task.toLowerCase();
+  let prompt, workflow, tools, guardrail;
+
+  if (lower.includes("risk")) {
+    prompt = `You are a certified project manager. Help me draft a comprehensive Risk Register for the following task: "${task}" using standard risk categories and likelihood-impact analysis.`;
+    workflow = `1. Identify potential risks using team input or past projects
+2. Use ChatGPT to structure and draft the risk register
+3. Prioritize risks using likelihood vs. impact
+4. Review draft with team and finalize`;
+
+    tools = `🛠 Recommended AI Tools:
+- ChatGPT (https://chat.openai.com): Use to auto-generate a risk register from prompts
+- Notion or Excel: Store, sort and update risks in an organized way`;
+
+    guardrail = `Don't treat AI risk suggestions as complete. Validate every risk and impact level with actual team or project history.`;
+
+  } else if (lower.includes("summary") || lower.includes("summarize") || lower.includes("meeting")) {
+    prompt = `You are an executive assistant AI. Summarize this stakeholder meeting transcript into key action items, decisions, and open questions.`;
+    workflow = `1. Record your meeting using Otter.ai
+2. Export the transcript
+3. Paste transcript into ChatGPT and use the prompt above
+4. Edit and organize summary before sharing`;
+
+    tools = `🛠 Recommended AI Tools:
+- Otter.ai (https://otter.ai): Automatically transcribes meetings in real-time with speaker tags — use this to get a full text log
+- ChatGPT (https://chat.openai.com): Summarizes long transcripts into key actions, decisions, and notes`;
+
+    guardrail = `Always verify AI summaries. Don’t assume ChatGPT catches all nuances or decisions.`;
+
+  } else if (lower.includes("wbs") || lower.includes("work breakdown")) {
+    prompt = `You are a PMP-certified AI. Based on this project: "${task}", create a hierarchical Work Breakdown Structure with 3 levels.`;
+    workflow = `1. Define main deliverables
+2. Use ChatGPT to create multi-level task hierarchy
+3. Visualize WBS using tools like Whimsical
+4. Review and refine structure with project stakeholders`;
+
+    tools = `🛠 Recommended AI Tools:
+- ChatGPT (https://chat.openai.com): Generates structured WBS outlines with clear hierarchy
+- Whimsical (https://whimsical.com): Turns outlines into beautiful WBS diagrams quickly`;
+
+    guardrail = `Always validate that WBS reflects project scope accurately. AI may miss context or custom components.`;
+  } else if (lower.includes("charter") || lower.includes("initiation")) {
+    prompt = `You are a program manager AI. Draft a full Project Charter for this initiative: "${task}". Include goals, scope, stakeholders, and constraints.`;
+    workflow = `1. Collect any existing goals and sponsor input
+2. Use ChatGPT to draft a structured project charter
+3. Review draft with sponsor
+4. Share final version with team`;
+
+    tools = `🛠 Recommended AI Tools:
+- ChatGPT (https://chat.openai.com): Generates comprehensive charter drafts in minutes
+- Notion / Google Docs: Edit, collaborate and store finalized versions`;
+
+    guardrail = `Project charters require sponsor sign-off. Don’t assume AI-generated drafts are aligned with your organization’s approval process.`;
+
+  } else if (lower.includes("raci")) {
+    prompt = `You are a management consultant AI. For the task: "${task}", generate a RACI matrix assigning Responsible, Accountable, Consulted, and Informed roles.`;
+    workflow = `1. Identify key activities from the task
+2. Use ChatGPT to propose a RACI chart
+3. Review role assignments with team
+4. Share and get sign-off`;
+
+    tools = `🛠 Recommended AI Tools:
+- ChatGPT (https://chat.openai.com): Suggests RACI matrices from just a task description
+- Excel / Notion: Store or display the matrix in your planning documents`;
+
+    guardrail = `Always review role assignments with real team members — AI may misalign responsibilities with org hierarchy.`;
+
+  } else {
+    prompt = `You are a certified project manager AI. Assist with this project task: "${task}". Suggest an AI-augmented approach to complete it effectively.`;
+    workflow = `1. Define the task's purpose and output
+2. Use the AI prompt above in ChatGPT
+3. Adjust suggestions to fit your team or client
+4. Document next steps in your project tracker`;
+
+    tools = `🛠 Recommended AI Tools:
+- ChatGPT (https://chat.openai.com): Versatile for planning, summarizing, generating content
+- Notion, Asana or Trello: Organize next steps and assign to team`;
+
+    guardrail = `Don’t treat AI output as final — always adapt to your specific team, timeline, and stakeholders.`;
+  }
+
+  return {
+    prompt,
+    workflow: `${workflow}\n\n${tools}`,
+    guardrail
+  };
+}
+
     }
 
     function copyToClipboard() {
