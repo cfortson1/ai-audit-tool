@@ -1,350 +1,277 @@
+<!-- Save this as index.html in your GitLab repo -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AiPairWise - Smart AI Tool Combinations for Small Business</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AIpairwise – Instant AI Playbooks for PMs</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-    body { font-family: 'Inter', sans-serif; }
-    .gradient-header { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
-    .audit-step { border-left: 4px solid #10B981; }
+    :root {
+      --bg: #f4f6f8;
+      --text: #2d3748;
+      --primary: #4a90e2;
+      --accent: #edf2f7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: 3rem;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: auto;
+      padding: 1.5rem;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1.1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      font-size: 1rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .results {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .results h3 {
+      margin-top: 1rem;
+      color: var(--primary);
+    }
+
+    pre {
+      white-space: pre-wrap;
+      background: var(--accent);
+      padding: 1rem;
+      border-radius: 4px;
+    }
+
+    .section {
+      margin-top: 2rem;
+    }
+
+    .tile {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .tile:hover {
+      background-color: #e9f2fd;
+    }
+
+    @media (max-width: 600px) {
+      button { font-size: 1rem; }
+    }
   </style>
 </head>
-<body class="bg-gray-50">
-
-  <!-- Header -->
-  <header class="gradient-header text-white py-10 no-print">
-    <div class="container mx-auto px-4 text-center max-w-3xl">
-      <h1 class="text-4xl font-bold mb-3">🤝 AiPairWise</h1>
-      <h2 class="text-2xl font-bold mb-4">Stop Using AI Tools Like Google!</h2>
-      <p class="text-lg opacity-90 mb-6">Discover powerful AI tool combinations that work together to transform your business operations.</p>
-      <div class="bg-white/20 rounded-lg p-4 max-w-xl mx-auto">
-        <p class="font-semibold">🚀 Unlock 10x productivity with the right AI pairings for YOUR business.</p>
-      </div>
-    </div>
+<body>
+  <header>
+    <h1>AIpairwise</h1>
+    <p>Your instant AI playbook assistant for project managers</p>
   </header>
 
-  <div class="container mx-auto px-4 max-w-6xl">
+  <div class="container">
+    <h2>What's your project task?</h2>
+    <input type="text" id="taskInput" placeholder="e.g., draft a risk register" />
+    <button id="generateBtn">Generate Playbook</button>
 
-    <!-- Transformation Section -->
-    <section class="my-12">
-      <h2 class="text-3xl font-bold text-green-800 mb-6 text-center">✨ Transform Your Business with Smart AI Pairings</h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Wrong -->
-        <div class="bg-red-50 border-2 border-red-200 rounded-lg p-6 shadow-md">
-          <h3 class="text-xl font-bold text-red-700 mb-4">❌ How Most People Use AI</h3>
-          <ul class="list-disc ml-6 text-red-700 space-y-2">
-            <li>Use ChatGPT like Google search</li>
-            <li>Stick to one tool for everything</li>
-            <li>Never optimize prompts/settings</li>
-            <li>Miss powerful tool combos</li>
-            <li>Waste time on manual tasks</li>
-          </ul>
-        </div>
-        <!-- Better -->
-        <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 shadow-md">
-          <h3 class="text-xl font-bold text-blue-700 mb-4">✅ How You Can Use It</h3>
-          <ul class="list-disc ml-6 text-blue-700 space-y-2">
-            <li>Combine AI tools for compound results</li>
-            <li>Leverage automation to save hours</li>
-            <li>Use specialized tools for each workflow</li>
-            <li>Apply proven prompt frameworks</li>
-            <li>Continuously optimize for ROI</li>
-          </ul>
-        </div>
-        <!-- Teaching -->
-        <div class="bg-green-50 border-2 border-green-200 rounded-lg p-6 shadow-md">
-          <h3 class="text-xl font-bold text-green-700 mb-4">🎓 How AiPairWise Teaches You</h3>
-          <ul class="list-disc ml-6 text-green-700 space-y-2">
-            <li>Discover hidden AI gems you’ve never heard of</li>
-            <li>Industry-specific workflow templates</li>
-            <li>Exact AI tool settings for best results</li>
-            <li>30-day implementation roadmap</li>
-            <li>AI guardrails for safe adoption</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+    <div class="results" id="results" style="display: none;">
+      <h3>✅ Curated AI Prompt</h3>
+      <pre id="promptOutput"></pre>
+      <button onclick="copyToClipboard()">Copy Prompt</button>
 
-    <!-- Email Capture -->
-    <section class="mb-12 no-print" id="emailCapture">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">🔍 AI Workflow Assessment Tool</h2>
-      <div class="bg-white border-2 border-blue-200 rounded-xl p-6 shadow-lg">
-        <form id="auditEmailForm" class="space-y-4 max-w-md mx-auto">
-          <div>
-            <label class="font-semibold text-blue-700 block mb-2">First Name *</label>
-            <input type="text" name="firstName" required class="w-full p-3 border-2 border-blue-200 rounded-lg focus:border-blue-500 focus:outline-none">
-          </div>
-          <div>
-            <label class="font-semibold text-blue-700 block mb-2">Email Address *</label>
-            <input type="email" name="email" required class="w-full p-3 border-2 border-blue-200 rounded-lg focus:border-blue-500 focus:outline-none">
-          </div>
-          <div class="text-center">
-            <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-all duration-300 shadow-lg w-full">
-              🚀 Start My AI Assessment
-            </button>
-          </div>
-        </form>
-      </div>
-    </section>
+      <h3>🛠 Workflow Recipe</h3>
+      <pre id="workflowOutput"></pre>
 
-    <!-- Audit Tool -->
-    <section class="mb-12" id="auditTool" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">📝 Complete Your AI Workflow Assessment</h2>
-      <div class="bg-white border-2 border-blue-200 rounded-xl p-6 shadow-lg space-y-6">
-        <div>
-          <label class="block font-semibold mb-2">Business Type *</label>
-          <select required class="w-full p-2 border rounded">
-            <option value="">Select...</option>
-            <option>Real Estate</option>
-            <option>E-commerce/Retail</option>
-            <option>Professional Services</option>
-            <option>Healthcare/Wellness</option>
-            <option>Marketing Agency</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div>
-          <label class="block font-semibold mb-2">Team Size *</label>
-          <select required class="w-full p-2 border rounded">
-            <option value="">Select...</option>
-            <option>Solo</option>
-            <option>2-5 employees</option>
-            <option>6-15 employees</option>
-            <option>16-50 employees</option>
-            <option>50+</option>
-          </select>
-        </div>
-        <div>
-          <label class="block font-semibold mb-2">Biggest Time Drain *</label>
-          <select required class="w-full p-2 border rounded">
-            <option value="">Select...</option>
-            <option>Content creation</option>
-            <option>Customer service</option>
-            <option>Admin tasks</option>
-            <option>Marketing/Leads</option>
-            <option>Data analysis</option>
-            <option>Scheduling</option>
-          </select>
-        </div>
-        <div>
-          <label class="block font-semibold mb-2">AI Experience *</label>
-          <select required class="w-full p-2 border rounded">
-            <option value="">Select...</option>
-            <option>Beginner</option>
-            <option>Used ChatGPT</option>
-            <option>Regular user</option>
-            <option>Tried multiple tools</option>
-            <option>Advanced</option>
-          </select>
-        </div>
-        <div class="text-center">
-          <button onclick="generateRecommendations()" type="button" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition-all duration-300 shadow-lg">
-            ⚡ Generate My AI Recommendations
-          </button>
-        </div>
-      </div>
-    </section>
+      <h3>⚠️ Guardrail Tip</h3>
+      <pre id="guardrailOutput"></pre>
+    </div>
 
-    <!-- Recommendations -->
-    <section class="mb-12" id="recommendations" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">🔥 Personalized AI Recommendations</h2>
-    </section>
+    <div class="section">
+      <h2>🚀 Quick Wins for PMs</h2>
+      <div id="quickWins"></div>
+    </div>
 
-    <!-- Automation Examples -->
-    <section class="mb-12" id="automationExamples" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">⚙️ Advanced Automation Ideas</h2>
-    </section>
+    <div class="section">
+      <h2>📚 Prompt Library (by PMBOK Area)</h2>
+      <div id="promptLibrary"></div>
+    </div>
 
-    <!-- Implementation Guide -->
-    <section class="mb-12" id="implementationGuide" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">📅 30-Day AI Implementation Roadmap</h2>
-      <p class="text-gray-600">Your step-by-step action plan will appear here.</p>
-    </section>
-
-    <!-- AI Guardrails Upsell -->
-    <section class="mb-12" id="aiGuardrails" style="display:none;">
-      <h2 class="text-3xl font-bold text-gray-800 mb-6">🛡️ AI with Seatbelts – Guardrails for Responsible Business</h2>
-      <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-lg">
-        <h3 class="text-2xl font-bold text-red-800 mb-4">📑 Must-Have AI Guardrails ($17)</h3>
-        <p class="text-gray-700 mb-4">
-          This <strong>ISO-inspired AI Guardrails framework</strong> helps your organization put <em>seatbelts on AI</em>.  
-          It’s not an official ISO document, but a practical <strong>one-page checklist</strong> to prevent misuse and encourage best practices.
-        </p>
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-          <p class="text-yellow-800 font-semibold">💡 Why You Need This:</p>
-          <ul class="list-disc ml-6 space-y-1 text-gray-700">
-            <li>Protect your team from AI misuse risks</li>
-            <li>Educate employees on safe AI adoption</li>
-            <li>Prove to clients you take AI responsibility seriously</li>
-            <li>Quickly align AI use with compliance expectations</li>
-          </ul>
-        </div>
-        <div class="text-center">
-          <a href="https://buy.stripe.com/test_payment_link" target="_blank" class="bg-red-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition-all duration-300 shadow-lg inline-block mb-3">
-            💳 Buy Now – $17
-          </a>
-          <button onclick="downloadGuardrailsPDF()" class="bg-gray-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-gray-700 transition-all duration-300 shadow-lg">
-            📥 Download Sample PDF
-          </button>
-          <p class="text-xs text-gray-500 mt-2">Educational template – not an official ISO standard.</p>
-        </div>
-      </div>
-    </section>
+    <!-- 🚀 Career Certification Upsell -->
+    <div class="section" style="margin-top: 3rem; background: #fffbe6; padding: 2rem; border-radius: 6px; border: 2px solid #f6c90e;">
+      <h2 style="text-align:center; font-size: 1.8rem; color: #d97706;">
+        🧠 Get Certified in AI Before Your Boss Asks Why You’re NOT
+      </h2>
+      <p style="text-align:center; font-size: 1.1rem; max-width: 600px; margin: auto; color: #4a4a4a;">
+        Your career insurance policy for the AI era — designed for <strong>Project Managers</strong> and <strong>Business Consultants</strong> who want to stay <em>relevant, respected, and in demand</em>.
+      </p>
+      <ul style="max-width: 500px; margin: 1.5rem auto; list-style: disc; color: #333;">
+        <li>✅ Master AI tools like ChatGPT, Claude, Otter, Notion & more</li>
+        <li>✅ Use AI to save hours on planning, risk, stakeholder comms</li>
+        <li>✅ Show leadership you're future-ready (and promotable)</li>
+      </ul>
+      <form id="waitlistForm" style="max-width: 420px; margin: auto;">
+        <input type="email" id="waitlistEmail" placeholder="Enter your email to join the waitlist" required>
+        <button type="submit" style="background: #d97706;">🚀 Join the Waitlist Now</button>
+        <p id="waitlistMsg" style="text-align:center; color: green; margin-top: 1rem; display:none;">You're officially on the list! ✅</p>
+      </form>
+    </div>
   </div>
 
-  <!-- Scripts -->
   <script>
-    // Email capture → show audit form
-    document.getElementById('auditEmailForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const firstName = formData.get('firstName');
-      const email = formData.get('email');
-      window.userData = { firstName, email };
-      document.getElementById('emailCapture').style.display = 'none';
-      document.getElementById('auditTool').style.display = 'block';
-      document.getElementById('auditTool').scrollIntoView({ behavior: 'smooth' });
+    const quickWins = [
+      "Generate a WBS draft",
+      "Summarize stakeholder meeting",
+      "Draft a risk register",
+      "Create RACI matrix",
+      "Draft project charter",
+      "Generate executive summary",
+      "Identify project constraints",
+      "Define success criteria",
+      "Prepare kickoff agenda",
+      "Estimate task durations"
+    ];
+
+    const promptLibrary = {
+      Scope: ["Define project scope", "Create WBS", "Identify deliverables"],
+      Schedule: ["Estimate task durations", "Create Gantt Chart"],
+      Cost: ["Create budget breakdown", "Estimate costs"],
+      Risk: ["Draft risk register", "Perform risk analysis"],
+      Quality: ["Define quality standards", "Create QA plan"],
+      Resource: ["Build resource plan", "Assign roles"],
+      Communication: ["Develop communication plan", "Summarize meeting"],
+      Procurement: ["Draft procurement plan", "Vendor selection criteria"],
+      Stakeholder: ["Map stakeholders", "Engage key stakeholders"],
+      Integration: ["Create project charter", "Develop project plan"]
+    };
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const task = document.getElementById('taskInput').value.trim();
+      if (!task) return alert("Please enter a task.");
+
+      const { prompt, workflow, guardrail } = generatePlaybook(task);
+
+      document.getElementById('promptOutput').textContent = prompt;
+      document.getElementById('workflowOutput').textContent = workflow;
+      document.getElementById('guardrailOutput').textContent = guardrail;
+      document.getElementById('results').style.display = 'block';
     });
 
-    // Guardrails PDF download
-    async function downloadGuardrailsPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(18);
-      doc.text("🛡️ AI with Seatbelts", 14, 20);
-
-      doc.setFontSize(12);
-      doc.setFont("helvetica", "normal");
-      doc.text("ISO-inspired Guardrails for Responsible AI Adoption", 14, 30);
-      doc.setTextColor(150);
-      doc.text("(Educational use only – Not an official ISO document)", 14, 36);
-      doc.setTextColor(0);
-
-      const guardrails = [
-        "Transparency – Always disclose AI-generated content.",
-        "Human Oversight – Keep final decisions human-controlled.",
-        "Data Privacy – Don’t upload sensitive data into public AI tools.",
-        "Bias Monitoring – Regularly review AI outputs for fairness.",
-        "Security – Use trusted platforms and keep tools updated.",
-        "Training – Educate staff on safe and effective AI use.",
-        "Accountability – Assign roles for monitoring and approvals."
-      ];
-
-      let y = 50;
-      guardrails.forEach(rule => {
-        doc.rect(14, y - 4, 6, 6); // checkbox
-        doc.text(rule, 24, y);
-        y += 10;
-      });
-
-      doc.setFontSize(10);
-      doc.setTextColor(200, 0, 0);
-      doc.text("⚠️ Disclaimer: This is an educational resource, not a legal or compliance document.", 14, y + 10, { maxWidth: 180 });
-
-      doc.save("AI_with_Seatbelts_Guardrails.pdf");
+    function generatePlaybook(task) {
+      const prompt = `You are a PM AI. Given this task: "${task}", write a prompt an AI can use to complete it with clarity and structure.`;
+      const workflow = `1. Clarify task goals\n2. Use AI (e.g. ChatGPT) with the prompt\n3. Validate results\n4. Format output and share`;
+      const guardrail = `Avoid inputting confidential info. Review and verify all AI outputs for accuracy before sharing.`;
+      return { prompt, workflow, guardrail };
     }
 
-    // Dynamic recommendations with hidden gem tools
-    function generateRecommendations() {
-      const form = document.getElementById('auditTool');
-      const selects = form.querySelectorAll('select[required]');
-      let allFilled = true;
-      selects.forEach(field => {
-        if (!field.value.trim()) {
-          allFilled = false;
-          field.style.borderColor = '#ef4444';
+    function copyToClipboard() {
+      const text = document.getElementById("promptOutput").textContent;
+      navigator.clipboard.writeText(text).then(() => alert("Prompt copied!"));
+    }
+
+    function renderQuickWins() {
+      const div = document.getElementById('quickWins');
+      quickWins.forEach(task => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.textContent = task;
+        tile.onclick = () => {
+          document.getElementById('taskInput').value = task;
+          document.getElementById('generateBtn').click();
+        };
+        div.appendChild(tile);
+      });
+    }
+
+    function renderPromptLibrary() {
+      const div = document.getElementById('promptLibrary');
+      for (let area in promptLibrary) {
+        const h3 = document.createElement('h3');
+        h3.textContent = area;
+        div.appendChild(h3);
+        promptLibrary[area].forEach(task => {
+          const tile = document.createElement('div');
+          tile.className = 'tile';
+          tile.textContent = task;
+          tile.onclick = () => {
+            document.getElementById('taskInput').value = task;
+            document.getElementById('generateBtn').click();
+          };
+          div.appendChild(tile);
+        });
+      }
+    }
+
+    renderQuickWins();
+    renderPromptLibrary();
+
+    // Waitlist integration with Google Sheets webhook
+    document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('waitlistEmail').value.trim();
+      if (!email) return alert("Enter your email");
+
+      try {
+        const response = await fetch('YOUR_GAS_WEBHOOK_URL_HERE', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: `email=${encodeURIComponent(email)}`
+        });
+        const result = await response.json();
+        if (result.result === "success") {
+          document.getElementById('waitlistForm').reset();
+          document.getElementById('waitlistMsg').style.display = 'block';
         } else {
-          field.style.borderColor = '#10B981';
+          alert("Submission error. Please try again.");
         }
-      });
-      if (!allFilled) {
-        alert("⚠️ Please complete all fields.");
-        return;
+      } catch (err) {
+        console.error("Waitlist error:", err);
+        alert("Could not connect. Try again later.");
       }
-
-      const businessType = selects[0].value;
-      const teamSize = selects[1].value;
-      const timeDrain = selects[2].value;
-      const aiExperience = selects[3].value;
-      const userName = window.userData?.firstName || "you";
-
-      const matchContent = [];
-      if (businessType.includes("Real Estate")) {
-        matchContent.push("🏠 Real Estate: Use Jasper for listings, Perplexity for neighborhood trends, Gamma for property decks.");
-      } else if (businessType.includes("E-commerce")) {
-        matchContent.push("🛒 E-commerce: Automate cart recovery with Jasper + Calendly + Otter.ai.");
-      } else if (businessType.includes("Marketing")) {
-        matchContent.push("📣 Marketing: Use Jasper + Midjourney for campaigns, Zapier for automation.");
-      }
-
-      if (timeDrain.includes("Content creation")) {
-        matchContent.push("✍️ Content Creation: Jasper, Canva AI, and Copy.ai can automate blogs, social, and emails.");
-      }
-      if (aiExperience.includes("Beginner")) {
-        matchContent.push("👶 Start simple: ChatGPT + proven prompts will give you fastest wins.");
-      }
-
-      const hiddenToolsByType = {
-        "Real Estate": [
-          { name: "Midjourney", use: "🎨 Generate stunning property visuals." },
-          { name: "Gamma", use: "📑 Build interactive property presentations." },
-          { name: "Wondercraft", use: "🎧 Produce real estate podcasts easily." }
-        ],
-        "E-commerce/Retail": [
-          { name: "Gumloop", use: "🔄 Automate product workflows without code." },
-          { name: "Make", use: "🔗 Connect order, shipping, and customer systems." },
-          { name: "11ElevenLabs", use: "🎙️ Voiceovers for personalized product promos." }
-        ],
-        "Professional Services": [
-          { name: "Cursor", use: "👩‍💻 Build client portals and automation faster." },
-          { name: "n8n", use: "🔧 Open-source workflow automation." },
-          { name: "Manus", use: "📝 Draft contracts and proposals quickly." }
-        ],
-        "Healthcare/Wellness": [
-          { name: "Base44", use: "📊 Streamline patient financial reporting." },
-          { name: "Claude", use: "🧠 Analyze research & documentation securely." },
-          { name: "Gemini", use: "🧬 Multimodal analysis of text + medical scans." }
-        ],
-        "Marketing Agency": [
-          { name: "Midjourney", use: "🎨 Campaign visuals on demand." },
-          { name: "Bolt", use: "⚡ Rapid microsite prototyping." },
-          { name: "Lovable", use: "💻 Turn ideas into apps for campaigns." }
-        ],
-        "Other": [
-          { name: "Manus", use: "📝 Documentation assistant for any industry." },
-          { name: "Gamma", use: "📑 Easy pitch decks for clients or investors." },
-          { name: "11ElevenLabs", use: "🎙️ Training & content voiceovers." }
-        ]
-      };
-      const hiddenTools = hiddenToolsByType[businessType] || hiddenToolsByType["Other"];
-
-      const personalizedHTML = `
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mt-6">
-          <h3 class="font-bold mb-2">🧠 Personalized Insights for ${userName}:</h3>
-          <ul class="list-disc ml-5 space-y-1">${matchContent.map(i => `<li>${i}</li>`).join("")}</ul>
-        </div>
-        <div class="bg-white border-2 border-indigo-200 rounded-xl p-6 shadow-lg mt-6">
-          <h3 class="text-xl font-bold mb-3">🧩 Top AI Tools You Probably Never Heard Of (for ${businessType})</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            ${hiddenTools.map(t => `<li><strong>${t.name}</strong> — ${t.use}</li>`).join("")}
-          </ul>
-        </div>
-      `;
-
-      document.getElementById("recommendations").innerHTML += personalizedHTML;
-
-      ["recommendations", "automationExamples", "implementationGuide", "aiGuardrails"].forEach(id => {
-        document.getElementById(id).style.display = "block";
-      });
-
-      document.getElementById("recommendations").scrollIntoView({ behavior: "smooth" });
-    }
+    });
   </script>
 </body>
 </html>
