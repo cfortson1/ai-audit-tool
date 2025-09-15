@@ -38,11 +38,11 @@
   </header>
 
   <nav>
-    <button onclick="showPage('home')" class="active" id="nav-home">🏠 Home</button>
-    <button onclick="showPage('templates')" id="nav-templates">📋 Templates</button>
-    <button onclick="showPage('chatbots')" id="nav-chatbots">🤖 Chatbots</button>
-    <button onclick="showPage('premium')" id="nav-premium">💎 Premium</button>
-    <button onclick="showPage('certification')" id="nav-certification">🎓 Certification</button>
+    <button data-page="home" class="active">🏠 Home</button>
+    <button data-page="templates">📋 Templates</button>
+    <button data-page="chatbots">🤖 Chatbots</button>
+    <button data-page="premium">💎 Premium</button>
+    <button data-page="certification">🎓 Certification</button>
   </nav>
 
   <div class="container">
@@ -52,33 +52,25 @@
         <h2>⚠️ Are You Still Just Dabbling with AI?</h2>
         <p>Most PMs are still experimenting with random ChatGPT prompts. Meanwhile, others are running systematic AI workflows that give them a career advantage.</p>
       </div>
-      <div class="card">
-        <h2>🚀 Start Your AI Transformation</h2>
-        <p>Explore our free templates, premium playbooks, and certification opportunities.</p>
-      </div>
     </div>
 
-    <!-- FREE + PREMIUM TEMPLATES -->
+    <!-- TEMPLATES -->
     <div id="page-templates" class="page">
       <div class="card">
         <h2>🆓 Free Templates</h2>
-        <p>Try these now:</p>
         <ul>
           <li>📋 Meeting Summary Template</li>
           <li>📊 Status Report Template</li>
           <li>⚠️ Risk Assessment Template</li>
         </ul>
       </div>
-
       <div class="premium-box">
         <h2>💎 Premium Templates (Preview)</h2>
-        <h3>Scenario Example</h3>
-        <p><strong>Use case:</strong> Your sponsor emails: “Where’s the project charter draft? I need it by Monday.”</p>
-        <p>Instead of scrambling, you open our <strong>Project Charter Template</strong> and instantly get:</p>
-        <p><strong>Prompt:</strong> Generate a professional charter including scope, objectives, stakeholders, and high-level risks.</p>
-        <p><strong>Implementation Guide:</strong> Gather sponsor input → draft with AI → validate scope → circulate for feedback → finalize with approvals.</p>
-        <p><strong>Guardrails:</strong> Ensure objectives are SMART, confirm assumptions, and never proceed without formal sign-off.</p>
-        <button onclick="goPremium()">🔓 Unlock All 15+ Premium Templates</button>
+        <p><strong>Use case:</strong> Sponsor needs a project charter by Monday.</p>
+        <p><strong>Prompt:</strong> Generate a professional charter with scope, objectives, stakeholders, risks.</p>
+        <p><strong>Implementation Guide:</strong> Gather sponsor input → draft with AI → validate → circulate → finalize.</p>
+        <p><strong>Guardrails:</strong> SMART objectives, confirm assumptions, sign-off required.</p>
+        <button class="goto-premium">🔓 Unlock All 15+ Premium Templates</button>
       </div>
     </div>
 
@@ -86,22 +78,16 @@
     <div id="page-chatbots" class="page">
       <div class="card">
         <h2>🤖 Chatbots (Premium Only)</h2>
-        <p>Why this matters: Stakeholders constantly ask “What’s the project status?” You waste hours answering the same questions.</p>
-      </div>
-
-      <div class="premium-box">
-        <h3>Scenario Example</h3>
-        <p><strong>Use case:</strong> A stakeholder pings you at 10pm: “When’s the next milestone due?”</p>
+        <p><strong>Use case:</strong> Stakeholder asks at 10pm: “When’s the next milestone due?”</p>
         <p>With our <strong>Project Update Bot</strong>, they get the answer instantly—24/7—without disturbing you.</p>
-        <button onclick="goPremium()">🔓 Unlock Chatbot Builders</button>
+        <button class="goto-premium">🔓 Unlock Chatbot Builders</button>
       </div>
     </div>
 
-    <!-- PREMIUM OFFER -->
+    <!-- PREMIUM -->
     <div id="page-premium" class="page">
-      <div class="premium-box">
+      <div class="premium-box" id="premium-offer">
         <h2>💎 Personalized AI Education</h2>
-        <p>Transform from AI dabbler to AI strategist.</p>
         <ul>
           <li>✅ Personalized prompts for your projects</li>
           <li>✅ Tool discovery beyond ChatGPT</li>
@@ -132,17 +118,30 @@
   </footer>
 
   <script>
-    function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-      document.getElementById('page-' + pageId).classList.add('active');
-      document.getElementById('nav-' + pageId).classList.add('active');
-      window.scrollTo(0, 0);
-    }
+    // Switch pages
+    document.querySelectorAll("nav button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const page = btn.getAttribute("data-page");
+        showPage(page);
+      });
+    });
 
-    // Redirect Unlock buttons to Premium page
-    function goPremium() {
-      showPage('premium');
+    // Unlock buttons → Premium
+    document.querySelectorAll(".goto-premium").forEach(btn => {
+      btn.addEventListener("click", () => {
+        showPage("premium");
+        document.getElementById("premium-offer").scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById("page-" + pageId).classList.add("active");
+
+      document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+      document.querySelector(`nav button[data-page='${pageId}']`).classList.add("active");
+
+      window.scrollTo(0, 0);
     }
   </script>
 </body>
