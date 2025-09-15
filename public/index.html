@@ -1,148 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AIpairwise – Career Insurance for Project Managers</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f8fafc;
-      --text: #2d3748;
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --border: #e2e8f0;
-    }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
-    header { background: linear-gradient(135deg, var(--primary), #3b82f6); color: white; text-align: center; padding: 3rem 1rem; }
-    header h1 { font-size: 3rem; margin: 0; }
-    nav { background: white; border-bottom: 1px solid var(--border); padding: 1rem; text-align: center; position: sticky; top: 0; }
-    nav button { margin: 0.5rem; padding: 0.75rem 1.5rem; border: 2px solid var(--border); border-radius: 6px; background: white; cursor: pointer; font-weight: 600; }
-    nav button.active, nav button:hover { background: var(--primary); color: white; border-color: var(--primary); }
-    .container { max-width: 900px; margin: auto; padding: 2rem 1.5rem; }
-    .card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 2rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    h2 { margin-top: 0; color: var(--primary); }
-    h3 { margin-top: 1rem; color: var(--success); }
-    .page { display: none; }
-    .page.active { display: block; }
-    .premium-box { background: linear-gradient(135deg, #1e1b4b, #3730a3); color: white; padding: 2rem; border-radius: 10px; margin: 2rem 0; border: 3px solid var(--warning); }
-    footer { text-align: center; padding: 2rem; font-size: 0.9rem; color: #64748b; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIpairwise - Premium Templates</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
-<body>
-  <header>
-    <h1>🤖 AIpairwise</h1>
-    <p>Career Insurance for Project Managers</p>
-  </header>
+<body class="bg-gray-50">
+  <!-- Main content -->
+  <div id="mainContent" class="min-h-screen flex flex-col items-center justify-center text-center p-10 space-y-6">
+    <h1 class="text-4xl font-bold text-gray-900">AIpairwise Premium Templates</h1>
+    <p class="text-lg text-gray-700">Pay $47 to unlock 21 AI-powered project management templates.</p>
 
-  <nav>
-    <button data-page="home" class="active">🏠 Home</button>
-    <button data-page="templates">📋 Templates</button>
-    <button data-page="chatbots">🤖 Chatbots</button>
-    <button data-page="premium">💎 Premium</button>
-    <button data-page="certification">🎓 Certification</button>
-  </nav>
+    <button id="checkout-button" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all">
+      💳 Pay with Stripe (Test Mode)
+    </button>
 
-  <div class="container">
-    <!-- HOME -->
-    <div id="page-home" class="page active">
-      <div class="card">
-        <h2>⚠️ Are You Still Just Dabbling with AI?</h2>
-        <p>Most PMs are still experimenting with random ChatGPT prompts. Meanwhile, others are running systematic AI workflows that give them a career advantage.</p>
-      </div>
-    </div>
-
-    <!-- TEMPLATES -->
-    <div id="page-templates" class="page">
-      <div class="card">
-        <h2>🆓 Free Templates</h2>
-        <ul>
-          <li>📋 Meeting Summary Template</li>
-          <li>📊 Status Report Template</li>
-          <li>⚠️ Risk Assessment Template</li>
-        </ul>
-      </div>
-      <div class="premium-box">
-        <h2>💎 Premium Templates (Preview)</h2>
-        <p><strong>Use case:</strong> Sponsor needs a project charter by Monday.</p>
-        <p><strong>Prompt:</strong> Generate a professional charter with scope, objectives, stakeholders, risks.</p>
-        <p><strong>Implementation Guide:</strong> Gather sponsor input → draft with AI → validate → circulate → finalize.</p>
-        <p><strong>Guardrails:</strong> SMART objectives, confirm assumptions, sign-off required.</p>
-        <button class="goto-premium">🔓 Unlock All 15+ Premium Templates</button>
-      </div>
-    </div>
-
-    <!-- CHATBOTS -->
-    <div id="page-chatbots" class="page">
-      <div class="card">
-        <h2>🤖 Chatbots (Premium Only)</h2>
-        <p><strong>Use case:</strong> Stakeholder asks at 10pm: “When’s the next milestone due?”</p>
-        <p>With our <strong>Project Update Bot</strong>, they get the answer instantly—24/7—without disturbing you.</p>
-        <button class="goto-premium">🔓 Unlock Chatbot Builders</button>
-      </div>
-    </div>
-
-    <!-- PREMIUM -->
-    <div id="page-premium" class="page">
-      <div class="premium-box" id="premium-offer">
-        <h2>💎 Personalized AI Education</h2>
-        <ul>
-          <li>✅ Personalized prompts for your projects</li>
-          <li>✅ Tool discovery beyond ChatGPT</li>
-          <li>✅ Professional calibration & setup</li>
-          <li>✅ Advanced playbooks and guardrails</li>
-        </ul>
-        <p><strong>Special launch price:</strong> <s>$97</s> → $27</p>
-        <button>💳 Get Premium Access</button>
-      </div>
-    </div>
-
-    <!-- CERTIFICATION -->
-    <div id="page-certification" class="page">
-      <div class="card" style="background: linear-gradient(135deg, #1e1b4b, #3730a3); color: white; border: 3px solid var(--warning);">
-        <h2>🎓 Certification Waitlist</h2>
-        <p>Be among the first to earn the world’s first AI + Project Management certification.</p>
-        <p style="background: rgba(239,68,68,0.2); padding:1rem; border-radius:8px; margin-top:1rem;">
-          <strong>“Why doesn’t our PM team know how to use AI strategically?”</strong><br>
-          – Your CEO, probably next quarter
-        </p>
-        <button>🚀 Join Waitlist</button>
-      </div>
-    </div>
+    <p class="text-sm text-gray-500 mt-2">
+      Use test card: <code>4242 4242 4242 4242</code> with any future expiry and CVC
+    </p>
   </div>
 
-  <footer>
-    <p>© 2024 AIpairwise. Built for Project Management professionals.</p>
-  </footer>
+  <!-- Premium Content -->
+  <div id="premiumContent" class="hidden min-h-screen p-10">
+    <h2 class="text-3xl font-bold text-green-600 mb-6">✅ Premium Access Granted</h2>
+    <p class="mb-4 text-lg">Download your full template collection:</p>
+    <a href="/downloads/templates.zip" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">Download Templates</a>
+  </div>
 
   <script>
-    // Switch pages
-    document.querySelectorAll("nav button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const page = btn.getAttribute("data-page");
-        showPage(page);
+    const stripe = Stripe("pk_test_YOUR_PUBLIC_KEY_HERE"); // replace with your actual key
+
+    document.getElementById("checkout-button").addEventListener("click", () => {
+      stripe.redirectToCheckout({
+        lineItems: [{ price: "price_YOUR_PRICE_ID_HERE", quantity: 1 }], // replace with your Price ID
+        mode: "payment",
+        successUrl: window.location.origin + "/?paid=true",
+        cancelUrl: window.location.href,
+      }).then((result) => {
+        if (result.error) {
+          alert(result.error.message);
+        }
       });
     });
 
-    // Unlock buttons → Premium
-    document.querySelectorAll(".goto-premium").forEach(btn => {
-      btn.addEventListener("click", () => {
-        showPage("premium");
-        document.getElementById("premium-offer").scrollIntoView({ behavior: "smooth" });
-      });
+    // Show premium content if payment is successful
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("paid") === "true") {
+        document.getElementById("mainContent").style.display = "none";
+        document.getElementById("premiumContent").classList.remove("hidden");
+      }
     });
-
-    function showPage(pageId) {
-      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-      document.getElementById("page-" + pageId).classList.add("active");
-
-      document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-      document.querySelector(`nav button[data-page='${pageId}']`).classList.add("active");
-
-      window.scrollTo(0, 0);
-    }
   </script>
 </body>
 </html>
+
