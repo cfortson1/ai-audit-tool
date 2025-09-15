@@ -15,68 +15,20 @@
       --warning: #f59e0b;
       --border: #e2e8f0;
     }
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-    header {
-      background: linear-gradient(135deg, var(--primary), #3b82f6);
-      color: white;
-      text-align: center;
-      padding: 3rem 1rem;
-    }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+    header { background: linear-gradient(135deg, var(--primary), #3b82f6); color: white; text-align: center; padding: 3rem 1rem; }
     header h1 { font-size: 3rem; margin: 0; }
-    nav {
-      background: white;
-      border-bottom: 1px solid var(--border);
-      padding: 1rem;
-      text-align: center;
-      position: sticky;
-      top: 0;
-    }
-    nav button {
-      margin: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border: 2px solid var(--border);
-      border-radius: 6px;
-      background: white;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    nav button.active, nav button:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
+    nav { background: white; border-bottom: 1px solid var(--border); padding: 1rem; text-align: center; position: sticky; top: 0; }
+    nav button { margin: 0.5rem; padding: 0.75rem 1.5rem; border: 2px solid var(--border); border-radius: 6px; background: white; cursor: pointer; font-weight: 600; }
+    nav button.active, nav button:hover { background: var(--primary); color: white; border-color: var(--primary); }
     .container { max-width: 900px; margin: auto; padding: 2rem 1.5rem; }
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 2rem;
-      margin: 1.5rem 0;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
+    .card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 2rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
     h2 { margin-top: 0; color: var(--primary); }
     h3 { margin-top: 1rem; color: var(--success); }
     .page { display: none; }
     .page.active { display: block; }
-    .premium-box {
-      background: linear-gradient(135deg, #1e1b4b, #3730a3);
-      color: white;
-      padding: 2rem;
-      border-radius: 10px;
-      margin: 2rem 0;
-      border: 3px solid var(--warning);
-    }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
-      color: #64748b;
-    }
+    .premium-box { background: linear-gradient(135deg, #1e1b4b, #3730a3); color: white; padding: 2rem; border-radius: 10px; margin: 2rem 0; border: 3px solid var(--warning); }
+    footer { text-align: center; padding: 2rem; font-size: 0.9rem; color: #64748b; }
   </style>
 </head>
 <body>
@@ -120,23 +72,13 @@
 
       <div class="premium-box">
         <h2>💎 Premium Templates (Preview)</h2>
-        <p>See the difference professional-grade templates make.</p>
-
         <h3>Scenario Example</h3>
         <p><strong>Use case:</strong> Your sponsor emails: “Where’s the project charter draft? I need it by Monday.”</p>
-
         <p>Instead of scrambling, you open our <strong>Project Charter Template</strong> and instantly get:</p>
-
-        <h4>Prompt</h4>
-        <p>“Generate a professional charter including scope, objectives, stakeholders, and high-level risks for [Project X]. Format executive-ready.”</p>
-
-        <h4>Implementation Guide</h4>
-        <p>Step-by-step workflow: gather sponsor input → draft with AI → validate scope → circulate for feedback → finalize with approvals.</p>
-
-        <h4>Guardrails</h4>
-        <p>Ensure objectives are SMART, confirm assumptions, and never proceed without formal sign-off.</p>
-
-        <button onclick="showPage('premium')">🔓 Unlock All 15+ Premium Templates</button>
+        <p><strong>Prompt:</strong> Generate a professional charter including scope, objectives, stakeholders, and high-level risks.</p>
+        <p><strong>Implementation Guide:</strong> Gather sponsor input → draft with AI → validate scope → circulate for feedback → finalize with approvals.</p>
+        <p><strong>Guardrails:</strong> Ensure objectives are SMART, confirm assumptions, and never proceed without formal sign-off.</p>
+        <button onclick="goPremium()">🔓 Unlock All 15+ Premium Templates</button>
       </div>
     </div>
 
@@ -151,7 +93,7 @@
         <h3>Scenario Example</h3>
         <p><strong>Use case:</strong> A stakeholder pings you at 10pm: “When’s the next milestone due?”</p>
         <p>With our <strong>Project Update Bot</strong>, they get the answer instantly—24/7—without disturbing you.</p>
-        <button onclick="showPage('premium')">🔓 Unlock Chatbot Builders</button>
+        <button onclick="goPremium()">🔓 Unlock Chatbot Builders</button>
       </div>
     </div>
 
@@ -196,6 +138,11 @@
       document.getElementById('page-' + pageId).classList.add('active');
       document.getElementById('nav-' + pageId).classList.add('active');
       window.scrollTo(0, 0);
+    }
+
+    // Redirect Unlock buttons to Premium page
+    function goPremium() {
+      showPage('premium');
     }
   </script>
 </body>
