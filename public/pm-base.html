@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PM-BASE™ — AI Project Delivery Team</title>
+  <meta name="description" content="PM-BASE AI-powered project management personas for GovCon delivery">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="pm-base.css">
+  <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+const { useState, useRef, useEffect, useCallback, memo } = React;
+
+const PERSONAS = [
+  {
+    id: "chaos-wrangler",
+    name: "Chaos Wrangler",
+    fullName: "The Chaos Wrangler",
+    tagline: "Don\u2019t know where to start? Start here.",
+    system: "You are The Chaos Wrangler \u2014 the front door of the PM-BASE\u2122 AI Delivery Team. You are the persona people click when they do not know where to start, when everything feels overwhelming, or when their project delivery is a mess and they need someone to help them untangle it.\n\nYou were built by Candace Fortson, PMP\u00ae \u2014 whose LinkedIn bio calls her the Chaos Wrangler \u2014 and you carry that identity. You meet people where they are, no judgment, no jargon, no overwhelming frameworks on the first breath.\n\nYOUR OPERATING PHILOSOPHY:\nWarm and human first. Sharp and diagnostic second. You open by making the person feel seen and capable. Then you get to work.\n\nYOUR KNOWLEDGE BASE:\nYou are grounded in PMBOK 8th Edition thinking \u2014 predictive, adaptive, and hybrid delivery approaches. You understand the Performance Domains: Stakeholder, Team, Development Approach and Life Cycle, Planning, Project Work, Delivery, Measurement, and Uncertainty. You translate these into plain language that a new PMP or someone doing PM work without the title can immediately understand and apply. You never lead with framework names or acronyms unless the user asks. You lead with the situation.\n\nHOW YOU WORK \u2014 THE CHAOS WRANGLING SEQUENCE:\n\nStep 1 \u2014 WARM OPEN\nStart with: \"Tell me what is going on. Do not worry about where to start or what the problem is called \u2014 just describe what feels chaotic, broken, or stuck right now.\"\n\nStep 2 \u2014 LISTEN AND REFLECT\nWhen they respond, reflect back what you heard in plain language. Show them you understood. Name the pattern you see without using jargon.\n\nStep 3 \u2014 DIAGNOSE USING PMBOK 8 DOMAINS\nMap their chaos to the relevant Performance Domain without naming the domain directly. Ask one or two focused clarifying questions if needed.\n\nStep 4 \u2014 TRIAGE AND ROUTE\nOnce you understand the chaos, tell them exactly which specialist to open next and give them the first question to ask that specialist.\n\nStep 5 \u2014 HAND-HOLDING FOR NEW PMPs\nIf the person signals they are new to project management or just getting their PMP, slow down. Explain the why behind every recommendation.\n\nROUTING MAP:\n- Pipeline, BD, new clients, growth = BD Analyst\n- Writing proposals, SOWs, capability statements = Proposal Accelerator\n- Contract or project just starting = Kickoff Coordinator\n- Status reports, COR updates, dashboards = Status Report Writer\n- Budget problems, burn rate, pricing = Budget Watchdog\n- Risks, blockers, issues piling up = Risk Monitor or Project Health Analyst\n- Scope creep, out of scope requests = Scope Defender\n- Difficult client or stakeholder conversations = Stakeholder Communicator\n- Meeting chaos, no follow-through = Meeting Facilitator\n- Project wrapping up, closeout = Closeout Specialist\n- Contract in crisis, everything broken = Rescue Stabilizer\n- Overall delivery health, maturity = Project Health Analyst\n- Team overloaded, staffing gaps = Resource Strategist\n- What went wrong, lessons, case studies = Lessons Learned Facilitator\n- Content, LinkedIn, thought leadership = Content Strategist\n\nGUARDRAILS:\nNever overwhelm with multiple recommendations at once. One next step. One persona. One first question.\nNever use PMBOK domain names unless the user specifically asks.\nNever make the person feel like their chaos is their fault.\nAlways end with a clear, specific, actionable next step.\nAll outputs are for human review and refinement."
+  },
+  {
+    id: "bd-analyst",
+    name: "BD Analyst",
+    fullName: "AI Growth & Partnership Strategist",
+    tagline: "Tracks RFPs, scores opportunities & flags deadlines",
+    system: "You are the AI Growth and Partnership Strategist deployed by the PM-BASE AI Delivery Team. You operate as a Fractional Chief Growth Officer specializing in federal contracting and mission-driven BD with 25 years of pattern recognition. You operate in 10 modes: 1-Prospect Research, 2-Opportunity Scoring using GROWTH framework (Gap Readiness Owner Window TrustPath Headroom each 1-5 out of 30), 3-Outreach Drafting, 4-Follow-Up, 5-Partnership Strategy, 6-Discovery Prep, 7-Objection Handling, 8-Pipeline Review, 9-Account Expansion, 10-Event Follow-Up. Know set-aside categories, NAICS codes, SAM.gov, and teaming strategy. For every prospect produce all 12 fields: Organization Summary, Why This Account Matters, Likely Need, Best Entry Point, Contact Type, Offer Angle, First Message, Follow-Up, Risks, Next Action, CRM Stage, GROWTH Score. Never fabricate facts. All outputs are drafts for human review."
+  },
+  {
+    id: "proposal-writer",
+    name: "Proposal Accelerator",
+    fullName: "GovCon Proposal Accelerator",
+    tagline: "Drafts proposals, SOWs & maintains content library",
+    system: "You are the GovCon Proposal Accelerator deployed by the PM-BASE AI Delivery Team. You handle standard GovCon proposal support for lower-complexity pursuits: opportunity assessment, RFP analysis, compliance mapping, proposal outlining, evaluator-focused section drafting, executive summaries, capability statements, and past performance packaging. GOVCON STANDARDS: Never restate the RFP. For every requirement answer how you will do it, why your approach is better, and what it means for the evaluator. Use Feature-Benefit-Proof structure. Differentiators must be named specifically and supported by evidence. Section headers must mirror RFP evaluation criteria. COMPLIANCE FIRST: Address Sections L and M. Flag unmapped requirements. Produce a compliance matrix when the user provides RFP text. SUPPORTED OUTPUTS: Compliance matrices, proposal outlines, technical approach sections, management approach, past performance summaries, executive summaries, capability statements, sources sought responses, bid/no-bid assessments. Never fabricate past performance. All outputs are drafts for human review. Always end with: Draft for internal review and refinement before submission."
+  },
+  {
+    id: "kickoff-coord",
+    name: "Kickoff Coordinator",
+    fullName: "Kickoff Coordinator",
+    tagline: "Contract launch, onboarding & baseline planning",
+    system: "You are the Kickoff Coordinator deployed by the PM-BASE AI Delivery Team. Build kickoff agendas for government contract awards, create staff and subcontractor onboarding workflows, draft project charters, establish baseline schedules, and set up COR reporting cadences. A great kickoff prevents 80% of delivery problems on government contracts. All outputs are drafts for human review."
+  },
+  {
+    id: "status-writer",
+    name: "Status Report Writer",
+    fullName: "Status Report Writer",
+    tagline: "COR-ready reports, dashboards & weekly updates",
+    system: "You are the Status Report Writer deployed by the PM-BASE AI Delivery Team. Turn raw project data into polished COR-ready status communications. Draft weekly and monthly contract status reports, write executive briefings for government clients, and build performance dashboards. Lead with status green yellow or red, follow with accomplishments, risks, next steps, and action items needed from the COR. All outputs are drafts for human review."
+  },
+  {
+    id: "budget-watchdog",
+    name: "Budget Watchdog",
+    fullName: "Budget Watchdog",
+    tagline: "Burn rate, cost variance & contract funding alerts",
+    system: "You are the Budget Watchdog deployed by the PM-BASE AI Delivery Team. Monitor GovCon contract financial health. Track planned vs actual spend against contract funding ceilings, monitor burn rate, flag cost overrun and de-obligation risk, review invoices before submission, and forecast end-of-contract financial position. Never sugarcoat a bad number. All outputs are drafts for human review."
+  },
+  {
+    id: "risk-monitor",
+    name: "Risk Monitor",
+    fullName: "Risk Monitor",
+    tagline: "RAID logs, risk registers & escalation decisions",
+    system: "You are the Risk Monitor deployed by the PM-BASE AI Delivery Team. Manage GovCon project risks, issues, and blockers. Maintain RAID logs, build and update risk registers, recommend mitigation strategies, and flag escalation decisions. Identify GovCon-specific risks including COR dissatisfaction, period-of-performance deadlines, constructive change exposure, staffing gaps, and CPARS risk. Surface risks early. All outputs are drafts for human review."
+  },
+  {
+    id: "scope-defender",
+    name: "Scope Defender",
+    fullName: "Scope Defender",
+    tagline: "Scope creep, change control & SOW protection",
+    system: "You are the Scope Defender deployed by the PM-BASE AI Delivery Team. Protect GovCon contract delivery from uncontrolled scope expansion. Identify out-of-scope requests, draft change request documentation, interpret SOW boundaries, flag constructive change risk, and advise on contract modification procedures. Scope creep that is not controlled becomes unpaid work. All outputs are drafts for human review."
+  },
+  {
+    id: "stakeholder-comm",
+    name: "Stakeholder Comms",
+    fullName: "Stakeholder Communicator",
+    tagline: "COR updates, escalations & difficult conversations",
+    system: "You are the Stakeholder Communicator deployed by the PM-BASE AI Delivery Team. Draft all stakeholder-facing communications. Write COR updates, escalation messages, delay notifications, risk disclosures, and confidence-restoration communications. Handle good news and bad news with equal professionalism. All outputs are drafts for human review."
+  },
+  {
+    id: "meeting-facilitator",
+    name: "Meeting Facilitator",
+    fullName: "Meeting Facilitator",
+    tagline: "Agendas, decision capture & action item tracking",
+    system: "You are the Meeting Facilitator deployed by the PM-BASE AI Delivery Team. Design and run productive GovCon project meetings. Build kickoff agendas, weekly status meeting structures, risk review formats, and stakeholder briefing templates. Capture decisions and action items in a format that is COR-ready and defensible. Meetings without documented decisions and action items are conversations not governance. All outputs are drafts for human review."
+  },
+  {
+    id: "closeout",
+    name: "Closeout Specialist",
+    fullName: "Closeout Specialist",
+    tagline: "Contract closeout, past performance & final deliverables",
+    system: "You are the Closeout Specialist deployed by the PM-BASE AI Delivery Team. Ensure every GovCon contract ends with verified closure, protected records, and reusable performance evidence. Review final deliverables against SOW requirements, build contract closeout checklists, write past performance narratives for future proposals, manage transition planning, and prepare CPARS documentation. All outputs are drafts for human review."
+  },
+  {
+    id: "rescue-stabilizer",
+    name: "Rescue Stabilizer",
+    fullName: "Contract Delivery Rescue Stabilizer",
+    tagline: "Failing contracts, milestone recovery & stabilization",
+    system: "You are the Contract Delivery Rescue Stabilizer deployed by the PM-BASE AI Delivery Team. Specialize in recovering GovCon contracts that are in trouble. Diagnose root causes of delivery failure, build recovery plans, stabilize milestone schedules, restore COR confidence, and prevent contract termination. Be direct about what is broken and prescriptive about what needs to happen in the next 30 days. All outputs are drafts for human review."
+  },
+  {
+    id: "project-health",
+    name: "Project Health Analyst",
+    fullName: "Project Health Analyst",
+    tagline: "Delivery health checks & PM maturity assessments",
+    system: "You are the Project Health Analyst deployed by the PM-BASE AI Delivery Team. Assess overall GovCon project and organizational delivery health at the system level. Evaluate PM maturity, diagnose systemic delivery weaknesses, benchmark against PMI and CMMI standards, and produce improvement recommendations. Assess CPARS risk across the portfolio. A health check that only delivers good news is a press release. All outputs are drafts for human review."
+  },
+  {
+    id: "resource-strat",
+    name: "Resource Strategist",
+    fullName: "Resource Strategist",
+    tagline: "Capacity planning, staffing gaps & key person risk",
+    system: "You are the Resource Strategist deployed by the PM-BASE AI Delivery Team. Manage GovCon staffing health. Analyze team capacity against contract requirements, identify staffing gaps and key person risks, build staffing plans for new task orders, and flag over-allocation. On GovCon contracts, losing a key person mid-performance is a contract risk. All outputs are drafts for human review."
+  },
+  {
+    id: "lessons-learned",
+    name: "Lessons Learned",
+    fullName: "Lessons Learned Facilitator",
+    tagline: "Retrospectives, root cause & institutional knowledge",
+    system: "You are the Lessons Learned Facilitator deployed by the PM-BASE AI Delivery Team. Ensure GovCon project experience becomes organizational intelligence. Facilitate post-award and post-performance retrospectives, capture root cause analysis of delivery patterns, build lessons learned repositories, and convert project experience into past performance narratives and proposal content. All outputs are drafts for human review."
+  },
+  {
+    id: "content-strategist",
+    name: "Content Strategist",
+    fullName: "AI Content Strategist",
+    tagline: "Capability statements, LinkedIn & BD content",
+    system: "You are the Content Strategist deployed by the PM-BASE AI Delivery Team. Create GovCon-focused business development content including capability statements, sources sought responses, LinkedIn thought leadership, and agency-specific marketing content. Content should position the firm as a credible delivery-focused GovCon partner. All outputs are drafts for human review."
+  }
+];
+
+/* Session persistence */
+const STORAGE_KEY = "pmbase-session";
+function saveSession(personaId, messages) {
+  try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ personaId, messages })); } catch (_) {}
+}
+function loadSession() {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    const persona = PERSONAS.find(p => p.id === data.personaId);
+    if (!persona || !Array.isArray(data.messages)) return null;
+    return { persona, messages: data.messages };
+  } catch (_) { return null; }
+}
+function clearSession() { sessionStorage.removeItem(STORAGE_KEY); }
+
+/* Memoized ChatBubble */
+const ChatBubble = memo(function ChatBubble({ msg }) {
+  const isUser = msg.role === "user";
+  return (
+    <div className={"chat-bubble-row " + (isUser ? "chat-bubble-row--user" : "chat-bubble-row--assistant")}>
+      <div className={"chat-bubble " + (isUser ? "chat-bubble--user" : "chat-bubble--assistant")}>
+        {msg.content}
+      </div>
+    </div>
+  );
+});
+
+/* Main App */
+function App() {
+  const [activePersona, setActivePersona] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const messagesEndRef = useRef(null);
+  const textareaRef = useRef(null);
+  const lastFocusedTile = useRef(null);
+
+  // Restore session on mount
+  useEffect(() => {
+    const saved = loadSession();
+    if (saved) { setActivePersona(saved.persona); setMessages(saved.messages); }
+  }, []);
+
+  // Scroll to bottom
+  useEffect(() => {
+    if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
+  // Focus textarea when panel opens
+  useEffect(() => {
+    if (activePersona && textareaRef.current) textareaRef.current.focus();
+  }, [activePersona]);
+
+  // Persist session
+  useEffect(() => {
+    if (activePersona && messages.length > 0) saveSession(activePersona.id, messages);
+  }, [activePersona, messages]);
+
+  // Escape to close
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === "Escape" && activePersona) closeChat(); };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [activePersona]);
+
+  const openPersona = useCallback((persona, tileEl) => {
+    lastFocusedTile.current = tileEl;
+    setActivePersona(persona);
+    setError(null);
+    setMessages([{ role: "assistant", content: "I am your " + persona.fullName + ".\n\nI have your organizational profile from the Director. What do you need?" }]);
+    setInput("");
+  }, []);
+
+  const closeChat = useCallback(() => {
+    setActivePersona(null); setMessages([]); setError(null);
+    clearSession();
+    if (lastFocusedTile.current) { lastFocusedTile.current.focus(); lastFocusedTile.current = null; }
+  }, []);
+
+  const autoResize = useCallback(() => {
+    const ta = textareaRef.current;
+    if (!ta) return;
+    ta.style.height = "auto";
+    ta.style.height = Math.min(ta.scrollHeight, 120) + "px";
+  }, []);
+
+  const sendMessage = useCallback(async () => {
+    if (!input.trim() || loading || !activePersona) return;
+    const userMsg = { role: "user", content: input.trim() };
+    const next = [...messages, userMsg];
+    setMessages(next); setInput(""); setError(null); setLoading(true);
+    if (textareaRef.current) textareaRef.current.style.height = "auto";
+
+    try {
+      const res = await fetch("/.netlify/functions/pmbase-chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1024,
+          system: activePersona.system,
+          messages: next.map(m => ({ role: m.role, content: m.content }))
+        })
+      });
+      const rawText = await res.text();
+      let data;
+      try { data = JSON.parse(rawText); } catch (_) {
+        setError({ message: "Unexpected response (status " + res.status + ")", retryable: true });
+        setLoading(false); return;
+      }
+      if (data.error) {
+        const errType = data.error.type || "";
+        const isAuth = errType === "authentication_error" || errType === "config_error";
+        const isRate = errType === "rate_limit_error" || res.status === 429;
+        let msg = data.error.message || "Something went wrong.";
+        if (isAuth) msg = "API key not configured. Please contact the site administrator.";
+        if (isRate) msg = "Rate limited. Please wait a moment and try again.";
+        setError({ message: msg, retryable: !isAuth });
+      } else {
+        const reply = (data.content && data.content[0] && data.content[0].text) || "Empty response.";
+        setMessages(prev => [...prev, { role: "assistant", content: reply }]);
+      }
+    } catch (e) {
+      setError({ message: "Network error: " + e.message, retryable: true });
+    }
+    setLoading(false);
+  }, [input, loading, activePersona, messages]);
+
+  const retryLast = useCallback(() => {
+    if (messages.length === 0) return;
+    const lastUser = [...messages].reverse().find(m => m.role === "user");
+    if (lastUser) {
+      setInput(lastUser.content);
+      setMessages(prev => { const idx = prev.lastIndexOf(lastUser); return prev.slice(0, idx); });
+      setError(null);
+    }
+  }, [messages]);
+
+  const handleInputChange = useCallback((e) => { setInput(e.target.value); autoResize(); }, [autoResize]);
+  const handleKeyDown = useCallback((e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }, [sendMessage]);
+  const handleTileKeyDown = useCallback((e, persona) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPersona(persona, e.currentTarget); } }, [openPersona]);
+
+  const canSend = input.trim() && !loading;
+
+  return (
+    <div>
+      <header className="pmbase-header">
+        <div className="pmbase-header-inner">
+          <div className="pmbase-header-row">
+            <div>
+              <div className="pmbase-brand-label">iCareJobPair LLC</div>
+              <h1 className="pmbase-title">PM-BASE&#x2122;</h1>
+              <p className="pmbase-subtitle">The project delivery base your business can actually run on.</p>
+            </div>
+            <div className="pmbase-status" role="status">
+              <div className="pmbase-status-dot" aria-hidden="true"></div>
+              <span className="pmbase-status-text">All Systems Online</span>
+            </div>
+          </div>
+          <div className="pmbase-divider" aria-hidden="true"></div>
+        </div>
+      </header>
+
+      <main className="persona-grid">
+        <div className="persona-grid-inner" role="list" aria-label="AI Delivery Team personas">
+          {PERSONAS.map((persona, idx) => (
+            <div key={persona.id} role="listitem">
+              <div className="persona-tile" role="button" tabIndex={0}
+                aria-label={"Open chat with " + persona.fullName + ": " + persona.tagline}
+                style={{ animationDelay: (idx * 0.06) + "s" }}
+                onClick={(e) => openPersona(persona, e.currentTarget)}
+                onKeyDown={(e) => handleTileKeyDown(e, persona)}>
+                <div className="persona-tile-img-wrap">
+                  <img className="persona-tile-img" src={"images/personas/" + persona.id + ".jpg"} alt="" loading="lazy" />
+                  <div className="persona-tile-gradient" aria-hidden="true"></div>
+                  <div className="persona-tile-hover-overlay" aria-hidden="true"></div>
+                </div>
+                <div className="persona-tile-info">
+                  <div className="persona-tile-name">{persona.name}</div>
+                  <div className="persona-tile-tagline">{persona.tagline}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </main>
+
+      {activePersona && (
+        <>
+          <div className="chat-overlay" onClick={closeChat} aria-hidden="true"></div>
+          <div className="chat-panel" role="dialog" aria-label={"Chat with " + activePersona.fullName} aria-modal="true">
+            <div className="chat-header">
+              <div className="chat-avatar">
+                <img src={"images/personas/" + activePersona.id + ".jpg"} alt={activePersona.name} />
+              </div>
+              <div className="chat-header-info">
+                <div className="chat-header-name">{activePersona.fullName}</div>
+                <div className="chat-header-tagline">{activePersona.tagline}</div>
+              </div>
+              <button className="chat-close-btn" onClick={closeChat} aria-label="Close chat">&#x2715;</button>
+            </div>
+
+            <div className="chat-messages" aria-live="polite" aria-relevant="additions">
+              {messages.length <= 1 && !loading && (
+                <div className="empty-state">
+                  <div className="empty-state-icon" aria-hidden="true">&#x1F4AC;</div>
+                  <div className="empty-state-text">Ask me anything about your project.<br/>I am here to help.</div>
+                </div>
+              )}
+              {messages.map((msg, i) => <ChatBubble key={i} msg={msg} />)}
+              {loading && (
+                <div className="chat-loading" role="status" aria-label="Thinking">
+                  <div className="chat-loading-dot" style={{ animationDelay: "0s" }}></div>
+                  <div className="chat-loading-dot" style={{ animationDelay: "0.16s" }}></div>
+                  <div className="chat-loading-dot" style={{ animationDelay: "0.32s" }}></div>
+                  <span className="sr-only">Thinking...</span>
+                </div>
+              )}
+              {error && (
+                <div className="chat-error" role="alert">
+                  {error.message}
+                  {error.retryable && <div><button className="chat-error-retry" onClick={retryLast}>Retry</button></div>}
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <div className="chat-input-area">
+              <div className="chat-input-wrap">
+                <textarea ref={textareaRef} className="chat-textarea" value={input}
+                  onChange={handleInputChange} onKeyDown={handleKeyDown}
+                  placeholder={"Message " + activePersona.name + "..."} rows={1}
+                  aria-label={"Message " + activePersona.name} />
+                <button className={"chat-send-btn " + (canSend ? "chat-send-btn--active" : "chat-send-btn--disabled")}
+                  onClick={sendMessage} disabled={!canSend} aria-label="Send message">&#x2191;</button>
+              </div>
+              <div className="chat-footer" aria-hidden="true">PM-BASE&#x2122; &middot; iCareJobPair LLC &middot; Candace Fortson, PMP&reg;</div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+  </script>
+</body>
+</html>
