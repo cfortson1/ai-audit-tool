@@ -1,1848 +1,633 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIpairwise - AI-Powered Project Management Templates</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .hover-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        .modal {
-            backdrop-filter: blur(10px);
-        }
-        .template-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .template-content {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        .tab-button {
-            transition: all 0.3s ease;
-        }
-        .tab-button.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IcareJobPair LLC | PM-BASE | Fractional PMO | WOSB Certified</title>
+<meta name="description" content="IcareJobPair LLC installs project delivery infrastructure for GovCon and MBE firms. PM-BASE Framework. WOSB Certified. PMP Credentialed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap&font-display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1E3D; --gold: #C9962A; --gold-light: #E8B84B;
+    --cream: #F7F3EC; --white: #FFFFFF; --slate: #4A5568;
+    --charcoal: #1A1A2E; --border: rgba(201,150,42,0.25); --text-body: #2D3748;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Outfit', 'Segoe UI', system-ui, sans-serif; background: var(--cream); color: var(--text-body); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11,30,61,0.97); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 68px;
+  }
+  .nav-logo { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); text-decoration: none; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-cta { background: var(--gold) !important; color: var(--navy) !important; padding: 0.45rem 1.2rem !important; border-radius: 2px; font-weight: 600 !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+  .nav-hamburger span { width: 24px; height: 2px; background: var(--white); display: block; }
+
+  .hero {
+    min-height: 100vh; min-height: 100svh; background: var(--navy);
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; padding: 100px 5vw 60px; position: relative; overflow: hidden;
+  }
+  .hero::before { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(201,150,42,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .hero-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,150,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,150,42,0.04) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
+  .hero-content { position: relative; z-index: 2; animation: fadeUp 0.9s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(201,150,42,0.12); border: 1px solid var(--border); color: var(--gold-light); font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.7rem; letter-spacing: 0.12em; padding: 0.4rem 0.9rem; border-radius: 2px; margin-bottom: 1.8rem; }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .hero h1 { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: clamp(2.6rem, 4.5vw, 4.2rem); font-weight: 700; color: var(--white); line-height: 1.12; margin-bottom: 1.4rem; }
+  .hero h1 em { font-style: italic; color: var(--gold-light); }
+  .hero-sub { font-size: 1.05rem; color: rgba(255,255,255,0.68); line-height: 1.7; max-width: 520px; margin-bottom: 2.4rem; font-weight: 300; }
+  .hero-certs { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 2.4rem; }
+  .cert-pill { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--gold); border: 1px solid rgba(201,150,42,0.4); padding: 0.3rem 0.7rem; border-radius: 1px; text-transform: uppercase; }
+  .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { background: var(--gold); color: var(--navy); padding: 0.85rem 2rem; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.04em; border: none; border-radius: 2px; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--white); padding: 0.85rem 2rem; font-weight: 500; font-size: 0.9rem; letter-spacing: 0.04em; border: 1px solid rgba(255,255,255,0.3); border-radius: 2px; cursor: pointer; text-decoration: none; display: inline-block; transition: border-color 0.2s, color 0.2s, transform 0.15s; }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
+  .hero-right { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-end; gap: 1rem; animation: fadeUp 0.9s 0.2s ease both; }
+  .hero-stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,150,42,0.2); padding: 1.4rem 1.8rem; width: 260px; position: relative; }
+  .hero-stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gold); }
+  .hero-stat-num { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 2.8rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+  .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 0.3rem; line-height: 1.4; font-weight: 300; }
+  .hero-quote { background: rgba(201,150,42,0.08); border-left: 3px solid var(--gold); padding: 1.2rem 1.5rem; width: 260px; }
+  .hero-quote p { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 1.1rem; font-style: italic; color: var(--gold-light); line-height: 1.5; }
+  .hero-quote cite { display: block; font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 0.5rem; letter-spacing: 0.08em; font-style: normal; }
+
+  section { padding: 90px 5vw; }
+  .section-label { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.68rem; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.8rem; }
+  .section-title { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; color: var(--navy); line-height: 1.15; margin-bottom: 1rem; }
+  .section-sub { font-size: 1rem; color: var(--slate); line-height: 1.7; max-width: 600px; font-weight: 300; }
+
+  .problem-strip { background: var(--charcoal); padding: 50px 5vw; display: flex; align-items: center; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+  .problem-stat { text-align: center; }
+  .problem-stat-num { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 3rem; font-weight: 700; color: var(--gold); display: block; }
+  .problem-stat-text { font-size: 0.78rem; color: rgba(255,255,255,0.55); max-width: 160px; line-height: 1.5; font-weight: 300; }
+  .problem-divider { width: 1px; height: 60px; background: rgba(201,150,42,0.2); }
+
+  .offers-section { background: #F0EBE1; }
+  .offers-header { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end; margin-bottom: 4rem; }
+  .offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; background: transparent; }
+  .offer-card { background: var(--white); padding: 2.5rem; position: relative; transition: transform 0.25s, box-shadow 0.25s; overflow: hidden; border: 1px solid rgba(11,30,61,0.1); box-shadow: 0 2px 12px rgba(11,30,61,0.06); }
+  .offer-card::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: var(--gold); transition: width 0.35s ease; }
+  .offer-card:hover::before { width: 100%; }
+  .offer-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(11,30,61,0.12); }
+  .offer-card.featured { background: var(--navy); }
+  .offer-icon { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--gold); background: rgba(201,150,42,0.1); border: 1px solid var(--border); display: inline-block; padding: 0.3rem 0.7rem; margin-bottom: 1.4rem; border-radius: 1px; }
+  .offer-card h3 { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 1.55rem; font-weight: 700; color: var(--navy); margin-bottom: 0.7rem; line-height: 1.2; }
+  .offer-card.featured h3 { color: var(--white); }
+  .offer-card p { font-size: 0.88rem; color: var(--slate); line-height: 1.65; margin-bottom: 1.4rem; font-weight: 300; }
+  .offer-card.featured p { color: rgba(255,255,255,0.65); }
+  .offer-features { list-style: none; margin-bottom: 1.8rem; }
+  .offer-features li { font-size: 0.82rem; color: var(--slate); padding: 0.4rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: flex-start; gap: 0.6rem; font-weight: 300; }
+  .offer-card.featured .offer-features li { color: rgba(255,255,255,0.65); border-bottom-color: rgba(255,255,255,0.07); }
+  .offer-features li::before { content: '—'; color: var(--gold); font-weight: 600; flex-shrink: 0; }
+  .offer-link { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 600; color: var(--gold); text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: gap 0.2s; }
+  .offer-link:hover { gap: 0.9rem; }
+  .offer-link::after { content: '→'; }
+
+  .assessment-section { background: linear-gradient(135deg, var(--navy) 0%, #0F2952 100%); position: relative; overflow: hidden; }
+  .assessment-section::before { content: 'PM-BASE'; position: absolute; right: -2%; top: 50%; transform: translateY(-50%); font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 18vw; font-weight: 700; color: rgba(255,255,255,0.02); pointer-events: none; white-space: nowrap; }
+  .assessment-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; position: relative; z-index: 2; }
+  .base-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(201,150,42,0.15); margin-top: 2.5rem; }
+  .base-pillar { background: rgba(11,30,61,0.8); padding: 1.5rem; }
+  .base-letter { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 2.5rem; font-weight: 700; color: var(--gold); line-height: 1; display: block; }
+  .base-name { font-size: 0.72rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; font-family: 'DM Mono', 'Courier New', monospace; margin-top: 0.2rem; display: block; }
+  .base-desc { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 0.5rem; line-height: 1.5; font-weight: 300; }
+  .assessment-cta-box { background: rgba(201,150,42,0.08); border: 1px solid rgba(201,150,42,0.25); padding: 2.8rem; }
+  .assessment-cta-box h3 { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 1.8rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; line-height: 1.2; }
+  .assessment-cta-box p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 1.8rem; font-weight: 300; }
+  .score-preview { display: flex; gap: 0.5rem; margin-bottom: 1.8rem; flex-wrap: wrap; }
+  .score-tier { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.62rem; padding: 0.35rem 0.7rem; border-radius: 1px; letter-spacing: 0.08em; }
+  .tier-reactive { background: rgba(239,68,68,0.2); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.3); }
+  .tier-emerging { background: rgba(234,179,8,0.2); color: #FDE68A; border: 1px solid rgba(234,179,8,0.3); }
+  .tier-structured { background: rgba(59,130,246,0.2); color: #93C5FD; border: 1px solid rgba(59,130,246,0.3); }
+  .tier-scalable { background: rgba(34,197,94,0.2); color: #86EFAC; border: 1px solid rgba(34,197,94,0.3); }
+
+  .install-section { background: var(--cream); }
+  .install-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .install-steps { margin-top: 2rem; display: flex; flex-direction: column; }
+  .install-step { display: flex; gap: 1.5rem; align-items: flex-start; padding: 1.5rem 0; border-bottom: 1px solid rgba(11,30,61,0.08); }
+  .install-step:last-child { border-bottom: none; }
+  .step-num { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 2rem; font-weight: 700; color: var(--gold); line-height: 1; flex-shrink: 0; width: 36px; }
+  .step-content h4 { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.3rem; }
+  .step-content p { font-size: 0.82rem; color: var(--slate); line-height: 1.6; font-weight: 300; }
+  .install-apply-box { background: var(--navy); padding: 3rem; position: relative; overflow: hidden; }
+  .install-apply-box::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(201,150,42,0.1) 0%, transparent 70%); pointer-events: none; }
+  .install-apply-box h3 { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 1.9rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; line-height: 1.2; }
+  .install-apply-box > p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 0.5rem; font-weight: 300; }
+  .apply-qualifiers { margin: 1.5rem 0 2rem; }
+  .apply-qualifier { display: flex; align-items: flex-start; gap: 0.8rem; padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .apply-qualifier::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 6px; }
+  .apply-qualifier span { font-size: 0.82rem; color: rgba(255,255,255,0.55); font-weight: 300; line-height: 1.5; }
+  .apply-note { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.62rem; color: rgba(255,255,255,0.3); letter-spacing: 0.06em; margin-top: 1rem; display: block; }
+
+  .blog-section { background: var(--white); }
+  .blog-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+  .blog-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.5px; background: rgba(11,30,61,0.08); }
+  .blog-card { background: var(--white); padding: 2rem; display: flex; flex-direction: column; transition: background 0.2s; text-decoration: none; }
+  .blog-card:hover { background: var(--cream); }
+  .blog-tag { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.8rem; }
+  .blog-card h4 { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); line-height: 1.3; margin-bottom: 0.8rem; flex: 1; }
+  .blog-card.featured h4 { font-size: 1.7rem; }
+  .blog-card p { font-size: 0.83rem; color: var(--slate); line-height: 1.65; margin-bottom: 1.2rem; font-weight: 300; }
+  .blog-meta { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.6rem; color: rgba(11,30,61,0.35); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .book-section { background: var(--navy); text-align: center; padding: 100px 5vw; position: relative; overflow: hidden; }
+  .book-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(201,150,42,0.07) 0%, transparent 70%); pointer-events: none; }
+  .book-options { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: var(--charcoal); padding: 50px 5vw 30px; }
+  .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 1.5rem; }
+  .footer-brand h3 { font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; font-size: 1.4rem; color: var(--white); margin-bottom: 0.8rem; }
+  .footer-brand h3 span { color: var(--gold); }
+  .footer-brand p { font-size: 0.8rem; color: rgba(255,255,255,0.4); line-height: 1.6; font-weight: 300; }
+  .footer-col h4 { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.62rem; letter-spacing: 0.14em; color: var(--gold); text-transform: uppercase; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.5rem; }
+  .footer-col ul li a { font-size: 0.8rem; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; font-weight: 300; }
+  .footer-col ul li a:hover { color: var(--gold-light); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-bottom p { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.6rem; color: rgba(255,255,255,0.25); letter-spacing: 0.06em; }
+  .footer-certs { display: flex; gap: 0.6rem; }
+  .footer-cert { font-family: 'DM Mono', 'Courier New', monospace; font-size: 0.58rem; color: rgba(201,150,42,0.6); border: 1px solid rgba(201,150,42,0.2); padding: 0.2rem 0.5rem; letter-spacing: 0.08em; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 110px; }
+    .hero-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+    .hero-stat-card, .hero-quote { width: 100%; max-width: 260px; }
+    .offers-header, .assessment-inner, .install-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 68px; left: 0; right: 0; background: var(--navy); padding: 2rem 5vw; border-bottom: 1px solid var(--border); z-index: 99; }
+  }
+  @media (max-width: 600px) {
+    .problem-divider { display: none; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .base-pillars { grid-template-columns: 1fr 1fr; }
+  }
+  .reveal { opacity: 1; transform: none; }
+
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  .reveal.no-anim { opacity: 1; transform: none; }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-sm">AI</span>
-                    </div>
-                    <span class="text-xl font-bold gradient-text">AIpairwise</span>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#templates" class="text-gray-600 hover:text-blue-600 transition-colors">Templates</a>
-                    <a href="#features" class="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
-                    <a href="#contact" class="text-gray-600 hover:text-blue-600 transition-colors">Contact</a>
-                </div>
-                <button onclick="openWaitlistModal()" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all">
-                    Join Waitlist
-                </button>
-            </div>
-        </div>
-    </nav>
+<body>
 
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20">
-        <div class="max-w-6xl mx-auto px-6 text-center">
-            <h1 class="text-5xl font-bold text-gray-900 mb-6">
-                AI-Powered <span class="gradient-text">Project Management</span> Templates
-            </h1>
-            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                Transform your project management with 21 professionally crafted templates designed specifically for AI collaboration. Get implementation guides and guardrails included.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="openPurchaseModal()" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all hover-lift">
-                    Get All 21 Templates - $47
-                </button>
-                <button onclick="scrollToTemplates()" class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg text-lg font-semibold hover:border-blue-500 hover:text-blue-600 transition-all">
-                    View Free Templates
-                </button>
-            </div>
-        </div>
-    </section>
+<nav>
+  <a href="#" class="nav-logo" style="display:flex;flex-direction:column;gap:0.1rem;text-decoration:none;">
+    <span style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--white);line-height:1;">iCare<span style="color:var(--gold);">JobPair</span></span>
+    <span style="font-family:'DM Mono','Courier New',monospace;font-size:0.52rem;letter-spacing:0.14em;color:rgba(255,255,255,0.45);text-transform:uppercase;font-weight:400;">Pairing people, projects, and performance.</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#offers">Offers</a></li>
+    <li><a href="#assessment">PM-BASE Score</a></li>
+    <li><a href="#install">Infrastructure Install</a></li>
+    <li><a href="#blog">Insights</a></li>
+    <li><a href="https://calendly.com/candypmp/new-meeting" target="_blank" class="nav-cta">Book a Call</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
-    <!-- AI Setup Guide Section -->
-    <section class="py-16 bg-gradient-to-br from-blue-50 to-indigo-50">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Go beyond prompts — set up tools so AI works <em>with you</em>, not just for you.</h2>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- ChatGPT/Claude -->
-                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-                            <span class="text-2xl">🧠</span>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900">ChatGPT / Claude</h3>
-                    </div>
-                    <ul class="space-y-3 text-gray-700">
-                        <li class="flex items-start">
-                            <span class="text-blue-500 mr-2 mt-1">•</span>
-                            <span><strong>Go to Settings → Custom Instructions:</strong> Fill in "What should the assistant know about you?" and "How should it respond?" so your tone, goals, preferences stick.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-500 mr-2 mt-1">•</span>
-                            <span><strong>Use Memory or Role features:</strong> Save your project style, domain terms, stakeholder names.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-blue-500 mr-2 mt-1">•</span>
-                            <span><strong>Supply examples:</strong> "Always list action items", "Give me a summary then bullets", etc.</span>
-                        </li>
-                    </ul>
-                </div>
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-badge">WOSB Certified · PMP Credentialed · SAM.gov Active</div>
+    <h1>Reports sit on shelves.<br><em>Infrastructure</em><br>runs projects.</h1>
+    <p class="hero-sub">IcareJobPair LLC installs project delivery infrastructure inside GovCon and MBE firms so contracts close clean, CPARS stay green, and your team runs it without us.</p>
+    <div class="hero-certs">
+      <span class="cert-pill">WOSB</span>
+      <span class="cert-pill">PMP</span>
+      <span class="cert-pill">NAICS 541611</span>
+      <span class="cert-pill">UEI: DL5SWKUP61G9</span>
+    </div>
+    <div class="hero-buttons">
+      <a href="#assessment" class="btn-primary">Take the Free PM-BASE Score</a>
+      <a href="https://calendly.com/candypmp/new-meeting" target="_blank" class="btn-outline">Book a Discovery Call</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat-card">
+      <span class="hero-stat-num">11%</span>
+      <p class="hero-stat-label">of every project dollar lost to poor PM performance. On a $20M portfolio, that is $2.2M burned annually. Source: PMI Pulse of the Profession</p>
+    </div>
+    <div class="hero-stat-card">
+      <span class="hero-stat-num">90</span>
+      <p class="hero-stat-label">days to a fully operational PM delivery infrastructure your team owns and runs independently</p>
+    </div>
+    <div class="hero-quote">
+      <p>"When I go, you grow."</p>
+      <cite>Candace Fortson, PMP · Founder</cite>
+    </div>
+  </div>
+</section>
 
-                <!-- Otter.ai/Fireflies -->
-                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
-                            <span class="text-2xl">📝</span>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900">Otter.ai / Fireflies</h3>
-                    </div>
-                    <ul class="space-y-3 text-gray-700">
-                        <li class="flex items-start">
-                            <span class="text-purple-500 mr-2 mt-1">•</span>
-                            <span><strong>Name meetings clearly</strong> so context is captured ("Stakeholder Kickoff – Sept 15").</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-purple-500 mr-2 mt-1">•</span>
-                            <span><strong>Use speaker tags + mark decisions</strong> during the meeting.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-purple-500 mr-2 mt-1">•</span>
-                            <span><strong>Export transcript, clean up,</strong> then feed into AI for summary.</span>
-                        </li>
-                    </ul>
-                </div>
+<div class="problem-strip">
+  <div class="problem-stat">
+    <span class="problem-stat-num">$2.2M</span>
+    <p class="problem-stat-text">burned annually on a $20M portfolio from poor PM systems</p>
+  </div>
+  <div class="problem-divider"></div>
+  <div class="problem-stat">
+    <span class="problem-stat-num">67x</span>
+    <p class="problem-stat-text">ROI from a single new contract win covering the Foundation engagement</p>
+  </div>
+  <div class="problem-divider"></div>
+  <div class="problem-stat">
+    <span class="problem-stat-num">30</span>
+    <p class="problem-stat-text">days to deploy PM-BASE on your active contracts</p>
+  </div>
+  <div class="problem-divider"></div>
+  <div class="problem-stat">
+    <span class="problem-stat-num">12</span>
+    <p class="problem-stat-text">AI-powered delivery specialists configured for your contracts</p>
+  </div>
+</div>
 
-                <!-- Notion/Asana -->
-                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                    <div class="flex items-center mb-4">
-                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
-                            <span class="text-2xl">📂</span>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900">Notion / Asana</h3>
-                    </div>
-                    <ul class="space-y-3 text-gray-700">
-                        <li class="flex items-start">
-                            <span class="text-orange-500 mr-2 mt-1">•</span>
-                            <span><strong>Paste AI draft outputs directly</strong> into project briefs/task boards.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-orange-500 mr-2 mt-1">•</span>
-                            <span><strong>Break them into subtasks</strong> with deadlines, owners.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-orange-500 mr-2 mt-1">•</span>
-                            <span><strong>Assign, tag team for review</strong> so nothing falls through.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Why Choose AIpairwise Templates?</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Our templates are specifically designed for AI collaboration, saving you hours of prompt engineering and ensuring consistent, professional results.</p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center p-6 rounded-xl bg-blue-50 hover-lift">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-3xl">🎯</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3">AI-Optimized</h3>
-                    <p class="text-gray-600">Each template includes specific prompts and structures that work perfectly with ChatGPT, Claude, and other AI tools.</p>
-                </div>
-                
-                <div class="text-center p-6 rounded-xl bg-purple-50 hover-lift">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-3xl">⚡</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Time-Saving</h3>
-                    <p class="text-gray-600">Skip the trial and error. Our templates are battle-tested and ready to use immediately in your projects.</p>
-                </div>
-                
-                <div class="text-center p-6 rounded-xl bg-green-50 hover-lift">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-3xl">📋</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Professional Quality</h3>
-                    <p class="text-gray-600">Created by experienced project managers and refined through real-world usage across multiple industries.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ABOUT SECTION -->
+<section style="background:#F7F3EC;padding:90px 5vw;color:#2D3748;" id="about">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;max-width:1200px;margin:0 auto;" class="about-inner">
 
-    <!-- Templates Section -->
-    <section id="templates" class="py-16 bg-gray-50">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Free Templates</h2>
-                <p class="text-gray-600">Get started with these sample templates, or upgrade for the complete collection of 21 templates.</p>
-            </div>
-            
-            <div class="template-grid">
-                <!-- Meeting Summary Template -->
-                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover-lift">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                            <span class="text-2xl">📝</span>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-900">Meeting Summary</h3>
-                            <p class="text-sm text-gray-500">FREE</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 mb-4">Transform meeting transcripts into actionable summaries with clear next steps and decisions.</p>
-                    <div class="flex gap-2">
-                        <button onclick="previewTemplate('meeting')" class="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">
-                            Preview
-                        </button>
-                        <button onclick="downloadTemplate('meeting-summary')" class="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                            Download
-                        </button>
-                    </div>
-                </div>
+    <!-- LEFT: Candace credibility -->
+    <div>
+      <p class="section-label">About</p>
+      <h2 class="section-title">Built by someone who ran the contracts before she consulted on them</h2>
+      <p style="font-size:1rem;color:#4A5568;line-height:1.75;font-weight:300;margin-bottom:1.5rem;">
+        Candace Fortson spent 20 years inside business operations and project delivery before founding IcareJobPair LLC. She did not come from a consulting firm. She came from the work itself, managing complex federal and state contract environments, learning exactly where delivery breaks down and why, and building the systems that prevent it.
+      </p>
+      <p style="font-size:1rem;color:#4A5568;line-height:1.75;font-weight:300;margin-bottom:1.5rem;">
+        She holds PMP certification and brings direct federal prime contract experience with USDA and Oregon Health Authority. She architected the PM-BASE Framework from the ground up as a proprietary delivery infrastructure system, not borrowed methodology. Every engagement she runs is designed to end with the client stronger and fully independent.
+      </p>
+      <p style="font-size:1rem;color:#4A5568;line-height:1.75;font-weight:300;margin-bottom:2.5rem;">
+        IcareJobPair LLC is WOSB-certified, SAM.gov active, and registered across NAICS 541611, 541618, and 541690. For primes, that means verified socioeconomic credit. For agencies, that means a qualified, credentialed delivery partner available for direct award under WOSB set-aside.
+      </p>
 
-                <!-- Status Report Template -->
-                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover-lift">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                            <span class="text-2xl">📊</span>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-900">Status Report</h3>
-                            <p class="text-sm text-gray-500">FREE</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 mb-4">Generate comprehensive project status reports with progress tracking and risk assessment.</p>
-                    <div class="flex gap-2">
-                        <button onclick="previewTemplate('status')" class="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">
-                            Preview
-                        </button>
-                        <button onclick="downloadTemplate('status-report')" class="flex-1 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
-                            Download
-                        </button>
-                    </div>
-                </div>
+      <!-- Endorsement -->
+      <div style="background:#0B1E3D;padding:2rem;position:relative;overflow:hidden;margin-bottom:2rem;">
+        <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gold);"></div>
+        <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.2rem;font-style:italic;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:1rem;padding-left:1rem;">
+          "Candace Fortson is the real deal. Her command of project management principles and her ability to translate them into practical delivery infrastructure is exactly what GovCon firms need."
+        </p>
+        <p style="font-family:'DM Mono','Courier New',monospace;font-size:0.65rem;color:#C9962A;letter-spacing:0.1em;padding-left:1rem;">
+          LEE R. LAMBERT · ONE OF THE ORIGINAL FOUNDERS OF PMP CERTIFICATION
+        </p>
+      </div>
 
-                <!-- Risk Assessment Template -->
-                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover-lift">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
-                            <span class="text-2xl">⚠️</span>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-900">Risk Assessment</h3>
-                            <p class="text-sm text-gray-500">FREE</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 mb-4">Identify, analyze, and create mitigation strategies for project risks using AI assistance.</p>
-                    <div class="flex gap-2">
-                        <button onclick="previewTemplate('risk')" class="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">
-                            Preview
-                        </button>
-                        <button onclick="downloadTemplate('risk-assessment')" class="flex-1 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                            Download
-                        </button>
-                    </div>
-                </div>
-
-                <!-- SPI/CPI Calculator Template -->
-                <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover-lift">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
-                            <span class="text-2xl">📈</span>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-900">SPI/CPI Calculator</h3>
-                            <p class="text-sm text-gray-500">FREE</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 mb-4">Calculate Schedule Performance Index and Cost Performance Index with AI-powered analysis.</p>
-                    <div class="flex gap-2">
-                        <button onclick="previewTemplate('spi')" class="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">
-                            Preview
-                        </button>
-                        <button onclick="downloadTemplate('spi-cpi-calculator')" class="flex-1 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
-                            Download
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-12">
-                <button onclick="openPurchaseModal()" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all hover-lift">
-                    Get All 21 Templates + Implementation Guide + Guardrails - $47
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 bg-white">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Get in Touch</h2>
-                <p class="text-gray-600">Have questions about our templates or need custom solutions?</p>
-            </div>
-            
-            <form onsubmit="submitContact(event)" class="max-w-2xl mx-auto">
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">Name</label>
-                        <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 font-medium mb-2">Email</label>
-                        <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-700 font-medium mb-2">Message</label>
-                    <textarea rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all">
-                        Send Message
-                    </button>
-                </div>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-sm">AI</span>
-                    </div>
-                    <span class="text-xl font-bold">AIpairwise</span>
-                </div>
-                <div class="text-gray-400">
-                    © 2024 AIpairwise. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Premium Content Page (Hidden by default) -->
-    <div id="premiumContent" class="hidden min-h-screen bg-gray-50">
-        <!-- Premium Navigation -->
-        <nav class="bg-white shadow-sm sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-6 py-4">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                            <span class="text-white font-bold text-sm">AI</span>
-                        </div>
-                        <span class="text-xl font-bold gradient-text">AIpairwise Premium</span>
-                    </div>
-                    <button onclick="backToHome()" class="text-gray-600 hover:text-blue-600 transition-colors">
-                        ← Back to Home
-                    </button>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Premium Header -->
-        <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
-            <div class="max-w-7xl mx-auto px-6 text-center">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4">
-                    Welcome to <span class="gradient-text">AIpairwise Premium</span>
-                </h1>
-                <p class="text-xl text-gray-600 mb-8">
-                    Access all 21 templates, implementation guide, and AI guardrails
-                </p>
-            </div>
-        </section>
-
-        <!-- Tab Navigation -->
-        <div class="max-w-7xl mx-auto px-6 py-8">
-            <div class="flex flex-wrap gap-2 mb-8 justify-center">
-                <button onclick="showTab('templates')" id="templatesTab" class="tab-button active px-6 py-3 rounded-lg font-semibold transition-all">
-                    📁 All 21 Templates
-                </button>
-                <button onclick="showTab('implementation')" id="implementationTab" class="tab-button px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all">
-                    📖 Implementation Guide
-                </button>
-                <button onclick="showTab('guardrails')" id="guardrailsTab" class="tab-button px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all">
-                    🛡️ AI Guardrails
-                </button>
-            </div>
-
-            <!-- Templates Tab Content -->
-            <div id="templatesContent" class="tab-content">
-                <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6">
-                    <!-- Planning & Initiation Templates -->
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">📋</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Project Charter</h3>
-                                <p class="text-sm text-blue-600">Planning & Initiation</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Define project scope, objectives, and stakeholder expectations with AI assistance.</p>
-                        <button onclick="viewTemplate('project-charter')" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">👥</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Stakeholder Analysis</h3>
-                                <p class="text-sm text-blue-600">Planning & Initiation</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Identify, analyze, and create engagement strategies for all project stakeholders.</p>
-                        <button onclick="viewTemplate('stakeholder-analysis')" class="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">📝</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Requirements Gathering</h3>
-                                <p class="text-sm text-blue-600">Planning & Initiation</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Systematically collect and document project requirements using AI prompts.</p>
-                        <button onclick="viewTemplate('requirements-gathering')" class="w-full bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">🏗️</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Work Breakdown Structure</h3>
-                                <p class="text-sm text-blue-600">Planning & Initiation</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Break down complex projects into manageable tasks and deliverables.</p>
-                        <button onclick="viewTemplate('wbs')" class="w-full bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">🎯</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Project Scope Statement</h3>
-                                <p class="text-sm text-blue-600">Planning & Initiation</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Define what's included and excluded from your project scope clearly.</p>
-                        <button onclick="viewTemplate('scope-statement')" class="w-full bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <!-- Execution & Monitoring Templates -->
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">📝</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Meeting Summary</h3>
-                                <p class="text-sm text-green-600">Execution & Monitoring</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Transform meeting transcripts into actionable summaries.</p>
-                        <button onclick="viewTemplate('meeting-summary')" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">📊</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Status Report</h3>
-                                <p class="text-sm text-green-600">Execution & Monitoring</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Generate comprehensive project status reports with AI.</p>
-                        <button onclick="viewTemplate('status-report')" class="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">⚠️</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Risk Assessment</h3>
-                                <p class="text-sm text-green-600">Execution & Monitoring</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Identify and analyze project risks with mitigation strategies.</p>
-                        <button onclick="viewTemplate('risk-assessment')" class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">📈</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">SPI/CPI Calculator</h3>
-                                <p class="text-sm text-green-600">Execution & Monitoring</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Calculate performance metrics with AI-powered analysis.</p>
-                        <button onclick="viewTemplate('spi-cpi')" class="w-full bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">🔄</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Change Request</h3>
-                                <p class="text-sm text-green-600">Execution & Monitoring</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Document and evaluate project changes systematically.</p>
-                        <button onclick="viewTemplate('change-request')" class="w-full bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">✅</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Quality Assurance Checklist</h3>
-                                <p class="text-sm text-green-600">Execution & Monitoring</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Ensure deliverable quality with comprehensive checklists.</p>
-                        <button onclick="viewTemplate('qa-checklist')" class="w-full bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">👨‍💼</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Resource Allocation</h3>
-                                <p class="text-sm text-green-600">Execution & Monitoring</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Optimize team and resource allocation across projects.</p>
-                        <button onclick="viewTemplate('resource-allocation')" class="w-full bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">📢</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Communication Plan</h3>
-                                <p class="text-sm text-green-600">Execution & Monitoring</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Create comprehensive stakeholder communication strategies.</p>
-                        <button onclick="viewTemplate('communication-plan')" class="w-full bg-cyan-500 text-white px-4 py-2 rounded-lg hover:bg-cyan-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <!-- Analysis & Reporting Templates -->
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">📚</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Lessons Learned</h3>
-                                <p class="text-sm text-orange-600">Analysis & Reporting</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Capture and document project insights for future improvement.</p>
-                        <button onclick="viewTemplate('lessons-learned')" class="w-full bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-violet-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">🔍</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Post-Implementation Review</h3>
-                                <p class="text-sm text-orange-600">Analysis & Reporting</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Evaluate project success and identify improvement areas.</p>
-                        <button onclick="viewTemplate('post-implementation')" class="w-full bg-violet-500 text-white px-4 py-2 rounded-lg hover:bg-violet-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">💰</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Budget Variance Analysis</h3>
-                                <p class="text-sm text-orange-600">Analysis & Reporting</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Analyze budget performance and identify cost drivers.</p>
-                        <button onclick="viewTemplate('budget-variance')" class="w-full bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-lime-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">⏱️</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Timeline Analysis</h3>
-                                <p class="text-sm text-orange-600">Analysis & Reporting</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Evaluate schedule performance and identify delays.</p>
-                        <button onclick="viewTemplate('timeline-analysis')" class="w-full bg-lime-500 text-white px-4 py-2 rounded-lg hover:bg-lime-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">📊</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Performance Dashboard</h3>
-                                <p class="text-sm text-orange-600">Analysis & Reporting</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Create comprehensive project performance dashboards.</p>
-                        <button onclick="viewTemplate('performance-dashboard')" class="w-full bg-rose-500 text-white px-4 py-2 rounded-lg hover:bg-rose-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <!-- Specialized Templates -->
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">🏃‍♂️</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Agile Sprint Planning</h3>
-                                <p class="text-sm text-purple-600">Specialized</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Plan and execute agile sprints with AI-powered insights.</p>
-                        <button onclick="viewTemplate('agile-sprint')" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">🤝</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Vendor Management</h3>
-                                <p class="text-sm text-purple-600">Specialized</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Manage vendor relationships and performance effectively.</p>
-                        <button onclick="viewTemplate('vendor-management')" class="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
-                                <span class="text-2xl">🚨</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900">Crisis Management</h3>
-                                <p class="text-sm text-purple-600">Specialized</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 mb-4">Handle project crises with structured response plans.</p>
-                        <button onclick="viewTemplate('crisis-management')" class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                            View Template
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Implementation Guide Tab Content -->
-            <div id="implementationContent" class="tab-content hidden">
-                <div class="bg-white rounded-xl p-8 shadow-lg">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Implementation Guide</h2>
-                    <div class="prose max-w-none">
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Getting Started with AI-Powered Project Management</h3>
-                        
-                        <div class="grid md:grid-cols-2 gap-8 mb-8">
-                            <div class="bg-blue-50 p-6 rounded-lg">
-                                <h4 class="text-xl font-semibold text-blue-800 mb-3">Step 1: Choose Your AI Platform</h4>
-                                <ul class="space-y-2 text-gray-700">
-                                    <li><strong>ChatGPT Plus:</strong> Best for general project management tasks</li>
-                                    <li><strong>Claude Pro:</strong> Excellent for detailed analysis and long documents</li>
-                                    <li><strong>Gemini Advanced:</strong> Great for data analysis and integration</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="bg-green-50 p-6 rounded-lg">
-                                <h4 class="text-xl font-semibold text-green-800 mb-3">Step 2: Set Up Your AI Assistant</h4>
-                                <ul class="space-y-2 text-gray-700">
-                                    <li><strong>Custom Instructions (ChatGPT):</strong> Go to Settings → Custom Instructions</li>
-                                    <li><strong>System Prompts (Claude):</strong> Start conversations with context</li>
-                                    <li><strong>Memory Features:</strong> Save project context and preferences</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Template Implementation Process</h3>
-                        
-                        <div class="bg-gray-50 p-6 rounded-lg mb-6">
-                            <h4 class="text-lg font-semibold text-gray-800 mb-3">Before Using Any Template:</h4>
-                            <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                                <li><strong>Gather Required Information:</strong> Project details, stakeholder info, current status</li>
-                                <li><strong>Customize the Prompt:</strong> Replace [placeholders] with your actual data</li>
-                                <li><strong>Prepare Your Context:</strong> Brief the AI on your project background</li>
-                            </ol>
-                        </div>
-
-                        <div class="bg-yellow-50 p-6 rounded-lg mb-6">
-                            <h4 class="text-lg font-semibold text-yellow-800 mb-3">During Template Use:</h4>
-                            <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                                <li><strong>Start with Context:</strong> "I'm a project manager working on [project type]"</li>
-                                <li><strong>Use the Template Prompt:</strong> Copy the provided prompt exactly</li>
-                                <li><strong>Iterate and Refine:</strong> Ask for adjustments and specific formats</li>
-                            </ol>
-                        </div>
-
-                        <div class="bg-purple-50 p-6 rounded-lg mb-6">
-                            <h4 class="text-lg font-semibold text-purple-800 mb-3">After Getting Results:</h4>
-                            <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                                <li><strong>Review and Validate:</strong> Check for accuracy and completeness</li>
-                                <li><strong>Customize Further:</strong> Adjust language and tone for your audience</li>
-                                <li><strong>Save and Reuse:</strong> Document successful prompts for future use</li>
-                            </ol>
-                        </div>
-
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Advanced Techniques</h3>
-                        
-                        <div class="grid md:grid-cols-3 gap-6 mb-8">
-                            <div class="bg-indigo-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-indigo-800 mb-2">Prompt Chaining</h4>
-                                <p class="text-sm text-gray-700">Use outputs from one template as inputs for another</p>
-                            </div>
-                            <div class="bg-teal-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-teal-800 mb-2">Context Building</h4>
-                                <p class="text-sm text-gray-700">Maintain conversation history for complex projects</p>
-                            </div>
-                            <div class="bg-orange-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-orange-800 mb-2">Multi-Modal Integration</h4>
-                                <p class="text-sm text-gray-700">Combine templates with data analysis and documents</p>
-                            </div>
-                        </div>
-
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Best Practices</h3>
-                        
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="bg-green-50 p-6 rounded-lg">
-                                <h4 class="text-lg font-semibold text-green-800 mb-3">✅ Do's</h4>
-                                <ul class="space-y-1 text-gray-700">
-                                    <li>Always provide sufficient context</li>
-                                    <li>Be specific about your requirements</li>
-                                    <li>Review and validate all outputs</li>
-                                    <li>Customize templates for your organization</li>
-                                    <li>Keep successful prompts for reuse</li>
-                                </ul>
-                            </div>
-                            
-                            <div class="bg-red-50 p-6 rounded-lg">
-                                <h4 class="text-lg font-semibold text-red-800 mb-3">❌ Don'ts</h4>
-                                <ul class="space-y-1 text-gray-700">
-                                    <li>Use templates without customization</li>
-                                    <li>Skip the review and validation step</li>
-                                    <li>Assume AI output is always perfect</li>
-                                    <li>Forget to consider your audience</li>
-                                    <li>Use sensitive data without precautions</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Guardrails Tab Content -->
-            <div id="guardrailsContent" class="tab-content hidden">
-                <div class="bg-white rounded-xl p-8 shadow-lg">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">AI Guardrails & Best Practices</h2>
-                    
-                    <div class="space-y-8">
-                        <div class="bg-red-50 border-l-4 border-red-400 p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold text-red-800 mb-4">🔒 Data Security & Privacy</h3>
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <h4 class="font-semibold text-green-700 mb-2">✅ Safe Practices:</h4>
-                                    <ul class="space-y-1 text-sm text-gray-700">
-                                        <li>Use anonymized or sample data when possible</li>
-                                        <li>Remove personal identifiers (names, emails, phone numbers)</li>
-                                        <li>Replace sensitive company information with placeholders</li>
-                                        <li>Use generic project names and stakeholder titles</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-red-700 mb-2">❌ Avoid These Risks:</h4>
-                                    <ul class="space-y-1 text-sm text-gray-700">
-                                        <li>Never input confidential financial data</li>
-                                        <li>Don't include personal employee information</li>
-                                        <li>Avoid proprietary technical specifications</li>
-                                        <li>Never share customer data or contracts</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold text-blue-800 mb-4">✅ Output Validation & Quality Control</h3>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div>
-                                    <h4 class="font-semibold text-blue-700 mb-2">Accuracy Check</h4>
-                                    <ul class="space-y-1 text-sm text-gray-700">
-                                        <li>Cross-check facts and figures</li>
-                                        <li>Validate calculations and formulas</li>
-                                        <li>Confirm dates and timelines</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-blue-700 mb-2">Completeness Review</h4>
-                                    <ul class="space-y-1 text-sm text-gray-700">
-                                        <li>Ensure all required sections are included</li>
-                                        <li>Check for missing stakeholders</li>
-                                        <li>Verify action items have owners</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-blue-700 mb-2">Audience Appropriateness</h4>
-                                    <ul class="space-y-1 text-sm text-gray-700">
-                                        <li>Review tone and language level</li>
-                                        <li>Confirm technical detail is appropriate</li>
-                                        <li>Ensure cultural sensitivity</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold text-yellow-800 mb-4">🚩 Red Flags to Watch For</h3>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <ul class="space-y-2 text-gray-700">
-                                    <li class="flex items-start"><span class="text-red-500 mr-2">🚩</span>Overly confident statements without data support</li>
-                                    <li class="flex items-start"><span class="text-red-500 mr-2">🚩</span>Recommendations that seem unrealistic or impractical</li>
-                                </ul>
-                                <ul class="space-y-2 text-gray-700">
-                                    <li class="flex items-start"><span class="text-red-500 mr-2">🚩</span>Missing critical risk factors or considerations</li>
-                                    <li class="flex items-start"><span class="text-red-500 mr-2">🚩</span>Inconsistent information within the same document</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="bg-purple-50 border-l-4 border-purple-400 p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold text-purple-800 mb-4">⚖️ Bias Prevention & Mitigation</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <h4 class="font-semibold text-purple-700 mb-2">Common AI Biases:</h4>
-                                    <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-                                        <div>
-                                            <strong>Optimism Bias:</strong> AI may underestimate risks or timelines
-                                        </div>
-                                        <div>
-                                            <strong>Recency Bias:</strong> Over-weighting recent trends or data
-                                        </div>
-                                        <div>
-                                            <strong>Confirmation Bias:</strong> Reinforcing existing assumptions
-                                        </div>
-                                        <div>
-                                            <strong>Availability Bias:</strong> Focusing on easily recalled examples
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-purple-700 mb-2">Mitigation Strategies:</h4>
-                                    <ul class="space-y-1 text-sm text-gray-700">
-                                        <li><strong>Diverse Perspective Prompting:</strong> "What are potential counterarguments to this approach?"</li>
-                                        <li><strong>Devil's Advocate Approach:</strong> Ask AI to argue against its own recommendations</li>
-                                        <li><strong>Multi-Angle Analysis:</strong> Get perspectives from different stakeholder viewpoints</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-green-50 border-l-4 border-green-400 p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold text-green-800 mb-4">🤝 Ethical Considerations</h3>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div>
-                                    <h4 class="font-semibold text-green-700 mb-2">Transparency</h4>
-                                    <ul class="space-y-1 text-sm text-gray-700">
-                                        <li>Always disclose when content is AI-generated</li>
-                                        <li>Don't present AI output as your original analysis</li>
-                                        <li>Be clear about the role of AI in your process</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-green-700 mb-2">Human Oversight</h4>
-                                    <ul class="space-y-1 text-sm text-gray-700">
-                                        <li>AI should augment, not replace, human judgment</li>
-                                        <li>Critical decisions require human review</li>
-                                        <li>Maintain accountability for all outcomes</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-green-700 mb-2">Communication</h4>
-                                    <ul class="space-y-1 text-sm text-gray-700">
-                                        <li>Inform team members about AI tool usage</li>
-                                        <li>Ensure stakeholders understand the process</li>
-                                        <li>Maintain open dialogue about limitations</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-gray-50 border-l-4 border-gray-400 p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-4">⚙️ Technical Limitations & Workarounds</h3>
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <h4 class="font-semibold text-gray-700 mb-2">Known Limitations:</h4>
-                                    <ul class="space-y-2 text-sm text-gray-700">
-                                        <li><strong>Knowledge Cutoff Dates:</strong> AI training data has cutoff dates</li>
-                                        <li><strong>Context Window Limits:</strong> Large documents may be truncated</li>
-                                        <li><strong>Calculation Accuracy:</strong> Always verify mathematical calculations</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-700 mb-2">Workaround Strategies:</h4>
-                                    <ul class="space-y-2 text-sm text-gray-700">
-                                        <li>Use multiple AI sessions for complex projects</li>
-                                        <li>Cross-reference with current industry sources</li>
-                                        <li>Employ specialized tools for technical calculations</li>
-                                        <li>Maintain human expertise in critical areas</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+        <span class="cert-pill">WOSB Certified</span>
+        <span class="cert-pill">PMP Credentialed</span>
+        <span class="cert-pill">SAM.gov Active</span>
+        <span class="cert-pill">UEI: DL5SWKUP61G9</span>
+        <span class="cert-pill">CAGE: 9T2V1</span>
+      </div>
     </div>
 
-    <!-- Purchase Success Modal -->
-    <div id="purchaseModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-8 max-w-md mx-4">
-            <div class="text-center">
-                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="text-3xl">✅</span>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">Purchase Successful!</h3>
-                <p class="text-gray-600 mb-6">Thank you for your purchase! You now have access to all 21 premium templates, implementation guide, and guardrails.</p>
-                
-                <div class="space-y-3 mb-6">
-                    <button onclick="showPremiumContent()" class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
-                        📁 View All 21 Templates
-                    </button>
-                    <button onclick="downloadAllTemplates()" class="w-full bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors">
-                        💾 Download All Templates
-                    </button>
-                </div>
-                
-                <button onclick="closePurchaseModal()" class="text-gray-500 hover:text-gray-700">
-                    Close
-                </button>
-            </div>
-        </div>
+    <!-- RIGHT: Who We Serve buyer lanes -->
+    <div>
+      <p class="section-label">Who We Serve</p>
+      <h2 class="section-title" style="font-size:clamp(1.6rem,2.5vw,2.2rem);margin-bottom:2rem;">Three buyers. Three urgent problems. One firm that solves all of them.</h2>
+
+      <!-- Buyer 1 -->
+      <div style="border:1px solid rgba(11,30,61,0.12);padding:1.8rem;margin-bottom:1rem;position:relative;transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 8px 30px rgba(11,30,61,0.08)'" onmouseout="this.style.boxShadow='none'">
+        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);"></div>
+        <p style="font-family:'DM Mono','Courier New',monospace;font-size:0.62rem;letter-spacing:0.14em;color:#C9962A;text-transform:uppercase;margin-bottom:0.6rem;padding-left:1rem;">Prime Contractors</p>
+        <h4 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#0B1E3D;margin-bottom:0.6rem;padding-left:1rem;">You need a WOSB sub who strengthens your bid and protects your delivery</h4>
+        <p style="font-size:0.85rem;color:#4A5568;line-height:1.65;font-weight:300;margin-bottom:1rem;padding-left:1rem;">
+          IcareJobPair brings WOSB certification, PMP-credentialed PM leadership, and a deployable delivery infrastructure system to your task orders. We satisfy your socioeconomic goals and add genuine delivery capability, not just a checkbox.
+        </p>
+        <a href="/capability-statement.pdf" target="_blank" style="font-family:'DM Mono','Courier New',monospace;font-size:0.68rem;color:#C9962A;text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;padding-left:1rem;display:inline-block;">Download Capability Statement →</a>
+      </div>
+
+      <!-- Buyer 2 -->
+      <div style="border:1px solid rgba(11,30,61,0.12);padding:1.8rem;margin-bottom:1rem;position:relative;transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 8px 30px rgba(11,30,61,0.08)'" onmouseout="this.style.boxShadow='none'">
+        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);"></div>
+        <p style="font-family:'DM Mono','Courier New',monospace;font-size:0.62rem;letter-spacing:0.14em;color:#C9962A;text-transform:uppercase;margin-bottom:0.6rem;padding-left:1rem;">Federal and State Agencies</p>
+        <h4 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#0B1E3D;margin-bottom:0.6rem;padding-left:1rem;">You need fractional PMO support on an active program without a full-time hire</h4>
+        <p style="font-size:0.85rem;color:#4A5568;line-height:1.65;font-weight:300;margin-bottom:1rem;padding-left:1rem;">
+          We embed PM-BASE delivery infrastructure directly into your program office. COR-ready reporting, risk tracking, stakeholder communication, and governance cadences installed and running within 30 days. WOSB set-aside eligible for direct award.
+        </p>
+        <a href="https://calendly.com/candypmp/new-meeting" target="_blank" style="font-family:'DM Mono','Courier New',monospace;font-size:0.68rem;color:#C9962A;text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;padding-left:1rem;display:inline-block;">Book a Discovery Call →</a>
+      </div>
+
+      <!-- Buyer 3 -->
+      <div style="border:1px solid rgba(11,30,61,0.12);padding:1.8rem;position:relative;transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 8px 30px rgba(11,30,61,0.08)'" onmouseout="this.style.boxShadow='none'">
+        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);"></div>
+        <p style="font-family:'DM Mono','Courier New',monospace;font-size:0.62rem;letter-spacing:0.14em;color:#C9962A;text-transform:uppercase;margin-bottom:0.6rem;padding-left:1rem;">GovCon and MBE Firm Principals</p>
+        <h4 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.3rem;font-weight:700;color:#0B1E3D;margin-bottom:0.6rem;padding-left:1rem;">Your team is already doing PM work. The question is whether it is protecting your contracts</h4>
+        <p style="font-size:0.85rem;color:#4A5568;line-height:1.65;font-weight:300;margin-bottom:1rem;padding-left:1rem;">
+          The PM-BASE Foundation Engagement installs a complete delivery infrastructure across all your active contracts in 90 days. Your team runs it. You own it permanently. We exit.
+        </p>
+        <a href="#assessment" style="font-family:'DM Mono','Courier New',monospace;font-size:0.68rem;color:#C9962A;text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;padding-left:1rem;display:inline-block;">Take the Free PM-BASE Score →</a>
+      </div>
+
     </div>
+  </div>
+</section>
 
-    <!-- Template Preview Modal -->
-    <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-8 max-w-2xl mx-4 max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="previewTitle" class="text-2xl font-bold text-gray-900"></h3>
-                <button onclick="closePreviewModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-            </div>
-            <div id="previewContent" class="text-gray-700"></div>
-        </div>
+<style>
+@media (max-width:900px) {
+  .about-inner { grid-template-columns: 1fr !important; gap: 3rem !important; }
+}
+</style>
+
+<section class="offers-section" id="offers">
+  <div class="offers-header">
+    <div>
+      <p class="section-label">What We Offer</p>
+      <h2 class="section-title">Every engagement builds infrastructure your contracts require</h2>
     </div>
-
-    <!-- Template Detail Modal -->
-    <div id="templateDetailModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-8 max-w-4xl mx-4 max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="templateDetailTitle" class="text-2xl font-bold text-gray-900"></h3>
-                <button onclick="closeTemplateDetailModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-            </div>
-            <div id="templateDetailContent" class="text-gray-700 template-content"></div>
-        </div>
+    <p class="section-sub">From a single diagnostic score to a full delivery install, you own the system when we leave. Pricing is scoped in a discovery conversation.</p>
+  </div>
+  <div class="offers-grid">
+    <div class="offer-card featured">
+      <span class="offer-icon">FLAGSHIP</span>
+      <h3>PM-BASE Foundation Engagement</h3>
+      <p>Our core 90-day infrastructure install. Four delivery categories. Twelve-plus AI-powered specialists configured to your active contracts. Your team owns everything at Day 90. Engagement scope and investment are confirmed in your discovery call.</p>
+      <ul class="offer-features">
+        <li>Project Health diagnostic across all active contracts</li>
+        <li>All 12+ PM-BASE AI specialists configured per contract</li>
+        <li>Weekly Status and Risk Review systems installed</li>
+        <li>PM Prompt Library your team owns permanently</li>
+        <li>CPARS-ready documentation on every active contract</li>
+        <li>30-day post-engagement support guide included</li>
+      </ul>
+      <a href="https://calendly.com/candypmp/new-meeting" target="_blank" class="offer-link" style="color:var(--gold-light)">Book Discovery Call</a>
     </div>
-
-    <!-- Waitlist Modal -->
-    <div id="waitlistModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-8 max-w-md mx-4">
-            <div class="text-center">
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">Join AI-PM Certification Waitlist</h3>
-                <p class="text-gray-600 mb-6">Be the first to know when our AI-powered Project Management certification launches!</p>
-                
-                <form onsubmit="submitWaitlist(event)" class="space-y-4">
-                    <input type="email" placeholder="Enter your email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all">
-                        Join Waitlist
-                    </button>
-                </form>
-                
-                <button onclick="closeWaitlistModal()" class="mt-4 text-gray-500 hover:text-gray-700">
-                    Close
-                </button>
-            </div>
-        </div>
+    <div class="offer-card">
+      <span class="offer-icon">FREE ASSESSMENT</span>
+      <h3>PM-BASE Readiness Score</h3>
+      <p>12 questions. 4 delivery categories. One score that tells you exactly where your project infrastructure is failing before a contract does. No email required to see your result.</p>
+      <ul class="offer-features">
+        <li>Build, Align, Standardize, Elevate scoring</li>
+        <li>Four-tier readiness rating returned instantly</li>
+        <li>Specific gap analysis per delivery category</li>
+        <li>Direct path into the Foundation engagement</li>
+      </ul>
+      <a href="https://findyourpmpath.netlify.app" target="_blank" class="offer-link">Take the Free Score</a>
     </div>
-
-    <script>
-        // Smooth scrolling
-        function scrollToTemplates() {
-            document.getElementById('templates').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Modal functions
-        function openPurchaseModal() {
-            document.getElementById('purchaseModal').classList.remove('hidden');
-            document.getElementById('purchaseModal').classList.add('flex');
-        }
-
-        function closePurchaseModal() {
-            document.getElementById('purchaseModal').classList.add('hidden');
-            document.getElementById('purchaseModal').classList.remove('flex');
-        }
-
-        function showPremiumContent() {
-            // Hide main content
-            document.querySelector('nav').style.display = 'none';
-            document.querySelector('body > section:nth-child(2)').style.display = 'none'; // Hero
-            document.querySelector('body > section:nth-child(3)').style.display = 'none'; // AI Setup
-            document.querySelector('body > section:nth-child(4)').style.display = 'none'; // Features
-            document.querySelector('body > section:nth-child(5)').style.display = 'none'; // Templates
-            document.querySelector('body > section:nth-child(6)').style.display = 'none'; // Contact
-            document.querySelector('footer').style.display = 'none';
-            
-            // Show premium content
-            document.getElementById('premiumContent').style.display = 'block';
-            closePurchaseModal();
-        }
-
-        function backToHome() {
-            // Show main content
-            document.querySelector('nav').style.display = 'block';
-            document.querySelector('body > section:nth-child(2)').style.display = 'block'; // Hero
-            document.querySelector('body > section:nth-child(3)').style.display = 'block'; // AI Setup
-            document.querySelector('body > section:nth-child(4)').style.display = 'block'; // Features
-            document.querySelector('body > section:nth-child(5)').style.display = 'block'; // Templates
-            document.querySelector('body > section:nth-child(6)').style.display = 'block'; // Contact
-            document.querySelector('footer').style.display = 'block';
-            
-            // Hide premium content
-            document.getElementById('premiumContent').style.display = 'none';
-        }
-
-        function openWaitlistModal() {
-            document.getElementById('waitlistModal').classList.remove('hidden');
-            document.getElementById('waitlistModal').classList.add('flex');
-        }
-
-        function closeWaitlistModal() {
-            document.getElementById('waitlistModal').classList.add('hidden');
-            document.getElementById('waitlistModal').classList.remove('flex');
-        }
-
-        function closePreviewModal() {
-            document.getElementById('previewModal').classList.add('hidden');
-            document.getElementById('previewModal').classList.remove('flex');
-        }
-
-        function closeTemplateDetailModal() {
-            document.getElementById('templateDetailModal').classList.add('hidden');
-            document.getElementById('templateDetailModal').classList.remove('flex');
-        }
-
-        // Tab functions
-        function showTab(tabName) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.add('hidden');
-            });
-            
-            // Remove active class from all tabs
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-                button.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-            });
-            
-            // Show selected tab content
-            document.getElementById(tabName + 'Content').classList.remove('hidden');
-            
-            // Add active class to selected tab
-            const activeTab = document.getElementById(tabName + 'Tab');
-            activeTab.classList.add('active');
-            activeTab.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-        }
-
-        // Template preview function
-        function previewTemplate(type) {
-            const templates = {
-                meeting: {
-                    title: "Meeting Summary Template",
-                    content: `
-                        <h4 class="font-semibold mb-3">AI Prompt Template:</h4>
-                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                            <p class="font-mono text-sm">"Please analyze this meeting transcript and create a structured summary with the following sections: 1) Key Decisions Made, 2) Action Items with owners and deadlines, 3) Important Discussion Points, 4) Next Meeting Date/Agenda. Format it professionally for stakeholder distribution."</p>
-                        </div>
-                        <h4 class="font-semibold mb-3">Output Structure:</h4>
-                        <ul class="list-disc list-inside space-y-2">
-                            <li>Meeting Overview (Date, Attendees, Purpose)</li>
-                            <li>Key Decisions with rationale</li>
-                            <li>Action Items with clear ownership</li>
-                            <li>Discussion highlights and concerns raised</li>
-                            <li>Next steps and follow-up schedule</li>
-                        </ul>
-                    `
-                },
-                status: {
-                    title: "Status Report Template",
-                    content: `
-                        <h4 class="font-semibold mb-3">AI Prompt Template:</h4>
-                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                            <p class="font-mono text-sm">"Create a comprehensive project status report using this data: [project metrics]. Include: 1) Executive Summary with RAG status, 2) Progress against milestones, 3) Budget vs actual spend, 4) Risk assessment, 5) Resource utilization, 6) Upcoming deliverables. Use professional formatting suitable for executive review."</p>
-                        </div>
-                        <h4 class="font-semibold mb-3">Key Components:</h4>
-                        <ul class="list-disc list-inside space-y-2">
-                            <li>RAG (Red/Amber/Green) status indicators</li>
-                            <li>Progress metrics and milestone tracking</li>
-                            <li>Budget analysis and variance reporting</li>
-                            <li>Risk register updates</li>
-                            <li>Resource allocation and utilization</li>
-                            <li>Stakeholder communication summary</li>
-                        </ul>
-                    `
-                },
-                risk: {
-                    title: "Risk Assessment Template",
-                    content: `
-                        <h4 class="font-semibold mb-3">AI Prompt Template:</h4>
-                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                            <p class="font-mono text-sm">"Analyze the following project scenario and identify potential risks. For each risk, provide: 1) Risk description, 2) Probability (1-5 scale), 3) Impact (1-5 scale), 4) Risk score (probability × impact), 5) Mitigation strategies, 6) Contingency plans, 7) Risk owner assignment. Prioritize by risk score."</p>
-                        </div>
-                        <h4 class="font-semibold mb-3">Risk Categories Covered:</h4>
-                        <ul class="list-disc list-inside space-y-2">
-                            <li>Technical and operational risks</li>
-                            <li>Resource and staffing risks</li>
-                            <li>Budget and financial risks</li>
-                            <li>Schedule and timeline risks</li>
-                            <li>External and market risks</li>
-                            <li>Compliance and regulatory risks</li>
-                        </ul>
-                    `
-                },
-                spi: {
-                    title: "SPI/CPI Calculator Template",
-                    content: `
-                        <h4 class="font-semibold mb-3">AI Prompt Template:</h4>
-                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                            <p class="font-mono text-sm">"Calculate project performance metrics using this data: Planned Value (PV): $X, Earned Value (EV): $Y, Actual Cost (AC): $Z. Provide: 1) SPI calculation and interpretation, 2) CPI calculation and interpretation, 3) Performance analysis, 4) Trend analysis, 5) Recommendations for improvement, 6) Forecast projections based on current performance."</p>
-                        </div>
-                        <h4 class="font-semibold mb-3">Calculations Included:</h4>
-                        <ul class="list-disc list-inside space-y-2">
-                            <li>Schedule Performance Index (SPI = EV/PV)</li>
-                            <li>Cost Performance Index (CPI = EV/AC)</li>
-                            <li>Schedule Variance (SV = EV - PV)</li>
-                            <li>Cost Variance (CV = EV - AC)</li>
-                            <li>Estimate at Completion (EAC)</li>
-                            <li>Performance trend analysis and forecasting</li>
-                        </ul>
-                    `
-                }
-            };
-
-            const template = templates[type];
-            if (template) {
-                document.getElementById('previewTitle').textContent = template.title;
-                document.getElementById('previewContent').innerHTML = template.content;
-                document.getElementById('previewModal').classList.remove('hidden');
-                document.getElementById('previewModal').classList.add('flex');
-            }
-        }
-
-        // Premium template view function
-        function viewTemplate(templateId) {
-            const templates = {
-                'project-charter': {
-                    title: "Project Charter Template",
-                    content: `
-                        <div class="space-y-6">
-                            <div class="bg-blue-50 p-6 rounded-lg">
-                                <h4 class="text-lg font-semibold text-blue-800 mb-3">AI Prompt Template:</h4>
-                                <div class="bg-white p-4 rounded border font-mono text-sm">
-                                    "Create a comprehensive project charter for [PROJECT NAME] with the following details: [PROJECT DESCRIPTION]. Include: 1) Project Purpose and Justification, 2) Measurable Project Objectives and Success Criteria, 3) High-level Requirements, 4) Project Description and Deliverables, 5) Overall Project Risk, 6) Summary Milestone Schedule, 7) Pre-approved Financial Resources, 8) Project Manager Authority Level, 9) Stakeholder List, 10) Project Approval Requirements. Format professionally for executive approval."
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Template Structure:</h4>
-                                <div class="space-y-4">
-                                    <div class="border-l-4 border-blue-400 pl-4">
-                                        <h5 class="font-semibold">Project Information</h5>
-                                        <ul class="text-sm text-gray-600 mt-1">
-                                            <li>• Project Name and Code</li>
-                                            <li>• Project Manager and Sponsor</li>
-                                            <li>• Start and End Dates</li>
-                                            <li>• Budget and Resources</li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <div class="border-l-4 border-green-400 pl-4">
-                                        <h5 class="font-semibold">Business Case</h5>
-                                        <ul class="text-sm text-gray-600 mt-1">
-                                            <li>• Project Purpose and Justification</li>
-                                            <li>• Business Need and Opportunity</li>
-                                            <li>• Expected Benefits and ROI</li>
-                                            <li>• Success Criteria and KPIs</li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <div class="border-l-4 border-purple-400 pl-4">
-                                        <h5 class="font-semibold">Scope and Deliverables</h5>
-                                        <ul class="text-sm text-gray-600 mt-1">
-                                            <li>• High-level Scope Description</li>
-                                            <li>• Major Deliverables</li>
-                                            <li>• Key Requirements</li>
-                                            <li>• Exclusions and Constraints</li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <div class="border-l-4 border-orange-400 pl-4">
-                                        <h5 class="font-semibold">Stakeholders and Authority</h5>
-                                        <ul class="text-sm text-gray-600 mt-1">
-                                            <li>• Key Stakeholder List</li>
-                                            <li>• Project Manager Authority</li>
-                                            <li>• Approval Requirements</li>
-                                            <li>• Escalation Path</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-yellow-50 p-4 rounded-lg">
-                                <h4 class="text-lg font-semibold text-yellow-800 mb-2">Usage Tips:</h4>
-                                <ul class="text-sm text-gray-700 space-y-1">
-                                    <li>• Replace [PROJECT NAME] and [PROJECT DESCRIPTION] with your specific details</li>
-                                    <li>• Include quantifiable success criteria and KPIs</li>
-                                    <li>• Get stakeholder input before finalizing</li>
-                                    <li>• Ensure executive sponsor approval before proceeding</li>
-                                </ul>
-                            </div>
-                        </div>
-                    `
-                },
-                'stakeholder-analysis': {
-                    title: "Stakeholder Analysis Template",
-                    content: `
-                        <div class="space-y-6">
-                            <div class="bg-green-50 p-6 rounded-lg">
-                                <h4 class="text-lg font-semibold text-green-800 mb-3">AI Prompt Template:</h4>
-                                <div class="bg-white p-4 rounded border font-mono text-sm">
-                                    "Analyze stakeholders for [PROJECT NAME] in [INDUSTRY/CONTEXT]. For each stakeholder, provide: 1) Stakeholder Name/Role, 2) Interest Level (High/Medium/Low), 3) Influence Level (High/Medium/Low), 4) Impact on Project, 5) Expectations and Concerns, 6) Communication Preferences, 7) Engagement Strategy, 8) Success Measures. Create a stakeholder matrix and engagement plan. Include internal and external stakeholders."
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Analysis Framework:</h4>
-                                <div class="grid md:grid-cols-2 gap-6">
-                                    <div class="space-y-4">
-                                        <div class="border-l-4 border-red-400 pl-4">
-                                            <h5 class="font-semibold text-red-700">High Influence, High Interest</h5>
-                                            <p class="text-sm text-gray-600">Manage Closely - Key decision makers and champions</p>
-                                        </div>
-                                        
-                                        <div class="border-l-4 border-orange-400 pl-4">
-                                            <h5 class="font-semibold text-orange-700">High Influence, Low Interest</h5>
-                                            <p class="text-sm text-gray-600">Keep Satisfied - Senior executives and authorities</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="space-y-4">
-                                        <div class="border-l-4 border-blue-400 pl-4">
-                                            <h5 class="font-semibold text-blue-700">Low Influence, High Interest</h5>
-                                            <p class="text-sm text-gray-600">Keep Informed - End users and beneficiaries</p>
-                                        </div>
-                                        
-                                        <div class="border-l-4 border-gray-400 pl-4">
-                                            <h5 class="font-semibold text-gray-700">Low Influence, Low Interest</h5>
-                                            <p class="text-sm text-gray-600">Monitor - Peripheral stakeholders</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Engagement Strategies:</h4>
-                                <div class="space-y-3">
-                                    <div class="bg-blue-50 p-4 rounded">
-                                        <h5 class="font-semibold text-blue-800">Communication Methods</h5>
-                                        <p class="text-sm text-gray-700">Face-to-face meetings, email updates, presentations, workshops, surveys</p>
-                                    </div>
-                                    
-                                    <div class="bg-green-50 p-4 rounded">
-                                        <h5 class="font-semibold text-green-800">Frequency Guidelines</h5>
-                                        <p class="text-sm text-gray-700">Weekly (high interest), Bi-weekly (medium interest), Monthly (low interest)</p>
-                                    </div>
-                                    
-                                    <div class="bg-purple-50 p-4 rounded">
-                                        <h5 class="font-semibold text-purple-800">Content Customization</h5>
-                                        <p class="text-sm text-gray-700">Executive summaries, detailed reports, technical specifications, impact assessments</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                'requirements-gathering': {
-                    title: "Requirements Gathering Template",
-                    content: `
-                        <div class="space-y-6">
-                            <div class="bg-purple-50 p-6 rounded-lg">
-                                <h4 class="text-lg font-semibold text-purple-800 mb-3">AI Prompt Template:</h4>
-                                <div class="bg-white p-4 rounded border font-mono text-sm">
-                                    "Help me gather and organize requirements for [PROJECT TYPE] in [DOMAIN/INDUSTRY]. Structure requirements into: 1) Functional Requirements (what the system must do), 2) Non-functional Requirements (performance, security, usability), 3) Business Requirements (business rules and processes), 4) Technical Requirements (technology constraints), 5) Regulatory/Compliance Requirements, 6) User Requirements (user stories and acceptance criteria). For each requirement, include: ID, Description, Priority (Must/Should/Could/Won't), Source, Acceptance Criteria, and Dependencies."
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Requirements Categories:</h4>
-                                <div class="grid md:grid-cols-2 gap-4">
-                                    <div class="space-y-3">
-                                        <div class="border border-blue-200 p-4 rounded">
-                                            <h5 class="font-semibold text-blue-700">Functional Requirements</h5>
-                                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                                <li>• Core system functionality</li>
-                                                <li>• User interactions and workflows</li>
-                                                <li>• Data processing and storage</li>
-                                                <li>• Integration requirements</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div class="border border-green-200 p-4 rounded">
-                                            <h5 class="font-semibold text-green-700">Business Requirements</h5>
-                                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                                <li>• Business rules and logic</li>
-                                                <li>• Process workflows</li>
-                                                <li>• Reporting and analytics</li>
-                                                <li>• Compliance and governance</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div class="border border-orange-200 p-4 rounded">
-                                            <h5 class="font-semibold text-orange-700">User Requirements</h5>
-                                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                                <li>• User stories and personas</li>
-                                                <li>• User experience expectations</li>
-                                                <li>• Accessibility requirements</li>
-                                                <li>• Training and support needs</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="space-y-3">
-                                        <div class="border border-purple-200 p-4 rounded">
-                                            <h5 class="font-semibold text-purple-700">Non-Functional Requirements</h5>
-                                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                                <li>• Performance and scalability</li>
-                                                <li>• Security and privacy</li>
-                                                <li>• Reliability and availability</li>
-                                                <li>• Usability and accessibility</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div class="border border-red-200 p-4 rounded">
-                                            <h5 class="font-semibold text-red-700">Technical Requirements</h5>
-                                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                                <li>• Technology stack and platforms</li>
-                                                <li>• Infrastructure requirements</li>
-                                                <li>• Integration specifications</li>
-                                                <li>• Development standards</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div class="border border-yellow-200 p-4 rounded">
-                                            <h5 class="font-semibold text-yellow-700">Regulatory Requirements</h5>
-                                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                                <li>• Industry regulations</li>
-                                                <li>• Data protection laws</li>
-                                                <li>• Audit and compliance</li>
-                                                <li>• Documentation standards</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="text-lg font-semibold text-gray-800 mb-3">MoSCoW Prioritization:</h4>
-                                <div class="grid md:grid-cols-4 gap-4 text-sm">
-                                    <div class="text-center">
-                                        <div class="bg-red-100 text-red-800 font-semibold p-2 rounded">MUST</div>
-                                        <p class="mt-1 text-gray-600">Critical requirements</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="bg-orange-100 text-orange-800 font-semibold p-2 rounded">SHOULD</div>
-                                        <p class="mt-1 text-gray-600">Important but not critical</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="bg-yellow-100 text-yellow-800 font-semibold p-2 rounded">COULD</div>
-                                        <p class="mt-1 text-gray-600">Nice to have</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="bg-gray-100 text-gray-800 font-semibold p-2 rounded">WON'T</div>
-                                        <p class="mt-1 text-gray-600">Out of scope</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                }
-                // Add more templates as needed...
-            };
-
-            const template = templates[templateId];
-            if (template) {
-                document.getElementById('templateDetailTitle').textContent = template.title;
-                document.getElementById('templateDetailContent').innerHTML = template.content;
-                document.getElementById('templateDetailModal').classList.remove('hidden');
-                document.getElementById('templateDetailModal').classList.add('flex');
-            }
-        }
-
-        // Download functions
-        function downloadTemplate(templateName) {
-            const templates = {
-                'meeting-summary': `# Meeting Summary Template
-
-## AI Prompt:
-"Please analyze this meeting transcript and create a structured summary with the following sections: 1) Key Decisions Made, 2) Action Items with owners and deadlines, 3) Important Discussion Points, 4) Next Meeting Date/Agenda. Format it professionally for stakeholder distribution."
-
-## Template Structure:
-
-### Meeting Overview
-- **Date:** [Meeting Date]
-- **Time:** [Start Time - End Time]
-- **Attendees:** [List of participants]
-- **Meeting Purpose:** [Objective/Goal]
-
-### Key Decisions Made
-1. [Decision 1 with rationale]
-2. [Decision 2 with rationale]
-3. [Decision 3 with rationale]
-
-### Action Items
-| Task | Owner | Due Date | Status |
-|------|-------|----------|--------|
-| [Action item 1] | [Name] | [Date] | [Status] |
-| [Action item 2] | [Name] | [Date] | [Status] |
-
-### Discussion Highlights
-- [Important point 1]
-- [Important point 2]
-- [Concerns raised]
-
-### Next Steps
-- **Next Meeting:** [Date and time]
-- **Agenda Items:** [Topics to cover]
-- **Preparation Required:** [What attendees need to prepare]
-
----
-*Generated using AIpairwise Meeting Summary Template*`,
-
-                'status-report': `# Project Status Report Template
-
-## AI Prompt:
-"Create a comprehensive project status report using this data: [project metrics]. Include: 1) Executive Summary with RAG status, 2) Progress against milestones, 3) Budget vs actual spend, 4) Risk assessment, 5) Resource utilization, 6) Upcoming deliverables. Use professional formatting suitable for executive review."
-
-## Template Structure:
-
-### Executive Summary
-- **Overall Status:** 🟢 Green / 🟡 Amber / 🔴 Red
-- **Project Health:** [Brief assessment]
-- **Key Achievements:** [Major accomplishments this period]
-- **Critical Issues:** [Items requiring attention]
-
-### Progress Against Milestones
-| Milestone | Planned Date | Actual/Forecast | Status | Notes |
-|-----------|--------------|-----------------|--------|-------|
-| [Milestone 1] | [Date] | [Date] | [Status] | [Comments] |
-| [Milestone 2] | [Date] | [Date] | [Status] | [Comments] |
-
-### Budget Analysis
-- **Total Budget:** $[Amount]
-- **Spent to Date:** $[Amount] ([Percentage]%)
-- **Remaining Budget:** $[Amount]
-- **Forecast at Completion:** $[Amount]
-- **Variance:** $[Amount] ([Over/Under] budget)
-
-### Risk Assessment
-| Risk | Probability | Impact | Score | Mitigation Status |
-|------|-------------|--------|-------|-------------------|
-| [Risk 1] | [1-5] | [1-5] | [Score] | [Status] |
-| [Risk 2] | [1-5] | [1-5] | [Score] | [Status] |
-
-### Resource Utilization
-- **Team Size:** [Number] FTE
-- **Utilization Rate:** [Percentage]%
-- **Key Resource Constraints:** [Issues]
-
-### Upcoming Deliverables (Next 30 Days)
-1. [Deliverable 1] - Due: [Date]
-2. [Deliverable 2] - Due: [Date]
-3. [Deliverable 3] - Due: [Date]
-
----
-*Generated using AIpairwise Status Report Template*`,
-
-                'risk-assessment': `# Risk Assessment Template
-
-## AI Prompt:
-"Analyze the following project scenario and identify potential risks. For each risk, provide: 1) Risk description, 2) Probability (1-5 scale), 3) Impact (1-5 scale), 4) Risk score (probability × impact), 5) Mitigation strategies, 6) Contingency plans, 7) Risk owner assignment. Prioritize by risk score."
-
-## Template Structure:
-
-### Risk Assessment Overview
-- **Project:** [Project Name]
-- **Assessment Date:** [Date]
-- **Assessor:** [Name/Team]
-- **Review Period:** [Timeframe]
-
-### Risk Register
-
-#### High Priority Risks (Score 15-25)
-| Risk ID | Description | Probability | Impact | Score | Owner | Status |
-|---------|-------------|-------------|--------|-------|-------|--------|
-| R001 | [Risk description] | [1-5] | [1-5] | [Score] | [Name] | [Status] |
-
-#### Medium Priority Risks (Score 8-14)
-| Risk ID | Description | Probability | Impact | Score | Owner | Status |
-|---------|-------------|-------------|--------|-------|-------|--------|
-| R002 | [Risk description] | [1-5] | [1-5] | [Score] | [Name] | [Status] |
-
-#### Low Priority Risks (Score 1-7)
-| Risk ID | Description | Probability | Impact | Score | Owner | Status |
-|---------|-------------|-------------|--------|-------|-------|--------|
-| R003 | [Risk description] | [1-5] | [1-5] | [Score] | [Name] | [Status] |
-
-### Detailed Risk Analysis
-
-#### Risk ID: [R001]
-- **Description:** [Detailed risk description]
-- **Category:** [Technical/Resource/Financial/Schedule/External]
-- **Triggers:** [What would cause this risk to occur]
-- **Mitigation Strategy:** [How to reduce probability/impact]
-- **Contingency Plan:** [What to do if risk occurs]
-- **Monitoring:** [How to track this risk]
-
-### Risk Categories
-- **Technical Risks:** Technology failures, integration issues
-- **Resource Risks:** Staff availability, skill gaps
-- **Financial Risks:** Budget overruns, funding issues
-- **Schedule Risks:** Delays, dependencies
-- **External Risks:** Market changes, regulatory changes
-- **Operational Risks:** Process failures, quality issues
-
-### Risk Response Strategies
-- **Avoid:** Eliminate the risk entirely
-- **Mitigate:** Reduce probability or impact
-- **Transfer:** Share or shift risk to third party
-- **Accept:** Acknowledge and monitor the risk
-
----
-*Generated using AIpairwise Risk Assessment Template*`,
-
-                'spi-cpi-calculator': `# SPI/CPI Calculator Template
-
-## AI Prompt:
-"Calculate project performance metrics using this data: Planned Value (PV): $X, Earned Value (EV): $Y, Actual Cost (AC): $Z. Provide: 1) SPI calculation and interpretation, 2) CPI calculation and interpretation, 3) Performance analysis, 4) Trend analysis, 5) Recommendations for improvement, 6) Forecast projections based on current performance."
-
-## Template Structure:
-
-### Project Performance Dashboard
-- **Project:** [Project Name]
-- **Reporting Period:** [Date Range]
-- **Analysis Date:** [Date]
-
-### Input Values
-- **Planned Value (PV):** $[Amount]
-- **Earned Value (EV):** $[Amount]
-- **Actual Cost (AC):** $[Amount]
-- **Budget at Completion (BAC):** $[Amount]
-
-### Performance Calculations
-
-#### Schedule Performance
-- **Schedule Variance (SV):** EV - PV = $[Amount]
-- **Schedule Performance Index (SPI):** EV ÷ PV = [Ratio]
-- **Schedule Status:** [Ahead/On Track/Behind Schedule]
-
-#### Cost Performance
-- **Cost Variance (CV):** EV - AC = $[Amount]
-- **Cost Performance Index (CPI):** EV ÷ AC = [Ratio]
-- **Cost Status:** [Under/On/Over Budget]
-
-### Performance Interpretation
-
-#### SPI Analysis
-- **SPI = [Value]**
-- **Meaning:** 
-  - SPI > 1.0: Ahead of schedule
-  - SPI = 1.0: On schedule
-  - SPI < 1.0: Behind schedule
-- **Current Status:** [Interpretation]
-
-#### CPI Analysis
-- **CPI = [Value]**
-- **Meaning:**
-  - CPI > 1.0: Under budget
-  - CPI = 1.0: On budget
-  - CPI < 1.0: Over budget
-- **Current Status:** [Interpretation]
-
-### Forecasting
-
-#### Estimate at Completion (EAC)
-- **EAC = BAC ÷ CPI = $[Amount]**
-- **Variance at Completion (VAC) = BAC - EAC = $[Amount]**
-
-#### Estimate to Complete (ETC)
-- **ETC = EAC - AC = $[Amount]**
-
-#### To Complete Performance Index (TCPI)
-- **TCPI = (BAC - EV) ÷ (BAC - AC) = [Ratio]**
-- **Required Performance:** [Analysis]
-
-### Trend Analysis
-- **Previous Period SPI:** [Value]
-- **Current Period SPI:** [Value]
-- **Trend:** [Improving/Stable/Declining]
-
-- **Previous Period CPI:** [Value]
-- **Current Period CPI:** [Value]
-- **Trend:** [Improving/Stable/Declining]
-
-### Recommendations
-1. **Schedule Recommendations:**
-   - [Recommendation 1]
-   - [Recommendation 2]
-
-2. **Cost Recommendations:**
-   - [Recommendation 1]
-   - [Recommendation 2]
-
-3. **Overall Project Health:**
-   - [Assessment and recommendations]
-
-### Action Items
-| Action | Owner | Due Date | Priority |
-|--------|-------|----------|----------|
-| [Action 1] | [Name] | [Date] | [High/Med/Low] |
-| [Action 2] | [Name] | [Date] | [High/Med/Low] |
-
----
-*Generated using AIpairwise SPI/CPI Calculator Template*`
-            };
-
-            const content = templates[templateName];
-            if (content) {
-                const blob = new Blob([content], { type: 'text/markdown' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${templateName}-template.md`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-        }
-
-        // Premium download functions
-        function downloadAllTemplates() {
-            const templatesList = `# AIpairwise - Complete Template Collection
-
-## 21 Premium Project Management Templates
-
-### Planning & Initiation (5 templates)
-1. Project Charter Template
-2. Stakeholder Analysis Template
-3. Requirements Gathering Template
-4. Work Breakdown Structure (WBS) Template
-5. Project Scope Statement Template
-
-### Execution & Monitoring (8 templates)
-6. Meeting Summary Template ✓ (Free)
-7. Status Report Template ✓ (Free)
-8. Risk Assessment Template ✓ (Free)
-9. SPI/CPI Calculator Template ✓ (Free)
-10. Change Request Template
-11. Quality Assurance Checklist Template
-12. Resource Allocation Template
-13. Communication Plan Template
-
-### Analysis & Reporting (5 templates)
-14. Lessons Learned Template
-15. Post-Implementation Review Template
-16. Budget Variance Analysis Template
-17. Timeline Analysis Template
-18. Performance Dashboard Template
-
-### Specialized Templates (3 templates)
-19. Agile Sprint Planning Template
-20. Vendor Management Template
-21. Crisis Management Template
-
-## How to Use These Templates
-
-Each template includes:
-- ✅ AI-optimized prompts
-- ✅ Structured output formats
-- ✅ Real-world examples
-- ✅ Best practices guide
-- ✅ Customization instructions
-
-## Getting Started
-1. Choose the appropriate template for your need
-2. Copy the AI prompt provided
-3. Customize with your project details
-4. Paste into your preferred AI tool (ChatGPT, Claude, etc.)
-5. Review and refine the output
-
----
-*Thank you for purchasing AIpairwise Premium Templates!*
-*For support, contact: support@aipairwise.com*`;
-
-            const blob = new Blob([templatesList], { type: 'text/markdown' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'aipairwise-all-21-templates.md';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // Form submission functions
-        function submitContact(event) {
-            event.preventDefault();
-            const ticketNumber = Math.floor(Math.random() * 900000) + 100000;
-            alert(`Thank you for your message! Your support ticket #${ticketNumber} has been created. We'll respond within 24 hours.`);
-            event.target.reset();
-        }
-
-        function submitWaitlist(event) {
-            event.preventDefault();
-            alert('Thank you for joining our waitlist! You\'ll be the first to know when AI-PM Certification launches.');
-            closeWaitlistModal();
-            event.target.reset();
-        }
-
-        // Close modals when clicking outside
-        document.addEventListener('click', function(event) {
-            const modals = ['purchaseModal', 'previewModal', 'waitlistModal', 'templateDetailModal'];
-            modals.forEach(modalId => {
-                const modal = document.getElementById(modalId);
-                if (event.target === modal) {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-                }
-            });
-        });
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f9b46977ce61e4',t:'MTc1Nzk1NTg4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+    <div class="offer-card">
+      <span class="offer-icon">ENTRY POINT</span>
+      <h3>PM-BASE Live Implementation Workshop</h3>
+      <p>Four hours. Your real contract. Four AI delivery specialists run live against your actual work. Your infrastructure gaps surface without anyone naming them. Workshop investment credits toward your Foundation engagement within 30 days.</p>
+      <ul class="offer-features">
+        <li>Private, single-firm session only</li>
+        <li>Resource, Budget, Status, and Bid specialists live</li>
+        <li>Real contract input, real output, real gaps surfaced</li>
+        <li>Full credit toward Foundation if you engage within 30 days</li>
+      </ul>
+      <a href="https://calendly.com/candypmp/new-meeting" target="_blank" class="offer-link">Book Workshop</a>
+    </div>
+    <div class="offer-card">
+      <span class="offer-icon">APPLICATION ONLY</span>
+      <h3>PM-BASE Infrastructure Install</h3>
+      <p>For GovCon and MBE firms ready to deploy a fully configured AI-powered project delivery team across every active contract. Built. Installed. Handed off. Your team runs it. Applications reviewed within 48 hours.</p>
+      <ul class="offer-features">
+        <li>Full PM-BASE AI Delivery Team deployed across all contracts</li>
+        <li>Configured specifically to your contracts, not generic</li>
+        <li>Revenue-qualified applicants only</li>
+        <li>Limited engagements accepted per quarter</li>
+      </ul>
+      <a href="https://pmbaseteam.netlify.app" target="_blank" class="offer-link">Apply Now</a>
+    </div>
+    <div class="offer-card">
+      <span class="offer-icon">B2C TRAINING</span>
+      <h3>PM-RISE Cohort</h3>
+      <p>For coordinators and EAs already doing PM work without the title or the credential. 12 sessions. 90 days. PMP-ready at graduation. Your organization's hidden talent, elevated and credentialed.</p>
+      <ul class="offer-features">
+        <li>Up to 6 participants per cohort</li>
+        <li>19-tab PMP application workbook included</li>
+        <li>Between-session AI coaching included</li>
+        <li>Warm ATP partner handoff at Day 90</li>
+      </ul>
+      <a href="https://findyourpmpath.netlify.app" target="_blank" class="offer-link">Find Your PM Path</a>
+    </div>
+    <div class="offer-card">
+      <span class="offer-icon">RESOURCE</span>
+      <h3>Capability Statement</h3>
+      <p>Download our current capability statement for WOSB subcontracting partnerships and teaming opportunities. Formatted and ready for your next bid package or prime portal registration.</p>
+      <ul class="offer-features">
+        <li>WOSB Certified · MBE Pending · SAM.gov Active</li>
+        <li>PMP Credentialed Principal</li>
+        <li>Federal past performance: USDA, Oregon Health Authority</li>
+        <li>NAICS 541611, 541618, 541690 · UEI: DL5SWKUP61G9</li>
+      </ul>
+      <a href="/capability-statement.pdf" target="_blank" class="offer-link">Download Cap Statement</a>
+    </div>
+  </div>
+</section>
+
+<section class="assessment-section" id="assessment">
+  <div class="assessment-inner">
+    <div class="assessment-content">
+      <p class="section-label" style="color:var(--gold)">PM-BASE Readiness Score</p>
+      <h2 class="section-title" style="color:var(--white)">Know exactly where your delivery infrastructure stands</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.6)">12 questions across the four PM-BASE delivery houses. One score. Returned instantly. No email required to see your result. Your gaps, named specifically.</p>
+      <div class="base-pillars">
+        <div class="base-pillar">
+          <span class="base-letter">B</span>
+          <span class="base-name">Build</span>
+          <p class="base-desc">Project House: charter, scope, schedule, closeout</p>
+        </div>
+        <div class="base-pillar">
+          <span class="base-letter">A</span>
+          <span class="base-name">Align</span>
+          <p class="base-desc">Infrastructure House: resources, budget, systems</p>
+        </div>
+        <div class="base-pillar">
+          <span class="base-letter">S</span>
+          <span class="base-name">Standardize</span>
+          <p class="base-desc">Performance House: reporting, risk, governance</p>
+        </div>
+        <div class="base-pillar">
+          <span class="base-letter">E</span>
+          <span class="base-name">Elevate</span>
+          <p class="base-desc">Elevation House: communication, learning, growth</p>
+        </div>
+      </div>
+    </div>
+    <div class="assessment-cta-box">
+      <h3>Where does your delivery infrastructure score?</h3>
+      <p>You receive a scored result across all four B-A-S-E categories, a readiness tier, and a specific gap analysis. Not generic advice. Your actual infrastructure gaps, named.</p>
+      <div class="score-preview">
+        <span class="score-tier tier-reactive">Reactive</span>
+        <span class="score-tier tier-emerging">Emerging</span>
+        <span class="score-tier tier-structured">Structured</span>
+        <span class="score-tier tier-scalable">Scalable</span>
+      </div>
+      <a href="https://findyourpmpath.netlify.app" target="_blank" class="btn-primary" style="display:block;width:100%;text-align:center;margin-bottom:1rem;">Take the Free PM-BASE Score</a>
+      <a href="https://calendly.com/candypmp/new-meeting" target="_blank" class="btn-outline" style="display:block;width:100%;text-align:center;">Book a Results Debrief Call</a>
+    </div>
+  </div>
+</section>
+
+<section class="install-section" id="install">
+  <div class="install-inner">
+    <div>
+      <p class="section-label">Application Only</p>
+      <h2 class="section-title">PM-BASE Infrastructure Install</h2>
+      <p class="section-sub">A fully configured PM-BASE AI Delivery Team deployed across every active contract your firm holds. Built in 90 days. Handed off to your team. Runs without us after Day 1 training.</p>
+      <div class="install-steps">
+        <div class="install-step">
+          <span class="step-num">01</span>
+          <div class="step-content">
+            <h4>Apply and Qualify</h4>
+            <p>A short application captures your contract portfolio and revenue range. We review and confirm fit before scheduling anything on your calendar.</p>
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-num">02</span>
+          <div class="step-content">
+            <h4>Discovery and Diagnostic</h4>
+            <p>A focused 30-minute call maps your active contracts, team structure, and the specific delivery gaps the install will close.</p>
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-num">03</span>
+          <div class="step-content">
+            <h4>Build and Configure</h4>
+            <p>We build your PM-BASE AI Delivery Team: all 12+ specialists configured to your contracts, your team, and your governance cadence.</p>
+          </div>
+        </div>
+        <div class="install-step">
+          <span class="step-num">04</span>
+          <div class="step-content">
+            <h4>Train and Hand Off</h4>
+            <p>Your team is trained on the system. You receive the PM Prompt Library, governance calendar, and a 30-day post-install guide. We exit. The infrastructure stays.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="install-apply-box">
+      <h3>This engagement is selective. Here is why.</h3>
+      <p>The PM-BASE Infrastructure Install produces results only when the firm is ready to implement. We review every application before scheduling a single call.</p>
+      <div class="apply-qualifiers">
+        <div class="apply-qualifier"><span>Active GovCon or MBE firm with at least one federal or state contract</span></div>
+        <div class="apply-qualifier"><span>Annual contract revenue of $500K or above</span></div>
+        <div class="apply-qualifier"><span>A principal or operations lead who will own the system post-install</span></div>
+        <div class="apply-qualifier"><span>Commitment to the full engagement, not just the tools</span></div>
+      </div>
+      <a href="https://pmbaseteam.netlify.app" target="_blank" class="btn-primary" style="display:block;width:100%;text-align:center;margin-bottom:1rem;">Apply for the PM-BASE Install</a>
+      <a href="https://findyourpmpath.netlify.app" target="_blank" class="btn-outline" style="display:block;width:100%;text-align:center;">Not sure yet? Take the Free Score First</a>
+      <span class="apply-note">Limited engagements per quarter. Applications reviewed within 48 hours.</span>
+    </div>
+  </div>
+</section>
+
+<section class="blog-section" id="blog">
+  <div class="blog-header">
+    <div>
+      <p class="section-label">Insights</p>
+      <h2 class="section-title">Thought Leadership</h2>
+    </div>
+    <a href="https://www.linkedin.com/in/candacefortson" target="_blank" class="offer-link">All Articles on LinkedIn</a>
+  </div>
+  <div class="blog-grid">
+    <a href="https://www.linkedin.com/in/candacefortson" target="_blank" class="blog-card featured">
+      <span class="blog-tag">GovCon Strategy</span>
+      <h4>Your Team Is Already Doing PM Work. The Question Is: Are They Protecting Your Contracts?</h4>
+      <p>Most GovCon small businesses have someone managing contracts without a framework. Here is what that costs at CPARS time and how to close the gap in 90 days.</p>
+      <span class="blog-meta">Candace Fortson, PMP · IcareJobPair LLC</span>
+    </a>
+    <a href="https://www.linkedin.com/in/candacefortson" target="_blank" class="blog-card">
+      <span class="blog-tag">PM-BASE Framework</span>
+      <h4>The 4 Houses Every Delivery Infrastructure Needs</h4>
+      <p>Build. Align. Standardize. Elevate. What each one means for your active contracts and your CPARS record.</p>
+      <span class="blog-meta">Candace Fortson, PMP</span>
+    </a>
+    <a href="https://www.linkedin.com/in/candacefortson" target="_blank" class="blog-card">
+      <span class="blog-tag">Hidden PM Pathway</span>
+      <h4>From EA to PMP: The Credential Your Best Operations Person Does Not Have Yet</h4>
+      <p>The coordinators already doing 60% of PM work. How to get them PMP-ready in one cohort.</p>
+      <span class="blog-meta">Candace Fortson, PMP</span>
+    </a>
+  </div>
+</section>
+
+<section class="book-section" id="book">
+  <p class="section-label" style="color:var(--gold);text-align:center">Ready to Move?</p>
+  <h2 class="section-title" style="color:var(--white);text-align:center">One conversation tells us<br>exactly what your contracts need</h2>
+  <p class="section-sub" style="color:rgba(255,255,255,0.55);text-align:center;margin:0 auto 2.5rem">No pitch. No pressure. A 30-minute diagnostic conversation that names exactly where your delivery infrastructure is exposed and what it takes to fix it.</p>
+  <div class="book-options">
+    <a href="https://calendly.com/candypmp/new-meeting" target="_blank" class="btn-primary">Book a Discovery Call</a>
+    <a href="https://pmbaseteam.netlify.app" target="_blank" class="btn-outline">Apply for the Infrastructure Install</a>
+    <a href="https://findyourpmpath.netlify.app" target="_blank" class="btn-outline">Take the Free PM-BASE Score</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>iCare<span>JobPair</span> LLC</h3>
+      <p>Project delivery infrastructure for GovCon and MBE firms. PM-BASE Framework. PM-RISE. Built so the system stays when the consultant leaves.</p>
+      <br>
+      <p style="font-family:'DM Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.3);letter-spacing:0.06em"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dfbcbeb1bbbebcba9fb6bcbeadbab5b0bdacb0b3aaabb6b0b1acf1bcb0b2">[email&#160;protected]</a><br>(917) 365-4801<br>UEI: DL5SWKUP61G9 · CAGE: 9T2V1</p>
+    </div>
+    <div class="footer-col">
+      <h4>Offers</h4>
+      <ul>
+        <li><a href="#offers">Foundation Engagement</a></li>
+        <li><a href="#assessment">PM-BASE Score</a></li>
+        <li><a href="#install">Infrastructure Install</a></li>
+        <li><a href="#offers">PM-RISE Cohort</a></li>
+        <li><a href="#offers">Live Workshop</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="/capability-statement.pdf" target="_blank">Capability Statement</a></li>
+        <li><a href="https://findyourpmpath.netlify.app" target="_blank">Find Your PM Path</a></li>
+        <li><a href="https://www.linkedin.com/in/candacefortson" target="_blank">LinkedIn Insights</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://calendly.com/candypmp/new-meeting" target="_blank">Book a Call</a></li>
+        <li><a href="https://pmbaseteam.netlify.app" target="_blank">Apply to Work With Us</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#294a48474d484a4c69404a485b4c43464b5a46455c5d4046475a074a4644">Email Candace</a></li>
+        <li><a href="https://www.linkedin.com/in/candacefortson" target="_blank">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>2025 IcareJobPair LLC · PM-BASE and PM-RISE are proprietary frameworks · PMP is a registered trademark of PMI · Not affiliated with PMI</p>
+    <div class="footer-certs">
+      <span class="footer-cert">WOSB</span>
+      <span class="footer-cert">PMP</span>
+      <span class="footer-cert">SAM.GOV ACTIVE</span>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+  const reveals = document.querySelectorAl<script>
+// Fix: trigger reveals immediately on load for any element already in view
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) el.classList.add('visible');
+  });
+});
+</script>
